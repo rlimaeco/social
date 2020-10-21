@@ -8,12 +8,14 @@
     'author': 'SUNNIT',
     'category': 'Marketing/Email Marketing',
     'contributors': [
+        'Hendrix Costa <hendrix@sunnit.com.br>',
     ],
     'depends': [
         'sms',
     ],
     'data': [
         'wizard/sms_composer_views.xml',
+        'views/sms_sms_views.xml',
     ],
     'demo': [
     ],

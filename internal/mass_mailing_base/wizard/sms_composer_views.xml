@@ -6,8 +6,8 @@
         <field name="model">sms.composer</field>
         <field name="inherit_id" ref="sms.sms_composer_view_form"/>
         <field name="arch" type="xml">
-            <field name="body" position="before">
-                <field name="message_type" />
+            <field name="recipient_description" position="before">
+                <field name="message_type" required="1" />
             </field>
         </field>
     </record>
