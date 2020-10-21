@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="iap_account_view_form" model="ir.ui.view">
+        <field name="name">iap.account (in iap_twilio)</field>
+        <field name="model">iap.account</field>
+        <field name="inherit_id" ref="iap.iap_account_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='account']" position="after">
+                <group
+                    string="Twilio account"
+                    name="twilio"
+                    attrs="{'invisible': [('provider', '!=', 'twilio')]}"
+                >
+                    <field name="twilio_account_sid" />
+                    <field name="twilio_auth_token" />
+                    <field name="twilio_from_phone" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="iap_account_view_tree" model="ir.ui.view">
+        <field name="name">iap.account.tree (in iap_twilio)</field>
+        <field name="inherit_id" ref="iap.iap_account_view_tree" />
+        <field name="model">iap.account</field>
+        <field name="arch" type="xml">
+            <field name="service_name" position="replace">
+                <field name="name" />
+            </field>
+            <field name="account_token" position="replace">
+                <field name="provider" />
+            </field>
+        </field>
+    </record>
+
+</odoo>
