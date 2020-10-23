@@ -5,12 +5,12 @@ from twilio.rest import Client
 
 from odoo import api, models
 from odoo.exceptions import UserError
-
+from werkzeug import urls
 
 class SmsApi(models.AbstractModel):
     _inherit = "sms.api"
 
-    def _prepare_twilio_params(self, account, number, message, message_type):
+    def _prepare_twilio_params(self, account, number, message, sms_id):
         """
         Método para preparar dados que irao para API
         """
@@ -18,8 +18,8 @@ class SmsApi(models.AbstractModel):
             "account_sid": account.twilio_account_sid,
             "auth_token": account.twilio_auth_token,
             "from": self.sanitize_phone_number(
-                account.twilio_from_phone, message_type),
-            "to": self.sanitize_phone_number(number, message_type),
+                account.twilio_from_phone, sms_id.message_type),
+            "to": self.sanitize_phone_number(number, sms_id.message_type),
             "message": message,
         }
 
@@ -35,36 +35,46 @@ class SmsApi(models.AbstractModel):
 
         return phone_number
 
-    def _send_sms_with_twilio(self, account, number, message, message_type):
+    def _send_sms_with_twilio(self, account, number, message, sms_id):
         """
         Método princiapl de envio de dados pela API do twilio
         """
-        params = self._prepare_twilio_params(
-            account, number, message, message_type)
+        params = self._prepare_twilio_params(account, number, message, sms_id)
         try:
+            
+            base_url = self.env['ir.config_parameter'].sudo().\
+                get_param('web.base.url')
+            status_callback = urls.url_join(base_url, '/twilio/MessageStatus')
+            
             client = \
                 Client( params.get("account_sid"), params.get("auth_token"))
             res = client.api.account.messages.create(
                 to=params.get("to"),
                 from_=params.get("from"),
-                body=params.get("message")
+                body=params.get("message"),
+                status_callback=status_callback,
             )
+            if res:
+                sms_id.message_id = res.sid
+
             return {"sid": res.sid, "state": res.status}
 
         except TwilioRestException as e:
             raise UserError(e.msg)
 
     @api.model
-    def _send_sms(self, number, message, message_type="sms"):
+    def _send_sms(self, number, message, sms_id=False):
         """
         Sobrescrita de método para acionar o API do twilio
         """
         account = self.env["iap.account"]
-        account = account.search([("name", "=", message_type)], limit=1)
+        account_id = \
+            account.search([("name", "=", sms_id.message_type)], limit=1) \
+                if sms_id else account.search([], limit=1)
 
-        if account and account.provider == "twilio":
+        if account_id and account_id.provider == "twilio":
             return self._send_sms_with_twilio(
-                account, number, message, message_type)
+                account_id, number, message, sms_id)
         else:
             return super()._send_sms(number, message)
 
@@ -91,9 +101,9 @@ class SmsApi(models.AbstractModel):
         """
         for message in messages:
             # workaround para pegar message_type do sms ja instanciado
-            message_type = \
-                self.env["sms.sms"].browse(message.get("res_id")).message_type
+            sms_id = self.env["sms.sms"].browse(message.get("res_id"))
+
             message.update(self._send_sms(
-                message.get("number"), message.get("content"), message_type ))
+                message.get("number"), message.get("content"), sms_id ))
 
         return messages

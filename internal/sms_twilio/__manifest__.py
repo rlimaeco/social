@@ -15,6 +15,7 @@
     "depends": ["mass_mailing_base", "iap_alternative_provider"],
     "data": [
         "views/iap_account_view.xml",
+        "views/sms_sms_views.xml",
     ],
     "demo": [],
     "qweb": [],
