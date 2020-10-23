@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import models
-from odoo.addons.phone_validation.tools import phone_validation
 import re
+from odoo.addons.phone_validation.tools import phone_validation
+
+from odoo import models
 
 
 class MailThread(models.AbstractModel):
@@ -23,8 +24,16 @@ class MailThread(models.AbstractModel):
             )
             valid_number = phone_validation.phone_sanitize_numbers_w_record(
                 [alternative_number], info.get("partner"))
+
             if valid_number.get(alternative_number).get("sanitized"):
-                recipients_info.get(self.id).update(
-                    sanitized=re.sub('[^0-9]', '', info.get("number")))
+
+                if message_type == "whatsapp":
+                    w_number = \
+                        "+{}".format(re.sub('[^0-9]', '', info.get("number")))
+                    recipients_info.get(self.id).update(sanitized=w_number)
+
+                elif message_type == "sms" :
+                    recipients_info.get(self.id).update(
+                        sanitized=alternative_number)
 
         return recipients_info
