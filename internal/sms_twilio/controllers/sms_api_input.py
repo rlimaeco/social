@@ -62,7 +62,7 @@ class TwilioWebhooks(http.Controller):
         def get_record_from_number(model, number):
             """Buscar uma lead existente baseado no numero"""
             # all_records_ids = model.sudo().search([("mobile", "!=", False)])
-            all_records_ids = model.sudo().search([])
+            all_records_ids = model.sudo().search([("mobile", "!=", False)])
 
             record_id = False
 
