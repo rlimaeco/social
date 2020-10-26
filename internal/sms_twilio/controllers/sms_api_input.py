@@ -35,11 +35,11 @@ class TwilioWebhooks(http.Controller):
 
         def sanitize_mobile(number):
             """Remover caracteres de controle"""
-            return re.sub('[^0-9]', '', sms_from_number)[-8:] if number else ""
+            return re.sub('[^0-9]', '', number)[-8:] if number else ""
 
         def sanitize_twilio(number):
             """Remover identificacao da origem da MSG"""
-            return "+{}".format(re.sub('[^0-9]', '', sms_from_number))
+            return "+{}".format(re.sub('[^0-9]', '', number))
 
         def create_mail_message(model, body, message_type="sms", partner_id=False, sms_sid=False):
             """Criar mail message para o partner"""
@@ -63,8 +63,15 @@ class TwilioWebhooks(http.Controller):
             """Buscar uma lead existente baseado no numero"""
             # all_records_ids = model.sudo().search([("mobile", "!=", False)])
             all_records_ids = model.sudo().search([])
-            record_id = all_records_ids.filtered(
-                lambda x: sanitize_mobile(x.mobile) == number)
+
+            record_id = False
+
+            for record in all_records_ids:
+                if number in record.mobile:
+                    record_id = record.id
+            # record_id = all_records_ids.filtered(
+            #     lambda x: sanitize_mobile(x.mobile) == number)
+
             return record_id
 
         if post.get('Body', False) and post.get('From', False):
