@@ -1,8 +1,8 @@
 
 {
     "name": "Mail Input",
-    "summary": "Receive emails directly in partner's messages",
-    "version": "13.0.1.0.2",
+    "summary": "Receive e-mails in leads",
+    "version": "13.0.1.1.4",
     "category": "Contacts",
     'author': 'SUNNIT',
     'contributors': [
