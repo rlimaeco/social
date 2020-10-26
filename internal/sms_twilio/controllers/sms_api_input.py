@@ -37,6 +37,10 @@ class TwilioWebhooks(http.Controller):
             """Remover caracteres de controle"""
             return re.sub('[^0-9]', '', sms_from_number)[-8:] if number else ""
 
+        def sanitize_twilio(number):
+            """Remover identificacao da origem da MSG"""
+            return "+{}".format(re.sub('[^0-9]', '', sms_from_number))
+
         def create_mail_message(model, body, message_type="sms", partner_id=False, sms_sid=False):
             """Criar mail message para o partner"""
 
@@ -106,13 +110,14 @@ class TwilioWebhooks(http.Controller):
 
                         lead_id =  request.env['crm.lead'].with_context(
                             mail_create_nosubscribe=True).sudo().create({
-                            "name": "LEAD WHATSAPP",
-                            "mobile": mobile,
+                            "name": "LEAD WHATSAPP ({})".format(
+                                sanitize_twilio(sms_from_number)),
+                            "mobile": sanitize_twilio(sms_from_number),
                         })
 
                         message = create_mail_message(
                             model=lead_id,
-                            body=post.get('Body'),
+                            body="{} from {} ".format(post.get('Body'), sanitize_twilio(sms_from_number)),
                             message_type='whatsapp',
                             sms_sid=post.get("SmsSid"))
 
