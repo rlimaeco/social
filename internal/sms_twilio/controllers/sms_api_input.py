@@ -28,6 +28,7 @@ class TwilioWebhooks(http.Controller):
         """
         res_partner_model = request.env['res.partner'].sudo()
         crm_lead_model = request.env['crm.lead'].sudo()
+        mail_message_model = request.env['mail.message'].sudo()
 
         message_response_twilio = MessagingResponse()
         message = False
@@ -36,25 +37,28 @@ class TwilioWebhooks(http.Controller):
             """Remover caracteres de controle"""
             return re.sub('[^0-9]', '', sms_from_number)[-8:] if number else ""
 
-        def create_mail_message(model, body, message_type="sms", sms_id=False):
+        def create_mail_message(model, body, message_type="sms", partner_id=False, sms_sid=False):
             """Criar mail message para o partner"""
-            if partner:
-                mail_message_model = request.env['mail.message'].sudo()
-                message = mail_message_model.create({
-                    'subject': 'Message from Whatsapp',
-                    'body': body,
-                    'author_id': partner.id,
-                    'res_id': model.id,
-                    'email_from': partner.email or False,
-                    'model': model._name,
-                    'message_type': message_type,
-                    "message_id": sms_id,
-                })
-                return message or False
+
+            if not partner_id:
+                message_type = "notification"
+
+            message = mail_message_model.create({
+                'subject': 'Message Whatsapp',
+                'body': body,
+                'res_id': model.id,
+                'model': model._name,
+                'message_type': message_type,
+                "message_id": sms_sid,
+                'email_from': partner_id.email if partner_id else False,
+                'author_id': partner_id.id if partner_id else False,
+            })
+            return message or False
 
         def get_record_from_number(model, number):
             """Buscar uma lead existente baseado no numero"""
-            all_records_ids = model.sudo().search([("mobile", "!=", False)])
+            # all_records_ids = model.sudo().search([("mobile", "!=", False)])
+            all_records_ids = model.sudo().search([])
             record_id = all_records_ids.filtered(
                 lambda x: sanitize_mobile(x.mobile) == number)
             return record_id
@@ -65,36 +69,53 @@ class TwilioWebhooks(http.Controller):
 
             # Mensagem de whatsapp atribuir ao partner
             if 'whatsapp' in sms_from_number:
-                lead_id = get_record_from_number(mobile)
+                lead_id = get_record_from_number(crm_lead_model, mobile)
 
-                # Se já existe uma lead, adiciona SMS na thread de comunicação
+                # Se já existe uma LEAD, adiciona SMS na thread de comunicação
                 if lead_id:
                     message = create_mail_message(
-                        lead_id, post.get('Body'),
-                        'whatsapp', post.get("SmsSid"))
+                        model=lead_id,
+                        body=post.get('Body'),
+                        message_type='whatsapp',
+                        partner_id=lead_id.partner_id,
+                        sms_sid=post.get("SmsSid"))
 
-                # Senão Gerar lead SE encontrar partner
+                # Senão, buscar pelo partner e gerar nova LEAD
                 else:
-                    partner_id = get_record_from_number(mobile)
+                    partner_id = get_record_from_number(res_partner_model, mobile)
                     if partner_id:
-                        lead_id = crm_lead_model.create({
-                            "name": "LEAD FROM WHATSAPP",
+
+                        # Imitate what happens in the controller when somebody creates a new
+                        # lead from the website form
+                        lead_id =  crm_lead_model.with_context(
+                            mail_create_nosubscribe=True).create({
+                            "name": "LEAD WHATSAPP",
                             "partner_id": partner_id.id,
+                            "partner_name": partner_id.name,
                         })
 
                         message = create_mail_message(
-                            partner_id, post.get('Body'),
-                            'whatsapp', post.get("SmsSid"))
+                            model=lead_id,
+                            body=post.get('Body'),
+                            message_type='whatsapp',
+                            partner_id=partner_id,
+                            sms_sid=post.get("SmsSid"))
 
-                    # Senão gerar lead sem partner mas com numero setado
+                    # Senão gerar LEAD sem partner mas com numero setado
                     else:
-                        lead_id = crm_lead_model.create({
-                            "name": "LEAD FROM WHATSAPP",
-                            "mobile": mobile
+
+                        lead_id =  request.env['crm.lead'].with_context(
+                            mail_create_nosubscribe=True).sudo().create({
+                            "name": "LEAD WHATSAPP",
+                            "mobile": mobile,
                         })
+
                         message = create_mail_message(
-                            lead_id, post.get('Body'),
-                            'whatsapp', post.get("SmsSid"))
+                            model=lead_id,
+                            body=post.get('Body'),
+                            message_type='whatsapp',
+                            sms_sid=post.get("SmsSid"))
+
         if message:
             response = '200 OK - Odoo SUNNIT recebeu SMS'
         else:
