@@ -23,10 +23,6 @@
                             </group>
                         </group>
                     </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
                 </form>
             </field>
         </record>
@@ -43,18 +39,23 @@
             </field>
         </record>
 
-<!--        <record id="mail_input_search_view" model="ir.ui.view">-->
-<!--            <field name="name">mass_mailing_base.mail_input.search</field>-->
-<!--            <field name="model">mail.input</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <search string="Mail Input">-->
-<!--                    <group expand="1" string="Group By">-->
-<!--                        <filter string="Example Field" name="example_field" domain="[]"-->
-<!--                                context="{'group_by':'example_field'}"/>-->
-<!--                    </group>-->
-<!--                </search>-->
-<!--            </field>-->
-<!--        </record>-->
+        <record id="mail_input_search_view" model="ir.ui.view">
+            <field name="name">mass_mailing_base.mail_input.search</field>
+            <field name="model">mail.input</field>
+            <field name="arch" type="xml">
+                <search string="Mail Input">
+                    <field name="partner_id"/>
+                    <field name="email_from"/>
+                    <field name="subject"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Partner" name="partner_id" domain="[]"
+                                context="{'group_by':'partner_id'}"/>
+                        <filter string="Email From" name="email_from" domain="[]"
+                                context="{'group_by':'email_from'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
 
         <record id="mail_input_act_window" model="ir.actions.act_window">
             <field name="name">Mail Input</field>

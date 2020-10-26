@@ -11,9 +11,10 @@
     "license": "AGPL-3",
     "application": False,
     "installable": True,
-    "depends": ["mail"],
+    "depends": ["mail", "sunnit_crm"],
     "data": [
-        "views/mail_input_view.xml",
+        'security/ir.model.access.csv',
+        "views/mail_input_view.xml"
     ],
     "demo": [],
     "qweb": [],
