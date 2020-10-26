@@ -137,3 +137,7 @@ class TwilioWebhooks(http.Controller):
                     ("message_id", "=", message_sid)])
                 if sms_id:
                     sms_id.state = sms_state.get(message_status)
+
+        response = MessagingResponse()
+        response.message('Odoo SUNNIT recebeu a mensagem')
+        return str(response)
