@@ -63,7 +63,7 @@ class TwilioWebhooks(http.Controller):
             """Buscar uma lead existente baseado no numero"""
             all_records_ids = model.sudo().search([("mobile", "!=", False)])
             record_id = all_records_ids.filtered(lambda x: sanitize_mobile(x.mobile) == number)
-            return record_id
+            return record_id[0] if record_id else False
 
         if post.get('Body', False) and post.get('From', False):
             sms_from_number = post.get('From')

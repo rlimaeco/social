@@ -2,10 +2,11 @@
 
 from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
+from werkzeug import urls
 
 from odoo import api, models
 from odoo.exceptions import UserError
-from werkzeug import urls
+
 
 class SmsApi(models.AbstractModel):
     _inherit = "sms.api"
