@@ -64,7 +64,10 @@ class Mailing(models.Model):
                 raise UserError(_('There are no recipients selected.'))
 
             composer = self.env['sms.composer'].with_context(active_id=False).create(mailing._send_sms_get_composer_values(res_ids))
-            composer.message_type = 'whatsapp'
+            if mailing.mailing_type == 'whatsapp':
+                composer.message_type = 'whatsapp'
+            else:
+                composer.message_type = 'sms'
             composer._action_send_sms()
             mailing.write({'state': 'done', 'sent_date': fields.Datetime.now()})
         return True

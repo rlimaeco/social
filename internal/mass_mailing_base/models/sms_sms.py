@@ -14,9 +14,14 @@ class SmsSms(models.Model):
         ],
         string="Message Type",
         compute="compute_message_type",
+        inverse="inverse_message_type"
     )
 
     @api.depends("mail_message_id")
     def compute_message_type(self):
         for record in self:
             record.message_type = record.mail_message_id.message_type
+
+    def inverse_message_type(self):
+        for record in self:
+            record.mail_message_id.message_type = record.message_type

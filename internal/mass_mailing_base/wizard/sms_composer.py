@@ -34,6 +34,17 @@ class SendSMS(models.TransientModel):
             )
         return messages
 
+    def _prepare_mass_sms_values(self, records):
+        result = super(SendSMS, self)._prepare_mass_sms_values(records)
+        if self.composition_mode == 'mass' and self.mailing_id:
+            for record in records:
+                sms_values = result[record.id]
+
+                sms_values.update({
+                    'message_type': self.message_type
+                })
+        return result
+
     def _prepare_recipient_values(self, records):
         """
         Sobrescrita de método para identificar o tipo de composer quando
