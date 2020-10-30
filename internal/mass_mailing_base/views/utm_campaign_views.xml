@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="utm_campaign_view_form">
+            <field name="name">utm.campaign.view.form</field>
+            <field name="model">utm.campaign</field>
+            <field name="inherit_id" ref="utm.utm_campaign_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_create_mass_whatsapp" type="object"  class="oe_highlight" string="Send Whatsapp"/>
+                </xpath>
+                <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                    <button name="action_redirect_to_mailing_whatsapp"
+                            type="object"
+                            class="oe_stat_button order-11"
+                            attrs="{'invisible': [('mailing_whatsapp_count', '=', 0)]}"
+                            icon="fa-mobile">
+                        <field name="mailing_whatsapp_count" widget="statinfo" string="Whatsapp"/>
+                    </button>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Whatsapp" attrs="{'invisible': [('mailing_whatsapp_count', '=', 0)]}">
+                        <group>
+                            <field name="mailing_whatsapp_ids" readonly="1" nolabel="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="sent_date"/>
+                                    <field name="state"/>
+                                    <field name="bounced"/>
+                                    <field name="delivered"/>
+                                    <button name="action_duplicate" type="object" string="Duplicate"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="utm_campaign_view_kanban">
+            <field name="name">utm.campaign.view.kanban</field>
+            <field name="model">utm.campaign</field>
+            <field name="inherit_id" ref="utm.utm_campaign_view_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="mailing_whatsapp_count"/>
+                </xpath>
+                <xpath expr="//ul[@id='o_utm_actions']">
+                    <a name="action_redirect_to_mailing_whatsapp" type="object"
+                       t-attf-class="oe_mailings #{record.mailing_whatsapp_count.raw_value === 0 ? 'text-muted' : ''}">
+                        <t t-raw="record.mailing_whatsapp_count.raw_value"/> Whatsapp
+                    </a>
+                </xpath>
+            </field>
+        </record>
+
+
+    
+    </data>
+</odoo>
