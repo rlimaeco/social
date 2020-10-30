@@ -12,6 +12,8 @@ class MailThread(models.AbstractModel):
 
     def valid_alternative_9number(self, info):
         """Validar um numero alternativo"""
+        if not info.get("number", False):
+            return False
 
         simple_number =  re.sub('[^0-9]', '', info.get("number"))
 
@@ -54,25 +56,26 @@ class MailThread(models.AbstractModel):
         recipients_info = \
             super(MailThread, self)._sms_get_recipients_info(force_field)
 
-        info = recipients_info.get(self.id)
+        for partner in self:
+            info = recipients_info.get(partner.id)
 
-        # Para SMS sempre Adicionar o número 9
-        if message_type == "sms":
-            s_number = self.valid_alternative_9number(info)
-            if s_number:
-                recipients_info.get(self.id).update(sanitized=s_number)
-                return recipients_info
+            # Para SMS sempre Adicionar o número 9
+            if message_type == "sms":
+                s_number = self.valid_alternative_9number(info)
+                if s_number:
+                    recipients_info.get(partner.id).update(sanitized=s_number)
+                    return recipients_info
 
-        # Para whatsapp remover espaços em branco
-        if message_type == "whatsapp":
-            valid_number = self.valid_alternative_9number(info)
-            if valid_number:
-                number = re.sub('[^0-9]', '', info.get("sanitized"))
+            # Para whatsapp remover espaços em branco
+            if message_type == "whatsapp":
+                valid_number = self.valid_alternative_9number(info)
+                if valid_number:
+                    number = re.sub('[^0-9]', '', info.get("sanitized"))
 
-                w_number = "+{}".format(number) \
-                    if number[:2] == "55" else "+55{}".format(number)
+                    w_number = "+{}".format(number) \
+                        if number[:2] == "55" else "+55{}".format(number)
 
-                recipients_info.get(self.id).update(sanitized=w_number)
-                return recipients_info
+                    recipients_info.get(partner.id).update(sanitized=w_number)
+                    return recipients_info
 
         return recipients_info

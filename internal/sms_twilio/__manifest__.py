@@ -2,11 +2,12 @@
 {
     "name": "IAP Twilio for messages",
     "summary": "Send sms using Twilio IAP",
-    "version": "13.0.1.0.0",
+    "version": "13.0.1.0.1",
     "category": "SMS",
     'author': 'SUNNIT',
     'contributors': [
         'Hendrix Costa <hendrix@sunnit.com.br>',
+        'Rafael Lima <lima@sunnit.com.br>',
     ],
     "license": "AGPL-3",
     "application": False,
