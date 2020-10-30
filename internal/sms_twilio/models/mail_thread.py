@@ -70,7 +70,7 @@ class MailThread(models.AbstractModel):
             if message_type == "whatsapp":
                 valid_number = self.valid_alternative_9number(info)
                 if valid_number:
-                    number = re.sub('[^0-9]', '', info.get("sanitized"))
+                    number = re.sub('[^0-9]', '', info.get("number"))
 
                     w_number = "+{}".format(number) \
                         if number[:2] == "55" else "+55{}".format(number)
