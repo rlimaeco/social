@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import re
 from odoo.addons.phone_validation.tools import phone_validation
@@ -27,7 +27,8 @@ class MailThread(models.AbstractModel):
 
         # 35 9241 5585
         elif len(simple_number) == 10:
-            alternative_number = "+55{}9{}".format(simple_number[:2], simple_number[-8:])
+            alternative_number = "+55{}9{}".format(
+                simple_number[:2], simple_number[-8:])
 
         # 35 9 9241 5585
         elif len(simple_number) == 11:
@@ -35,7 +36,8 @@ class MailThread(models.AbstractModel):
 
         # 55 35 9241 5585
         elif len(simple_number) == 12:
-            alternative_number = "+{}9{}".format(simple_number[:4], simple_number[-8:])
+            alternative_number = "+{}9{}".format(
+                simple_number[:4], simple_number[-8:])
 
         # 55 35 9 9241 5585
         elif len(simple_number) == 13:

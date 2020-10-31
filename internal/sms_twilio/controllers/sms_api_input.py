@@ -1,6 +1,7 @@
-# -*- coding: utf-8 -*-
+# Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 import re
-import werkzeug
+
 from twilio.twiml.messaging_response import MessagingResponse
 
 from odoo import http

@@ -1,1 +1,2 @@
-* Sébastien BEAU <sebastien.beau@akretion.com>
+* Hendrix Costa <hendrix@sunnit.com.br>
+* Rafael Lima <lima@sunnit.com.br>
