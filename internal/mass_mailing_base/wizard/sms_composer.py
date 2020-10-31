@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models, _
 
@@ -16,9 +16,7 @@ class SendSMS(models.TransientModel):
     )
 
     def _action_send_sms_comment(self, records=None):
-        """
-        Sobrescrevi o método apenas para injetar o parametro message_type
-        """
+        """ Just inject param message_type """
         records = records if records is not None else self._get_records()
         subtype_id = self.env['ir.model.data'].xmlid_to_res_id('mail.mt_note')
 
@@ -35,11 +33,11 @@ class SendSMS(models.TransientModel):
         return messages
 
     def _prepare_mass_sms_values(self, records):
+        """ Injetar message_type na criacao em massa"""
         result = super(SendSMS, self)._prepare_mass_sms_values(records)
         if self.composition_mode == 'mass' and self.mailing_id:
             for record in records:
                 sms_values = result[record.id]
-
                 sms_values.update({
                     'message_type': self.message_type
                 })

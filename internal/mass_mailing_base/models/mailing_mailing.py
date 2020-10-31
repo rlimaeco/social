@@ -1,3 +1,6 @@
+# Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 from odoo import fields, models, api, _
 from odoo.exceptions import UserError
 
@@ -6,6 +9,9 @@ class Mailing(models.Model):
 
     _inherit = 'mailing.mailing'
 
+    # mailing options
+    mailing_type = fields.Selection(selection_add=[('whatsapp', 'Whatsapp')])
+
     @api.model
     def default_get(self, fields):
         res = super(Mailing, self).default_get(fields)
@@ -13,11 +19,9 @@ class Mailing(models.Model):
             res['keep_archives'] = True
         return res
 
-    # mailing options
-    mailing_type = fields.Selection(selection_add=[('whatsapp', 'Whatsapp')])
-
     @api.onchange('mailing_type')
     def _onchange_mailing_type(self):
+        """ Force utm_medium in mailing"""
         utm_medium_email = self.env.ref('utm.utm_medium_email')
         utm_medium_sms = self.env.ref('mass_mailing_sms.utm_medium_sms')
         utm_medium_whatsapp = self.env.ref('mass_mailing_base.utm_medium_whatsapp')
@@ -34,11 +38,6 @@ class Mailing(models.Model):
                 not self.medium_id or self.medium_id in [utm_medium_sms, utm_medium_whatsapp]
         ):
             self.medium_id = utm_medium_email.id
-
-
-    # --------------------------------------------------
-    # CRUD
-    # --------------------------------------------------
 
     @api.model
     def create(self, values):

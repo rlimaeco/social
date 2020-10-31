@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 {
     'name': 'Mass Mailing Base',
     'summary': 'Base for mass mailing sms messages',
