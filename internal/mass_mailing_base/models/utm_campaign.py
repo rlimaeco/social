@@ -1,15 +1,23 @@
+# Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 from odoo import fields, models, api
 
 
 class UtmCampaign(models.Model):
-
     _inherit = 'utm.campaign'
 
     mailing_whatsapp_ids = fields.One2many(
-        'mailing.mailing', 'campaign_id',
+        comodel_name='mailing.mailing',
+        inverse_name='campaign_id',
         domain=[('mailing_type', '=', 'whatsapp')],
-        string='Mass Whatsapp')
-    mailing_whatsapp_count = fields.Integer('Number of Mass Whatsapp', compute="_compute_mailing_whatsapp_count")
+        string='Mass Whatsapp',
+    )
+
+    mailing_whatsapp_count = fields.Integer(
+        string='Number of Mass Whatsapp',
+        compute="_compute_mailing_whatsapp_count",
+    )
 
     @api.depends('mailing_whatsapp_ids')
     def _compute_mailing_whatsapp_count(self):
