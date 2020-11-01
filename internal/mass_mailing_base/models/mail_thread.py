@@ -1,11 +1,12 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import re
+
+from odoo.addons.mass_mailing_base.tools import helpers
+
 from odoo import models
 from odoo.tools import html2plaintext, plaintext2html
-from odoo.addons.phone_validation.tools import phone_validation
-
-import re
 
 
 class MailThread(models.AbstractModel):
@@ -58,3 +59,32 @@ class MailThread(models.AbstractModel):
             sms_numbers=sms_numbers, sms_pid_to_number=sms_pid_to_number,
             **kwargs
         )
+
+    def _sms_get_recipients_info(self, force_field=False, message_type="sms"):
+        """" Manipular numeros de destinatario"""
+        recipients_info = \
+            super(MailThread, self)._sms_get_recipients_info(force_field)
+
+        for partner in self:
+            info = recipients_info.get(partner.id)
+
+            # Para SMS sempre Adicionar o número 9
+            if message_type == "sms":
+                s_number = helpers.valid_alternative_9number(info)
+                if s_number:
+                    recipients_info.get(partner.id).update(sanitized=s_number)
+                    return recipients_info
+
+            # Para whatsapp remover espaços em branco
+            if message_type == "whatsapp":
+                valid_number = helpers.valid_alternative_9number(info)
+                if valid_number:
+                    number = re.sub('[^0-9]', '', info.get("number"))
+
+                    w_number = "+{}".format(number) \
+                        if number[:2] == "55" else "+55{}".format(number)
+
+                    recipients_info.get(partner.id).update(sanitized=w_number)
+                    return recipients_info
+
+        return recipients_info

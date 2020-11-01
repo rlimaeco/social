@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="iap_account_view_tree" model="ir.ui.view">
+        <field name="name">iap.account.tree (in iap_twilio)</field>
+        <field name="inherit_id" ref="iap.iap_account_view_tree" />
+        <field name="model">iap.account</field>
+        <field name="arch" type="xml">
+            <field name="service_name" position="replace">
+                <field name="name" />
+            </field>
+            <field name="account_token" position="replace">
+                <field name="provider" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

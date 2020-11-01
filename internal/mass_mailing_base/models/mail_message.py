@@ -9,6 +9,8 @@ class MailMessage(models.Model):
     gateway. """
     _inherit = 'mail.message'
 
+    message_id = fields.Char(string="SMS ID")
+
     message_type = fields.Selection(
         selection_add=[('whatsapp', 'WhatsApp')],
     )

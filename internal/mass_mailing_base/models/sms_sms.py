@@ -7,6 +7,10 @@ from odoo import api, fields, models
 class SmsSms(models.Model):
     _inherit = 'sms.sms'
 
+    message_id = fields.Char(string="SMS ID")
+
+    state = fields.Selection(selection_add=[('read', 'Lido')])
+
     message_type = fields.Selection(
         selection=[
             ('sms', 'SMS Phone'),
