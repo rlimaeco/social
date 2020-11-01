@@ -1,10 +1,8 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from twilio.twiml.messaging_response import MessagingResponse
-
 from odoo.addons.mass_mailing_base.tools import helpers
-
+from twilio.twiml.messaging_response import MessagingResponse
 
 from odoo import http
 from odoo.http import request, route
