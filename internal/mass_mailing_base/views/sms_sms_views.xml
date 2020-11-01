@@ -11,6 +11,11 @@
                 <field name="type" />
                 <field name="message_id" />
             </field>
+
+            <field name="error_code" position="after">
+                <field name="error_message" />
+            </field>
+
         </field>
     </record>
 

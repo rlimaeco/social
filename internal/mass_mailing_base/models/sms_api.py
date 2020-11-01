@@ -44,7 +44,8 @@ class SmsApi(models.AbstractModel):
             'message_type': string: type do sms: sms or whatsapp
         }]
 
-        :return: return of /iap/sms/1/send controller which is a list of dict [{
+        :return: return of /iap/sms/1/send controller which is a list of dict
+         [{
             'res_id': integer: ID of sms.sms,
             'state':  string: 'insufficient_credit' or
                                 'wrong_number_format' or 'success',

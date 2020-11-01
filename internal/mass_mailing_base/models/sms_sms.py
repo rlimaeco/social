@@ -3,7 +3,7 @@
 
 from odoo.addons.mass_mailing_base.tools import helpers
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class SmsSms(models.Model):
@@ -34,6 +34,17 @@ class SmsSms(models.Model):
         ],
         default="output",
     )
+
+    error_message = fields.Char(
+        string="Mensagem de ERRO",
+    )
+
+    @api.model
+    def create(self, values):
+        sms_id = super(SmsSms, self).create(values)
+        if sms_id.mail_message_id and sms_id.mail_message_id.message_type:
+            sms_id.message_type = sms_id.mail_message_id.message_type
+        return sms_id
 
     def create_mail_message(self, model, partner_id=False):
         """Criar mail message no modelo"""
