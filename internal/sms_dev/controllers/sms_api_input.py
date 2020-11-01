@@ -9,11 +9,12 @@ from odoo.http import request, route
 
 class TwilioWebhooks(http.Controller):
 
-    @route(['/smsdev/input'], type='http', auth="none", methods=['GET', 'POST', 'OPTIONS'], cors="*", csrf=False)
+    @route(['/smsdev/input'], type='json', auth="none", methods=['GET', 'POST', 'OPTIONS'], cors="*", csrf=False)
     def smsdev_input(self,  **post):
         """
         Webhoock para receber mensagens do SmsDev
         https://painel.smsdev.com.br/integracao/callback
+        POST from smsdev:
         {
             "from": "5562988887777", // Número que enviou o retorno
             "id": "123456789",       // ID do retorno
@@ -23,6 +24,7 @@ class TwilioWebhooks(http.Controller):
         }
         """
         response = "Mensagem recebida"
+        post = request.jsonrequest
 
         if post.get('message', False) and post.get('from', False):
 
