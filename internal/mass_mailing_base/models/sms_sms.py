@@ -11,7 +11,12 @@ class SmsSms(models.Model):
 
     message_id = fields.Char(string="SMS ID")
 
-    state = fields.Selection(selection_add=[('read', 'Lido')])
+    state = fields.Selection(
+        selection_add=[
+            ('received', 'Recebida'),
+            ('read', 'Lido'),
+        ]
+    )
 
     message_type = fields.Selection(
         string="Message Type",
