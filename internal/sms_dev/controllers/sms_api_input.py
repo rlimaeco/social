@@ -38,7 +38,7 @@ class TwilioWebhooks(http.Controller):
             sms_id = request.env['sms.sms'].sudo().create(params_sms_id)
             message = sms_id.find_and_attach_to_lead()
             if message:
-                response = '200 OK - Odoo SUNNIT recebeu SMS'
+                response = '200 OK - Odoo SUNNIT recebeu SMS do SmsDev'
         else:
             response = 'ERRO - durante a comunicação com o Odoo SUNNIT'
         return str(response)
