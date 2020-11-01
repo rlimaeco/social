@@ -7,7 +7,7 @@ from odoo.addons.phone_validation.tools import phone_validation
 
 
 def valid_alternative_9number(info):
-    """Validar um numero alternativo"""
+    """Validar um numero alternativo adicionando um numero 9"""
     if not info.get("number", False):
         return False
 
@@ -48,3 +48,18 @@ def valid_alternative_9number(info):
     if valid_number.get(alternative_number).get("sanitized"):
         return valid_number.get(alternative_number).get("sanitized")
     return False
+
+def sanitize_mobile(number):
+    """Remover caracteres de controle"""
+    return re.sub('[^0-9]', '', number)[-8:] if number else ""
+
+def sanitize_twilio(number):
+    """Adicionar caracteres de controle"""
+    return "+{}".format(re.sub('[^0-9]', '', number)) if number else ""
+
+def get_record_from_number(model, number):
+    """Buscar uma lead existente baseado no numero"""
+    all_records_ids = model.sudo().search([("mobile", "!=", False)])
+    record_id = all_records_ids.filtered(
+        lambda x: sanitize_mobile(x.mobile) == number)
+    return record_id[0] if record_id else False

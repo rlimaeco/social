@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <field name="number" position="after">
                 <field name="message_type" />
+                <field name="type" />
                 <field name="message_id" />
             </field>
         </field>
@@ -20,6 +21,7 @@
         <field name="arch" type="xml">
             <field name="number" position="after">
                 <field name="message_type" />
+                <field name="type" />
                 <field name="message_id" />
             </field>
         </field>
