@@ -3,6 +3,9 @@
 
 from twilio.twiml.messaging_response import MessagingResponse
 
+from odoo.addons.mass_mailing_base.tools import helpers
+
+
 from odoo import http
 from odoo.http import request, route
 
@@ -33,9 +36,11 @@ class TwilioWebhooks(http.Controller):
 
             params_sms_id = {
                 "body":  post.get('Body'),
-                "number": post.get('From'),
+                "number": helpers.sanitize_mobile(post.get('From')),
                 "message_type": message_type,
                 "message_id": post.get("SmsSid"),
+                "state": "received",
+                "type": "input",
             }
 
             sms_id = request.env['sms.sms'].sudo().create(params_sms_id)
