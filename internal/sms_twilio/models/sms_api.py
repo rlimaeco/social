@@ -5,7 +5,7 @@ from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 from werkzeug import urls
 
-from odoo import api, models
+from odoo import models
 from odoo.exceptions import UserError
 
 
@@ -37,7 +37,7 @@ class SmsApi(models.AbstractModel):
 
         return phone_number
 
-    def _send_sms_with_twilio(self, account, number, message, sms_id):
+    def _send_sms_api(self, account, number, message, sms_id):
         """
         Método princiapl de envio de dados pela API do twilio
         """
@@ -63,49 +63,3 @@ class SmsApi(models.AbstractModel):
 
         except TwilioRestException as e:
             raise UserError(e.msg)
-
-    @api.model
-    def _send_sms(self, number, message, sms_id=False):
-        """
-        Sobrescrita de método para acionar o API do twilio
-        """
-        account = self.env["iap.account"]
-        account_id = \
-            account.search([("name", "=", sms_id.message_type)], limit=1) \
-                if sms_id else account.search([], limit=1)
-
-        if account_id and account_id.provider == "twilio":
-            return self._send_sms_with_twilio(
-                account_id, number, message, sms_id)
-        else:
-            return super()._send_sms(number, message)
-
-    @api.model
-    def _send_sms_batch(self, messages):
-        """ Sobrescrita de metodo para injetar o parametro de message type
-        Send SMS using IAP in batch mode
-
-        :param messages: list of SMS to send, structured as dict [{
-            'res_id':  integer: ID of sms.sms,
-            'number':  string: E164 formatted phone number,
-            'content': string: content to send
-            'message_type': string: type do sms: sms or whatsapp
-        }]
-
-        :return: return of /iap/sms/1/send controller which is a list of dict [{
-            'res_id': integer: ID of sms.sms,
-            'state':  string: 'insufficient_credit' or
-                                'wrong_number_format' or 'success',
-            'credit': integer: number of credits spent to send this SMS,
-        }]
-
-        :raises: normally none
-        """
-        for message in messages:
-            # workaround para pegar message_type do sms ja instanciado
-            sms_id = self.env["sms.sms"].browse(message.get("res_id"))
-
-            message.update(self._send_sms(
-                message.get("number"), message.get("content"), sms_id ))
-
-        return messages
