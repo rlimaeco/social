@@ -39,7 +39,7 @@ class SmsApi(models.AbstractModel):
 
     def _send_sms_api(self, account, number, message, sms_id):
         """Método principal de envio de dados pela API do twilio"""
-        if account.provide != "twilio":
+        if account.provider != "twilio":
             return super(SmsApi, self)._send_sms_api(
                 account, number, message, sms_id)
 
