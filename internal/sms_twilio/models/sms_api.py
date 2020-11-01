@@ -38,12 +38,14 @@ class SmsApi(models.AbstractModel):
         return phone_number
 
     def _send_sms_api(self, account, number, message, sms_id):
-        """
-        Método princiapl de envio de dados pela API do twilio
-        """
+        """Método principal de envio de dados pela API do twilio"""
+        if account.provide != "twilio":
+            return super(SmsApi, self)._send_sms_api(
+                account, number, message, sms_id)
+
         params = self._prepare_twilio_params(account, number, message, sms_id)
+
         try:
-            
             base_url = self.env['ir.config_parameter'].sudo().\
                 get_param('web.base.url')
             status_callback = urls.url_join(base_url, '/twilio/MessageStatus')
