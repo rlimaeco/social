@@ -26,6 +26,20 @@ class TwilioWebhooks(http.Controller):
         """
         Webhoock para receber mensagens do whatsapp sandbox
         https://www.twilio.com/console/sms/whatsapp/sandbox
+        POST from Twilio:
+        {
+        'SmsMessageSid': 'SMe8f1366da573cdc95485b7d1143ff1ef',
+        'NumMedia': '0',
+        'SmsSid': 'SMe8f1366da573cdc95485b7d1143ff1ef',
+        'SmsStatus': 'received',
+        'Body': 'Corpo da mensagem',
+        'To': 'whatsapp:+14155238886',
+        'NumSegments': '1',
+        'MessageSid': 'SMe8f1366da573cdc95485b7d1143ff1ef',
+        'AccountSid': 'ACbd29253caeb9ab0eaa083f4375085d9b',
+        'From': 'whatsapp:+556182991273',
+        'ApiVersion': '2010-04-01'
+        }
         """
         if post.get('Body', False) and post.get('From', False):
             message_type = "sms"
@@ -36,7 +50,7 @@ class TwilioWebhooks(http.Controller):
                 "body":  post.get('Body'),
                 "number": helpers.sanitize_mobile(post.get('From')),
                 "message_type": message_type,
-                "message_id": post.get("SmsSid"),
+                "message_id": post.get("SmsMessageSid"),
                 "state": "received",
                 "type": "input",
             }
@@ -44,7 +58,7 @@ class TwilioWebhooks(http.Controller):
             sms_id = request.env['sms.sms'].sudo().create(params_sms_id)
             message = sms_id.find_and_attach_to_lead()
             if message:
-                response = '200 OK - Odoo SUNNIT recebeu SMS'
+                response = '200 OK - Odoo SUNNIT recebeu SMS do Twilio'
 
         else:
             response = 'ERRO - durante a comunicação com o Odoo SUNNIT'
