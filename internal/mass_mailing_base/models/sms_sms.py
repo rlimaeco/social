@@ -29,8 +29,8 @@ class SmsSms(models.Model):
     type = fields.Selection(
         string="Tipo de SMS",
         selection=[
-            ('input', 'Entrada/recebido'),
-            ('output', 'Saída/Enviado'),
+            ('input', 'Recebido'),
+            ('output', 'Enviado'),
         ],
         default="output",
     )
@@ -98,4 +98,5 @@ class SmsSms(models.Model):
                 })
                 message = self.create_mail_message(model=lead_id)
 
+        self.mail_message_id = message
         return message
