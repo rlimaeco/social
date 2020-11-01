@@ -60,6 +60,8 @@ class SmsApi(models.AbstractModel):
             )
             if res:
                 sms_id.message_id = res.sid
+                sms_id.error_code = "{} {}".format(
+                    res.error_code, res.error_message)
 
             return {"sid": res.sid, "state": res.status}
 
