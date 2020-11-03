@@ -53,6 +53,10 @@ def sanitize_mobile_cut(number):
     """Remover caracteres de controle"""
     return re.sub('[^0-9]', '', number)[-8:] if number else ""
 
+def sanitize_mobile_full(number):
+    """Remover caracteres de controle"""
+    return re.sub('[^0-9]', '', number) if number else ""
+
 def sanitize_mobile(number):
     """Adicionar caracteres de controle"""
     return "+{}".format(re.sub('[^0-9]', '', number)) if number else ""
