@@ -7,7 +7,7 @@ from odoo import http
 from odoo.http import request, route
 
 
-class TwilioWebhooks(http.Controller):
+class SmsDEVWebhooks(http.Controller):
 
     @route(['/smsdev/input'], type='json', auth="none", methods=['GET', 'POST', 'OPTIONS'], cors="*", csrf=False)
     def smsdev_input(self,  **post):

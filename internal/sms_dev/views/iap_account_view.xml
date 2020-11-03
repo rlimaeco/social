@@ -2,7 +2,7 @@
 <odoo>
 
     <record id="iap_account_view_form" model="ir.ui.view">
-        <field name="name">iap.account (in iap_twilio)</field>
+        <field name="name">iap.account (in sms_dev)</field>
         <field name="model">iap.account</field>
         <field name="inherit_id" ref="iap.iap_account_view_form" />
         <field name="arch" type="xml">
