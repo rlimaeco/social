@@ -12,7 +12,7 @@ class IapAccount(models.Model):
     )
 
     chatapi_token = fields.Char(
-        string="Auth Token",
+        string="Auth Token ChatAPI",
     )
 
     chatapi_url = fields.Char(
