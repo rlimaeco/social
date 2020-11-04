@@ -5,6 +5,9 @@ from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 from werkzeug import urls
 
+from odoo.addons.mass_mailing_base.tools import helpers
+
+
 from odoo import models
 from odoo.exceptions import UserError
 
@@ -25,15 +28,29 @@ class SmsApi(models.AbstractModel):
             "message": message,
         }
 
+    def add_caracteres_controle(self, number):
+        # ADicionar caracteres de controle para twilio
+        # Validar código do pais
+        code_brazil = "55"
+        if number[:2] != code_brazil:
+            number = "{}{}".format(code_brazil, number)
+
+        if "+" not in number:
+            number = "+{}".format(number)
+
+        return number
+
     def sanitize_phone_number(self, phone_number, message_type="sms"):
         """
         Sanitizar numero de acordo com tipo de mensagem
         """
+        number = self.add_caracteres_controle(phone_number)
+
         if message_type == "whatsapp":
-            return "{}:{}".format(message_type, phone_number)
+            return "{}:{}".format(message_type, number)
 
         elif message_type == "sms":
-            return "{}".format(phone_number)
+            return "{}".format(number)
 
         return phone_number
 
