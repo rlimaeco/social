@@ -6,7 +6,6 @@ import re
 from odoo.addons.mass_mailing_base.tools import helpers
 
 from odoo import models
-from odoo.tools import html2plaintext, plaintext2html
 
 
 class MailThread(models.AbstractModel):
@@ -18,7 +17,5 @@ class MailThread(models.AbstractModel):
             helpers.valid_alternative_9number(recipients_info.get(record.id))
 
         if alternative_number:
-            number = re.sub('[^0-9]', '', recipients_info.get(record.id).get("number"))
-            w_number = "+{}".format(number) \
-                if number[:2] == "55" else "+55{}".format(number)
+            w_number = re.sub('[^0-9]', '', alternative_number)
             recipients_info.get(record.id).update(sanitized=w_number)
