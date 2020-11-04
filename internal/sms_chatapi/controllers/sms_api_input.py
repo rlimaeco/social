@@ -57,6 +57,7 @@ class ChatAPIWebhooks(http.Controller):
         """
         response = "MENSAGEM RECEBIDA"
         post = request.jsonrequest
+        print(post)
         if post.get('messages'):
             responses = self.inputMessage(post.get('messages'))
 

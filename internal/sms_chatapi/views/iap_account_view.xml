@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//group[@name='account']" position="after">
                 <group string="ChatA API account" name="chatapi"
-                       attrs="{'invisible': [('provider', '!=', 'chtapi')]}" >
+                       attrs="{'invisible': [('provider', '!=', 'chatapi')]}" >
                     <field name="chatapi_token" />
                     <field name="chatapi_url" />
                 </group>
