@@ -32,10 +32,16 @@ class SendSMS(models.TransientModel):
             )
         return messages
 
+    def _prepare_mass_sms_trace_values(self, record, sms_values):
+        res = super(SendSMS, self)._prepare_mass_sms_trace_values(record, sms_values)
+        if self.message_type == 'whatsapp':
+            res['trace_type'] = 'whatsapp'
+        return res
+
     def _prepare_mass_sms_values(self, records):
         """ Injetar message_type na criacao em massa"""
         result = super(SendSMS, self)._prepare_mass_sms_values(records)
-        if self.composition_mode == 'mass' and self.mailing_id:
+        if self.composition_mode == 'mass' and self.message_type:
             for record in records:
                 sms_values = result[record.id]
                 sms_values.update({

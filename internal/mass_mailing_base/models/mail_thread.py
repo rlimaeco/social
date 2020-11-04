@@ -5,7 +5,7 @@ import re
 
 from odoo.addons.mass_mailing_base.tools import helpers
 
-from odoo import models
+from odoo import models, api
 from odoo.tools import html2plaintext, plaintext2html
 
 
@@ -94,3 +94,17 @@ class MailThread(models.AbstractModel):
                 self.normalize_whatsapp_number_in_recipients(recipients_info, record)
 
         return recipients_info
+
+
+    @api.depends(lambda self: self._phone_get_number_fields())
+    def _compute_phone_sanitized(self):
+        self._assert_phone_field()
+        number_fields = self._phone_get_number_fields()
+        for record in self:
+            for fname in number_fields:
+                sanitized = record.phone_get_sanitized_number(number_fname=fname)
+                if sanitized:
+                    break
+            record.phone_sanitized = sanitized
+
+

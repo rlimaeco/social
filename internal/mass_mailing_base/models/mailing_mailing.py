@@ -62,7 +62,8 @@ class Mailing(models.Model):
             if not res_ids:
                 raise UserError(_('There are no recipients selected.'))
 
-            composer = self.env['sms.composer'].with_context(active_id=False).create(mailing._send_sms_get_composer_values(res_ids))
+            composer = self.env['sms.composer'].with_context(active_id=False).create(
+                mailing._send_sms_get_composer_values(res_ids))
             if mailing.mailing_type == 'whatsapp':
                 composer.message_type = 'whatsapp'
             else:

@@ -7,9 +7,10 @@
     'category': 'Marketing/Email Marketing',
     'contributors': [
         'Hendrix Costa <hendrix@sunnit.com.br>',
+        'Rafael Lima <lima@sunnit.com.br>',
     ],
     'depends': [
-        'mass_mailing_sms', 'utm'
+        'mass_mailing_sms', 'phone_validation','utm'
     ],
     'data': [
         'wizard/sms_composer_views.xml',

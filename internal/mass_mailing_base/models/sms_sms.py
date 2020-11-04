@@ -63,7 +63,6 @@ class SmsSms(models.Model):
         })
         return message or False
 
-
     def find_and_attach_to_lead(self):
         """ Buscar Lead/partner para anexar mensagem de entrada"""
 
