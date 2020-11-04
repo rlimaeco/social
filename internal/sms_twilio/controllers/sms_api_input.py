@@ -1,11 +1,14 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
 from odoo.addons.mass_mailing_base.tools import helpers
 from twilio.twiml.messaging_response import MessagingResponse
 
 from odoo import http
 from odoo.http import request, route
+
+_logger = logging.getLogger(__name__)
 
 # https://www.twilio.com/docs/sms/api/message-resource#message-status-values
 sms_state = {
@@ -18,6 +21,7 @@ sms_state = {
     "failed":"error",
     "undelivered":"canceled",
 }
+
 
 class TwilioWebhooks(http.Controller):
 
@@ -78,6 +82,8 @@ class TwilioWebhooks(http.Controller):
                     ("message_id", "=", message_sid)])
                 if sms_id:
                     sms_id.state = sms_state.get(message_status)
+                elif message_status == 'failed':
+                    _logger.error(post.get('ErrorMessage'))
 
         response = MessagingResponse()
         response.message('Odoo SUNNIT recebeu a mensagem')
