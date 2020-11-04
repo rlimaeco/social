@@ -57,12 +57,12 @@ def get_number_e164(number):
     number = re.sub('[^0-9]', '', number)
 
     # Adicionar o digito 9 caso precise
-    number_9 = get_number_add9(number)
+    number = get_number_add9(number)
 
     # Validar código do pais
     code_brazil = "55"
     if number[:2] != code_brazil:
-        number = "{}{}".format(code_brazil, number_9)
+        number = "{}{}".format(code_brazil, number)
 
     # Adicionar caracter de controle
     number = "+{}".format(number)
@@ -98,5 +98,5 @@ def get_record_from_number(model, number):
     """Buscar uma lead existente baseado no numero"""
     all_records_ids = model.sudo().search([("mobile", "!=", False)])
     record_id = all_records_ids.filtered(
-        lambda x: sanitize_mobile_cut(x.mobile) == number)
+        lambda x: sanitize_mobile_cut(x.mobile) == sanitize_mobile_cut(number))
     return record_id[0] if record_id else False
