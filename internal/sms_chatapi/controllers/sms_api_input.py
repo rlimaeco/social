@@ -25,27 +25,43 @@ class ChatAPIWebhooks(http.Controller):
         }
         """
         responses = []
-        for post in messages:
-            if post.get("body"):
+
+        for message in messages:
+
+            # Confirmação de envio
+            if message.get("fromMe"):
+                sid = message.get("id")
+
+                sms_id = request.env['sms.sms'].sudo().search([
+                    ("message_id", "=", sid)
+                ])
+
+                if sms_id:
+                    sms_id.state = "sent"
+
+            # Mensagem recebida
+            elif message.get("body"):
                 message_type = "whatsapp"
 
                 params_sms_id = {
-                    "body":  post.get('body'),
-                    "number": helpers.sanitize_mobile_full(post.get('author')),
+                    "body":  message.get('body'),
+                    "number":
+                        helpers.sanitize_mobile_full(message.get('author')),
                     "message_type": message_type,
-                    "message_id": post.get("id"),
+                    "message_id": message.get("id"),
                     "state": "received",
                     "type": "input",
                 }
                 sms_id = request.env['sms.sms'].sudo().create(params_sms_id)
-                message = sms_id.find_and_attach_to_lead()
+                message_id = sms_id.find_and_attach_to_lead()
 
-                if message:
-                    responses.append(" {}: 200 OK - MSG processada com SUCESSO".
-                                format(post.get("id")))
+                if message_id:
+                    responses.append(
+                        " {}: 200 OK - MSG processada com SUCESSO".format(
+                            message.get("id")))
             else:
                 responses.append(" {}: ERRO - Mensagem não processada".
-                                format(post.get("id")))
+                                format(message.get("id")))
 
         return responses
 
