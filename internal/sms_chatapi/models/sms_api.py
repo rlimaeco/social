@@ -32,12 +32,12 @@ class SmsApi(models.AbstractModel):
 
         params = self._prepare_chatapi_params(account, number, message, sms_id)
 
-        url = "{}?token={}".format(
+        url = "{}sendMessage?token={}".format(
             params.get("chatapi_url"),
             params.get("chatapi_token")
         )
 
-        response = requests.post(url, params=params)
+        response = requests.post(url, data=params)
 
         if response:
             result = json.loads(response.content)
