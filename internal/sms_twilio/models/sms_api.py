@@ -23,8 +23,8 @@ class SmsApi(models.AbstractModel):
             "account_sid": account.twilio_account_sid,
             "auth_token": account.twilio_auth_token,
             "from": self.sanitize_phone_number(
-                account.twilio_from_phone, sms_id.message_type),
-            "to": self.sanitize_phone_number(number, sms_id.message_type),
+                account.twilio_from_phone, sms_id.message_type, add_controls=False),
+            "to": self.sanitize_phone_number(number, sms_id.message_type, add_controls=True),
             "message": message,
         }
 
@@ -40,17 +40,18 @@ class SmsApi(models.AbstractModel):
 
         return number
 
-    def sanitize_phone_number(self, phone_number, message_type="sms"):
+    def sanitize_phone_number(self, phone_number, message_type="sms", add_controls=False):
         """
         Sanitizar numero de acordo com tipo de mensagem
         """
-        number = self.add_caracteres_controle(phone_number)
+        if add_controls:
+            phone_number = self.add_caracteres_controle(phone_number)
 
         if message_type == "whatsapp":
-            return "{}:{}".format(message_type, number)
+            return "{}:{}".format(message_type, phone_number)
 
         elif message_type == "sms":
-            return "{}".format(number)
+            return "{}".format(phone_number)
 
         return phone_number
 
