@@ -32,6 +32,7 @@ class UtmCampaign(models.Model):
             'search_default_assigned_to_me': 1,
             'search_default_campaign_id': self.id,
             'default_user_id': self.env.user.id,
+            'mailing_sms': True,
         }
         return action
 
@@ -43,6 +44,7 @@ class UtmCampaign(models.Model):
             'search_default_assigned_to_me': 1,
             'search_default_campaign_id': self.id,
             'default_user_id': self.env.user.id,
+            'mailing_sms': True,
         }
         action['domain'] = [('mailing_type', '=', 'whatsapp')]
         return action
