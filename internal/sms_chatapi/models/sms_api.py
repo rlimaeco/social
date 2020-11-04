@@ -2,9 +2,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import json
+import re
 
 import requests
-
 from odoo.addons.mass_mailing_base.tools import helpers
 
 from odoo import models
@@ -13,6 +13,12 @@ from odoo import models
 class SmsApi(models.AbstractModel):
     _inherit = "sms.api"
 
+    def sanitize_number_SmsApi(self, number):
+        """ Tratar numero para envio do CHATAPI """
+        alternative_number = helpers.get_number_e164(number)
+        w_number = re.sub('[^0-9]', '', alternative_number)
+        return w_number
+
     def _prepare_chatapi_params(self, account, number, message, sms_id):
         """
         Método para preparar dados que irao para API
@@ -20,7 +26,7 @@ class SmsApi(models.AbstractModel):
         return {
             "chatapi_url": account.chatapi_url,
             "chatapi_token": account.chatapi_token,
-            "phone":  helpers.sanitize_mobile_full(number),
+            "phone": self.sanitize_number_SmsApi(number),
             "body": message,
         }
 
