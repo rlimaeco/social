@@ -19,7 +19,7 @@ class PhoneMixin(models.AbstractModel):
 
         country_fname = self._phone_get_country_field()
         number = self[number_fname]
-        alternative_number = helpers.get_numberAdd9(number)
+        alternative_number = helpers.get_number_add9(number)
         sanitized = phone_validation.phone_sanitize_numbers_w_record([alternative_number], self, record_country_fname=country_fname, force_format=force_format)[alternative_number]['sanitized']
         if sanitized:
             return number

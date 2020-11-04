@@ -6,7 +6,7 @@ import re
 from odoo.addons.phone_validation.tools import phone_validation
 
 
-def get_numberAdd9(number):
+def get_number_add9(number):
     """ Adicionar 9 a um número """
     if not number:
         return False
@@ -47,12 +47,33 @@ def get_numberAdd9(number):
 
     return alternative_number
 
+def get_number_e164(number):
+    """ https://www.twilio.com/docs/glossary/what-e164 """
+
+    if not number:
+        return False
+
+    # Remover espaços e caracteres de controle
+    number = re.sub('[^0-9]', '', number)
+
+    # Adicionar o digito 9 caso precise
+    number_9 = get_number_add9(number)
+
+    # Validar código do pais
+    code_brazil = "55"
+    if number[:2] != code_brazil:
+        number = "{}{}".format(code_brazil, number_9)
+
+    # Adicionar caracter de controle
+    number = "+{}".format(number)
+    return number
+
 def valid_alternative_9number(info):
     """Validar um numero alternativo adicionando um numero 9"""
     if not info.get("number"):
         return False
 
-    alternative_number = get_numberAdd9(info.get("number"))
+    alternative_number = get_number_e164(info.get("number"))
 
     valid_number = phone_validation.phone_sanitize_numbers_w_record(
         [alternative_number], info.get("partner"))
