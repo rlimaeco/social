@@ -60,24 +60,6 @@ class MailThread(models.AbstractModel):
             **kwargs
         )
 
-    def normalize_whatsapp_number_in_recipients(self, recipients_info, record):
-        """ Normalize number for API whatsapp """
-        alternative_number = \
-            helpers.valid_alternative_9number(recipients_info.get(record.id))
-
-        if alternative_number:
-            number = re.sub('[^0-9]', '', recipients_info.get(record.id).get("number"))
-            w_number = "+{}".format(number) \
-                if number[:2] == "55" else "+55{}".format(number)
-            recipients_info.get(record.id).update(sanitized=w_number)
-
-    def normalize_sms_number_in_recipients(self, recipients_info, record):
-        """ Normalize number for API SMS """
-        s_number = \
-            helpers.valid_alternative_9number(recipients_info.get(record.id))
-        if s_number:
-            recipients_info.get(record.id).update(sanitized=s_number)
-
     def _sms_get_recipients_info(self, force_field=False, message_type="sms"):
         """" Manipular numeros de destinatario"""
         recipients_info = \
@@ -85,13 +67,12 @@ class MailThread(models.AbstractModel):
 
         for record in self:
 
-            # Para SMS sempre Adicionar o número 9
-            if message_type == "sms":
-                self.normalize_sms_number_in_recipients(recipients_info, record)
+            if not recipients_info.get(record.id).get("sanitized"):
+                # Verificar com um 9 a mais
+                alternative_number = helpers.valid_alternative_9number(recipients_info.get(record.id))
 
-            # Para whatsapp remover espaços em branco
-            if message_type == "whatsapp":
-                self.normalize_whatsapp_number_in_recipients(recipients_info, record)
+                if alternative_number:
+                    recipients_info.get(record.id).update(sanitized=recipients_info.get(record.id).get("number"))
 
         return recipients_info
 
