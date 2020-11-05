@@ -110,3 +110,22 @@ class SmsSms(models.Model):
 
         self.mail_message_id = message
         return message
+
+    def _postprocess_iap_sent_sms(self, iap_results, failure_reason=None, delete_all=False):
+            super(SmsSms, self).\
+                _postprocess_iap_sent_sms(iap_results, failure_reason=failure_reason, delete_all=delete_all)
+            iap_account = self.env["iap.account"].search([('name', '=', self.message_type)], limit=1)
+            SMS_STATES = iap_account.get_provider_states()
+            all_sms_ids = [item['res_id'] for item in iap_results]
+            if any(sms.mailing_id for sms in self.env['sms.sms'].sudo().browse(all_sms_ids)):
+                for state in SMS_STATES.keys():
+                    sms_ids = [item['res_id'] for item in iap_results if item['state'] == state]
+                    traces = self.env['mailing.trace'].sudo().search([
+                        ('sms_sms_id_int', 'in', sms_ids)
+                    ])
+                    if traces and state in ['sent', 'queued']:
+                        traces.write({'sent': fields.Datetime.now(), 'exception': False})
+                    elif traces:
+                        traces.set_failed(failure_type=SMS_STATES[state])
+
+
