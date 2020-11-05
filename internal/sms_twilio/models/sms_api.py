@@ -31,12 +31,13 @@ class SmsApi(models.AbstractModel):
     def add_caracteres_controle(self, number):
         # ADicionar caracteres de controle para twilio
         # Validar código do pais
+        number = helpers.sanitize_mobile_full(number)
+
         code_brazil = "55"
         if number[:2] != code_brazil:
             number = "{}{}".format(code_brazil, number)
 
-        if "+" not in number:
-            number = "+{}".format(number)
+        number = "+{}".format(number)
 
         return number
 
