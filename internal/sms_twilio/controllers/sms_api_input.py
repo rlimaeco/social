@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
+from odoo import fields
 from odoo.addons.mass_mailing_base.tools import helpers
 from twilio.twiml.messaging_response import MessagingResponse
 
@@ -20,6 +21,16 @@ sms_state = {
     "read":"read",
     "failed":"error",
     "undelivered":"canceled",
+}
+trace_sms_state = {
+    "queued":"scheduled",
+    "accepted":"scheduled",
+    "sent":"sent",
+    "delivered":"sent",
+    "received":"sent",
+    "read":"opened",
+    "failed":"bounced",
+    "undelivered":"exception",
 }
 
 
@@ -62,6 +73,7 @@ class TwilioWebhooks(http.Controller):
             if "whatsapp" in post.get('From'):
                 message_type = "whatsapp"
 
+
             params_sms_id = {
                 "body":  post.get('Body'),
                 "number": helpers.sanitize_mobile(post.get('From')),
@@ -94,6 +106,17 @@ class TwilioWebhooks(http.Controller):
                 sms_id = sms_sms_model.search([
                     ("message_id", "=", message_sid)])
                 if sms_id:
+                    trace = request.env['mailing.trace'].sudo().search([
+                        ('sms_sms_id_int', '=', sms_id.id)
+                    ])
+                    if trace.message_id != message_sid:
+                        print("Houston We have a problem!")
+                    state = trace_sms_state.get(message_status)
+                    if trace and state:
+                        trace.write({state: fields.Datetime.now(), 'exception': False})
+                    elif trace:
+                        trace.set_failed(failure_type=sms_id.IAP_TO_SMS_STATE[state])
+
                     sms_id.state = sms_state.get(message_status)
                 elif message_status == 'failed':
                     _logger.error(post.get('ErrorMessage'))

@@ -39,3 +39,25 @@ class IapAccount(models.Model):
             }
         )
         return res
+
+    def get_provider_states(self):
+        """Estados do Twilio para SMS_STATE"""
+        # TODO Módulo base pode ter esta função e aqui ser um overwrite dela
+
+        if self.provider == 'twilio':
+            return {
+                'queued': 'sent',
+                'sent': 'sent',
+                'undelivered': 'sms_number_format',
+                'failed': 'sms_server'
+            }
+        else:
+            # Odoo IAP_TO_SMS_STATE
+            return {
+                'success': 'sent',
+                'insufficient_credit': 'sms_credit',
+                'wrong_number_format': 'sms_number_format',
+                'server_error': 'sms_server'
+            }
+
+
