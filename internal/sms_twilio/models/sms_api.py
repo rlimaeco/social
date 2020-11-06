@@ -19,6 +19,10 @@ class SmsApi(models.AbstractModel):
         """
         Método para preparar dados que irao para API
         """
+        
+        if sms_id.message_type == "sms":
+            number = helpers.get_number_e164(number)
+        
         return {
             "account_sid": account.twilio_account_sid,
             "auth_token": account.twilio_auth_token,

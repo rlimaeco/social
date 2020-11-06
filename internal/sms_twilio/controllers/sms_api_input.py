@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import logging
-from odoo import fields
+
 from odoo.addons.mass_mailing_base.tools import helpers
 from twilio.twiml.messaging_response import MessagingResponse
 
@@ -111,7 +111,7 @@ class TwilioWebhooks(http.Controller):
                     trace_state = trace_sms_state.get(message_status)
                     if trace and trace_state:
                         trace.write({trace_state: fields.Datetime.now(), 'exception': False})
-                        _logger.error(f"Mensagem SID: [{message_sid}] "
+                        _logger.info(f"Mensagem SID: [{message_sid}] "
                                       f"alterou estado para: ['{message_status} ': '{trace_state}' ]")
                     elif trace:
                         trace.set_failed(failure_type=sms_id.IAP_TO_SMS_STATE[trace_state])
