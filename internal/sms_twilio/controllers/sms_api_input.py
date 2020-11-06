@@ -110,7 +110,11 @@ class TwilioWebhooks(http.Controller):
                         ('sms_sms_id_int', '=', sms_id.id)
                     ])
                     if trace.message_id != message_sid:
-                        print("Houston We have a problem!")
+                        if not trace.message_id:
+                            trace.message_id = message_sid
+                        else:
+                            _logger.warning("SID Code changed!")
+
                     state = trace_sms_state.get(message_status)
                     if trace and state:
                         trace.write({state: fields.Datetime.now(), 'exception': False})

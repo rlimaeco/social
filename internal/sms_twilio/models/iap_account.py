@@ -40,19 +40,22 @@ class IapAccount(models.Model):
         )
         return res
 
-    def get_provider_states(self):
+    def get_provider_states(self, type):
         """Estados do Twilio para SMS_STATE"""
         # TODO Módulo base pode ter esta função e aqui ser um overwrite dela
-
+        # super(IapAccount, self).get_provider_states(type)
         if self.provider == 'twilio':
-            return {
-                'queued': 'sent',
-                'sent': 'sent',
-                'undelivered': 'sms_number_format',
-                'failed': 'sms_server'
-            }
+            if type in ['sms', 'whatsapp']:
+                # No caso do twilio os estados entre sms e whatsapp são os iguais
+                return {
+                    'queued': 'sent',
+                    'sent': 'sent',
+                    'undelivered': 'sms_number_format',
+                    'failed': 'sms_server'
+                }
         else:
             # Odoo IAP_TO_SMS_STATE
+            # TODO: retorno padrão do super
             return {
                 'success': 'sent',
                 'insufficient_credit': 'sms_credit',
