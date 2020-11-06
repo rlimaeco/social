@@ -111,14 +111,18 @@ class TwilioWebhooks(http.Controller):
                     trace_state = trace_sms_state.get(message_status)
                     if trace and trace_state:
                         trace.write({trace_state: fields.Datetime.now(), 'exception': False})
-                        _logger.info(f"Mensagem SID: [{message_sid}] "
-                                      f"alterou estado para: ['{message_status} ': '{trace_state}' ]")
+                        _logger.info(f"TRACE MSG-SID: [{message_sid}] "
+                                      f"Alterou Estado para: ['{message_status} ' <-> '{trace_state}' ]")
                     elif trace:
                         trace.set_failed(failure_type=sms_id.IAP_TO_SMS_STATE[trace_state])
                         _logger.error(f"Mensagem SID: [{message_sid}] "
                                       f"com falha: {sms_id.IAP_TO_SMS_STATE[trace_state]}")
 
-                    sms_id.state = sms_state.get(message_status)
+                    old_state = sms_id.state
+                    new_state = sms_state.get(message_status)
+                    sms_id.state = new_state
+                    _logger.info(f"SMS: [{message_sid}] "
+                                 f"Alteração de Estado: {old_state} -> {new_state}")
                 elif message_status == 'failed':
                     _logger.error(f"Não foi possível criar a mensagem (sms.sms),"
                                   f" Erro = {post.get('ErrorMessage')}")
