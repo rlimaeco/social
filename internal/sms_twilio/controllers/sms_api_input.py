@@ -47,6 +47,9 @@ class TwilioWebhooks(http.Controller):
         if trace_id:
             trace_id.write(
                 {"replied": fields.Datetime.now(), 'exception': False})
+            if not trace_id.opened:
+                trace_id.write(
+                    {"opened": fields.Datetime.now(), 'exception': False})
 
     @route(['/twilio/input'], type='http', auth="none", methods=['GET', 'POST', 'OPTIONS'], cors="*", csrf=False)
     def tw_input(self,  **post):
