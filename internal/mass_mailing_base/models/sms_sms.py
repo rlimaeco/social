@@ -4,7 +4,9 @@
 from odoo.addons.mass_mailing_base.tools import helpers
 
 from odoo import api, fields, models
+import logging
 
+_logger = logging.getLogger(__name__)
 
 class SmsSms(models.Model):
     _inherit = 'sms.sms'
@@ -114,12 +116,24 @@ class SmsSms(models.Model):
     def _postprocess_iap_sent_sms(self, iap_results, failure_reason=None, delete_all=False):
             super(SmsSms, self).\
                 _postprocess_iap_sent_sms(iap_results, failure_reason=failure_reason, delete_all=delete_all)
-            iap_account = self.env["iap.account"].search([('name', '=', self.message_type)], limit=1)
-            SMS_STATES = iap_account.get_provider_states()
-            all_sms_ids = [item['res_id'] for item in iap_results]
-            if any(sms.mailing_id for sms in self.env['sms.sms'].sudo().browse(all_sms_ids)):
+
+            sms_sms_model = self.env['sms.sms'].sudo()
+            # Tratamento de rastreio em batch
+            for service in ['sms', 'whatsapp']:
+                sms_filtered_ids = sms_sms_model.search([('mailing_id', '!=', False), ('message_type', '=', service)])
+                if not sms_filtered_ids:
+                    continue
+
+                iap_account = self.env["iap.account"].search([('name', '=', service)], limit=1)
+                if iap_account:
+                    SMS_STATES = iap_account.get_provider_states(type=service)
+                else:
+                    _logger.warning(f"Attention! No Provider for service: {service} - Take a lot at configuration")
+                    continue
+
                 for state in SMS_STATES.keys():
-                    sms_ids = [item['res_id'] for item in iap_results if item['state'] == state]
+                    sms_iap_ids = [item['res_id'] for item in iap_results if item['state'] == state]
+                    sms_ids = [item for item in sms_iap_ids if item in sms_filtered_ids]
                     traces = self.env['mailing.trace'].sudo().search([
                         ('sms_sms_id_int', 'in', sms_ids)
                     ])
