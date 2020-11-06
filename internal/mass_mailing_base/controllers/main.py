@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo.http import request
 from odoo.addons.mass_mailing_sms.controllers.main import MailingSMSController
@@ -28,5 +27,3 @@ class MailingController(MailingSMSController):
         if not trace:
             return {'error': 'trace_error'}
         return {'trace': trace}
-
-

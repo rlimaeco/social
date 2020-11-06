@@ -4,9 +4,7 @@
 from odoo.addons.mass_mailing_base.tools import helpers
 
 from odoo import api, fields, models
-import logging
 
-_logger = logging.getLogger(__name__)
 
 class SmsSms(models.Model):
     _inherit = 'sms.sms'
@@ -112,34 +110,3 @@ class SmsSms(models.Model):
 
         self.mail_message_id = message
         return message
-
-    def _postprocess_iap_sent_sms(self, iap_results, failure_reason=None, delete_all=False):
-            super(SmsSms, self).\
-                _postprocess_iap_sent_sms(iap_results, failure_reason=failure_reason, delete_all=delete_all)
-
-            sms_sms_model = self.env['sms.sms'].sudo()
-            # Tratamento de rastreio em batch
-            for service in ['sms', 'whatsapp']:
-                sms_filtered_ids = sms_sms_model.search([('mailing_id', '!=', False), ('message_type', '=', service)])
-                if not sms_filtered_ids:
-                    continue
-
-                iap_account = self.env["iap.account"].search([('name', '=', service)], limit=1)
-                if iap_account:
-                    SMS_STATES = iap_account.get_provider_states(type=service)
-                else:
-                    _logger.warning(f"Attention! No Provider for service: {service} - Take a lot at configuration")
-                    continue
-
-                for state in SMS_STATES.keys():
-                    sms_iap_ids = [item['res_id'] for item in iap_results if item['state'] == state]
-                    sms_ids = [item for item in sms_iap_ids if item in sms_filtered_ids]
-                    traces = self.env['mailing.trace'].sudo().search([
-                        ('sms_sms_id_int', 'in', sms_ids)
-                    ])
-                    if traces and state in ['sent', 'queued']:
-                        traces.write({'sent': fields.Datetime.now(), 'exception': False})
-                    elif traces:
-                        traces.set_failed(failure_type=SMS_STATES[state])
-
-

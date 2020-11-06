@@ -11,10 +11,6 @@ class Mailing(models.Model):
 
     # mailing options
     mailing_type = fields.Selection(selection_add=[('whatsapp', 'Whatsapp')])
-    reply_to_mode = fields.Selection(selection_add=[('whatsapp', 'Whatsapp Camapaign')])
-    #TODO : Replicar reply_to para sms ?
-    # reply_to = fields.Char(string='Reply To', help='Preferred Reply-To Address',
-    #                        default=lambda self: self.env['mail.message']._get_default_from())
 
     @api.model
     def default_get(self, fields):
@@ -42,14 +38,6 @@ class Mailing(models.Model):
                 not self.medium_id or self.medium_id in [utm_medium_sms, utm_medium_whatsapp]
         ):
             self.medium_id = utm_medium_email.id
-
-    #TODO: Primeiro necessida definidir as visões mailing trace
-    # def _action_view_traces_filtered(self, view_filter):
-    #     action = super(Mailing, self)._action_view_traces_filtered(view_filter)
-    #     if self.mailing_type == 'whatsapp':
-    #         action['views'] = [(self.env.ref('mass_mailing_sms.mailing_trace_view_tree_sms').id, 'tree'),
-    #                            (self.env.ref('mass_mailing_sms.mailing_trace_view_form_sms').id, 'form')]
-    #     return action
 
     @api.model
     def create(self, values):
