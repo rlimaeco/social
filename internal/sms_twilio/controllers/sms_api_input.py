@@ -73,7 +73,6 @@ class TwilioWebhooks(http.Controller):
             if "whatsapp" in post.get('From'):
                 message_type = "whatsapp"
 
-
             params_sms_id = {
                 "body":  post.get('Body'),
                 "number": helpers.sanitize_mobile(post.get('From')),
@@ -88,7 +87,6 @@ class TwilioWebhooks(http.Controller):
             if message:
                 self.set_reply_mailing_trace(sms_id)
                 response = '200 OK - Odoo SUNNIT recebeu SMS do Twilio'
-
         else:
             response = 'ERRO - durante a comunicação com o Odoo SUNNIT'
 
@@ -109,21 +107,21 @@ class TwilioWebhooks(http.Controller):
                     trace = request.env['mailing.trace'].sudo().search([
                         ('sms_sms_id_int', '=', sms_id.id)
                     ])
-                    if trace.message_id != message_sid:
-                        if not trace.message_id:
-                            trace.message_id = message_sid
-                        else:
-                            _logger.warning("SID Code changed!")
 
-                    state = trace_sms_state.get(message_status)
-                    if trace and state:
-                        trace.write({state: fields.Datetime.now(), 'exception': False})
+                    trace_state = trace_sms_state.get(message_status)
+                    if trace and trace_state:
+                        trace.write({trace_state: fields.Datetime.now(), 'exception': False})
+                        _logger.error(f"Mensagem SID: [{message_sid}] "
+                                      f"alterou estado para: ['{message_status} ': '{trace_state}' ]")
                     elif trace:
-                        trace.set_failed(failure_type=sms_id.IAP_TO_SMS_STATE[state])
+                        trace.set_failed(failure_type=sms_id.IAP_TO_SMS_STATE[trace_state])
+                        _logger.error(f"Mensagem SID: [{message_sid}] "
+                                      f"com falha: {sms_id.IAP_TO_SMS_STATE[trace_state]}")
 
                     sms_id.state = sms_state.get(message_status)
                 elif message_status == 'failed':
-                    _logger.error(post.get('ErrorMessage'))
+                    _logger.error(f"Não foi possível criar a mensagem (sms.sms),"
+                                  f" Erro = {post.get('ErrorMessage')}")
 
         response = MessagingResponse()
         response.message('Odoo SUNNIT recebeu a mensagem')
