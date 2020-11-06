@@ -84,7 +84,14 @@ class SmsApi(models.AbstractModel):
                     sms_id.error_code = "{} {}".format(
                         res.error_code, res.error_message)
 
-            return {"sid": res.sid, "state": res.status}
+            twilio_to_iap = {
+                'queued': 'sent',
+                'sent': 'sent',
+                'undelivered': 'sms_number_format',
+                'failed': 'sms_server'
+            }
+
+            return {"sid": res.sid, "state": twilio_to_iap.get(res.status, False) or res.status}
 
         except TwilioRestException as e:
             raise UserError(e.msg)
