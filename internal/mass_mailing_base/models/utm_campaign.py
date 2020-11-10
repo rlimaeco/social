@@ -7,11 +7,15 @@ from odoo import fields, models, api
 class UtmCampaign(models.Model):
     _inherit = 'utm.campaign'
 
-    mailing_whatsapp_ids = fields.One2many(
+    mailing_activities_ids = fields.One2many(
         comodel_name='mailing.mailing',
         inverse_name='campaign_id',
-        domain=[('mailing_type', '=', 'whatsapp')],
-        string='Mass Whatsapp',
+        string='Mass Activities',
+    )
+
+    mailing_activities_count = fields.Integer(
+        string='Number of Mass Activities',
+        compute="_compute_mailing_activities_count",
     )
 
     mailing_whatsapp_count = fields.Integer(
@@ -19,10 +23,28 @@ class UtmCampaign(models.Model):
         compute="_compute_mailing_whatsapp_count",
     )
 
-    @api.depends('mailing_whatsapp_ids')
+    @api.depends('mailing_activities_ids')
+    def _compute_mailing_activities_count(self):
+        for campaign in self:
+            campaign.mailing_activities_count = len(campaign.mailing_activities_ids)
+
+    @api.depends('mailing_activities_ids')
     def _compute_mailing_whatsapp_count(self):
         for campaign in self:
-            campaign.mailing_whatsapp_count = len(campaign.mailing_whatsapp_ids)
+            qty_activities = campaign.mailing_activities_ids.filtered(lambda m: m.mailing_type == 'whatsapp')
+            campaign.mailing_whatsapp_count = len(qty_activities)
+
+    @api.depends('mailing_sms_ids')
+    def _compute_mailing_sms_count(self):
+        for campaign in self:
+            qty_activities = campaign.mailing_activities_ids.filtered(lambda m: m.mailing_type == 'sms')
+            campaign.mailing_sms_count = len(qty_activities)
+
+    @api.depends('mailing_mail_ids')
+    def _compute_mailing_mail_count(self):
+        for campaign in self:
+            qty_activities = campaign.mailing_activities_ids.filtered(lambda m: m.mailing_type == 'mail')
+            campaign.mailing_mail_count = len(qty_activities)
 
     def action_create_mass_whatsapp(self):
         action = self.env.ref('mass_mailing.action_create_mass_mailings_from_campaign').read()[0]
@@ -49,3 +71,11 @@ class UtmCampaign(models.Model):
         action['domain'] = [('mailing_type', '=', 'whatsapp')]
         return action
 
+    def action_start_campaign(self):
+        pass
+
+    def action_schedule_campaign(self):
+        pass
+
+    def action_stop_campaign(self):
+        pass

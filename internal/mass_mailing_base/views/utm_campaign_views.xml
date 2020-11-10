@@ -5,8 +5,13 @@
             <field name="model">utm.campaign</field>
             <field name="inherit_id" ref="utm.utm_campaign_view_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//header" position="inside">
-                    <button name="action_create_mass_whatsapp" type="object"  class="oe_highlight" string="Send Whatsapp"/>
+                <xpath expr="//header" position="replace">
+                    <header>
+                        <button name="action_start_campaign" class="oe_highlight" type="object"  string="Iniciar"/>
+                        <button name="action_schedule_campaign" class="oe_highlight" type="object"  string="Agendar"/>
+                        <button name="action_stop_campaign" class="oe_highlight" type="object"  string="Interromper"/>
+                        <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
+                    </header>
                 </xpath>
                 <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
                     <button name="action_redirect_to_mailing_whatsapp"
@@ -18,8 +23,74 @@
                     </button>
                 </xpath>
                 <xpath expr="//notebook" position="replace">
+                    <field name="mailing_activities_count" invisible="1"/>
+                    <notebook>
+                        <page string="Activities" attrs="{'invisible': [('mailing_activities_count', '=', 0)]}">
+                            <group>
+                                <field name="mailing_activities_ids" readonly="1" nolabel="1">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="mailing_type"/>
+                                        <field name="sent_date"/>
+                                        <field name="state"/>
+                                        <field name="delivered"/>
+                                        <field name="opened"/>
+                                        <field name="replied"/>
+                                        <field name="bounced"/>
+                                        <button name="action_duplicate" type="object" string="Duplicate"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                    </notebook>
 
+
+
+                    <div class="o_utm_campaign_mass_mailing_substats d-flex justify-content-end align-items-center">
+                        <div class="d-flex justify-content-end align-items-center flex-column">
+                            <label for="received_ratio" string="Delivered" class="m-0"/>
+                            <div class="m-0">
+                                <span class="text-right">
+                                    <field name="received_ratio"/>
+                                    <span>%</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end align-items-center flex-column">
+                            <label for="opened_ratio" string="Opened" class="m-0"/>
+                            <div class="m-0">
+                                <span class="text-right">
+                                    <field name="opened_ratio"/>
+                                    <span>%</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end align-items-center flex-column">
+                            <label for="replied_ratio" string="Replied" class="m-0"/>
+                            <div class="m-0">
+                                <span class="text-right">
+                                    <field name="replied_ratio"/>
+                                    <span>%</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end align-items-center flex-column">
+                            <label for="bounced_ratio" string="Bounced" class="m-0"/>
+                            <div class="m-0">
+                                <span class="text-right">
+                                    <field name="bounced_ratio"/>
+                                    <span>%</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <footer>
+                        <button name="%(mass_mailing.action_create_mass_mailings_from_campaign)d" type="action" groups="mass_mailing.group_mass_mailing_campaign" string="Nova Atividade de Email"/>
+                        <button name="action_create_mass_sms" type="object"  string="Nova Atividade de SMS"/>
+                        <button name="action_create_mass_whatsapp" type="object" string="Nova Atividade de Whatsapp"/>
+                    </footer>
                 </xpath>
+
             </field>
         </record>
 
