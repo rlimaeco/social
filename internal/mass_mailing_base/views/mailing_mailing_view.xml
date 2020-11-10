@@ -42,7 +42,7 @@
                 <attribute name="attrs">{'invisible': ['|', '&amp;', ('sent', '=', 0), ('state', 'in', ('draft', 'test')), ('mailing_type', 'not in', ['sms', 'whatsapp'])]}</attribute>
             </xpath>
             <xpath expr="//button[@name='action_view_clicked']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',('mailing_type', '!=', 'sms'),('state', 'in', ('draft','test'))]}</attribute>
+                <attribute name="attrs">{'invisible': ['|',('mailing_type', 'not in', ['sms', 'whatsapp']),('state', 'in', ('draft','test'))]}</attribute>
             </xpath>
             <xpath expr="//button[@name='action_view_opened']" position="attributes">
                 <attribute name="attrs">{'invisible': ['|',('mailing_type', 'not in', ['mail', 'whatsapp']),('state', 'in', ('draft','test'))]}</attribute>
