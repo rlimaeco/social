@@ -1,18 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <record model="ir.ui.view" id="mailing_mailing_view_search_whatsapp">
+        <field name="name">mailing.mailing.search.inherit.whatsapp</field>
+        <field name="model">mailing.mailing</field>
+        <field name="inherit_id" ref="mass_mailing_sms.mailing_mailing_view_search_sms"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='assigned_to_me']" position="attributes">
+                <attribute name="string">My Whatsapp Marketing</attribute>
+            </xpath>
+        </field>
+    </record>
+
     <record id="mailing_mailing_view_form_whatsapp" model="ir.ui.view">
         <field name="name">mailing.mailing.view.form.inherit.whatsapp</field>
         <field name="model">mailing.mailing</field>
         <field name="inherit_id" ref="mass_mailing_sms.mailing_mailing_view_form_sms"/>
         <field name="arch" type="xml">
-
-            <xpath expr="//span[@name='scheduled_text_sms']" position="after">
-                <span name="scheduled_text_whatsapp" attrs="{'invisible': [('mailing_type', '!=', 'whatsapp')]}">Whatsapp Text Message are in queue and will be sent soon.</span>
+            <!-- Buttons / Actions -->
+            <xpath expr="//button[@name='action_put_in_queue_sms']" position="attributes">
+                <attribute name="confirm">"This will schedule an Whatsapp marketing to all recipients. Do you still want to proceed ?"</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_send_now_sms']" position="attributes">
+                <attribute name="confirm">"This will send Whatsapp to all recipients now. Do you still want to proceed ?</attribute>
             </xpath>
 
+            <!-- Headers / Warnings -->
+            <xpath expr="//span[@name='scheduled_text_sms']" position="after">
+                <span name="scheduled_text_whatsapp" attrs="{'invisible': [('mailing_type', '!=', 'whatsapp')]}">Whatsapp Message are in queue and will be sent soon.</span>
+            </xpath>
+            <xpath expr="//span[@name='failed_text']" position="after">
+                <span name="failed_text_whatsapp" attrs="{'invisible': [('mailing_type', '!=', 'whatsapp')]}">Whatsapp Message could not be sent.</span>
+            </xpath>
+            <xpath expr="//span[@name='next_departure_text']" position='after'>
+                <span name="next_departure_whatsapp" attrs="{'invisible': [('mailing_type', '!=', 'whatsapp')]}">This Whatsapp marketing is scheduled for </span>
+            </xpath>
+
+            <!-- Stat Buttons -->
+            <xpath expr="//button[@name='action_view_sent']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', '&amp;', ('sent', '=', 0), ('state', 'in', ('draft', 'test')), ('mailing_type', 'not in', ['sms', 'whatsapp'])]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_view_clicked']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('mailing_type', '!=', 'sms'),('state', 'in', ('draft','test'))]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_view_opened']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('mailing_type', 'not in', ['mail', 'whatsapp']),('state', 'in', ('draft','test'))]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_view_replied']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('mailing_type', 'not in', ['mail', 'whatsapp']),('state', 'in', ('draft','test'))]}</attribute>
+            </xpath>
+
+            <!-- Form -->
             <xpath expr="//page[@name='mail_body']" position="after">
-                <page string="Whatsapp Content" name="whatsapp_body" attrs="{'invisible': [('mailing_type', '!=', 'whatsapp')]}">
+                <page string="Whatsapp Content" name="whatsapp_body" attrs="{'invisible': [('mailing_type', 'not in', ['sms', 'whatsapp'])]}">
                     <field name="body_plaintext"  attrs="{'required': [('mailing_type', '=', 'whatsapp')]}"/>
                     <group>
                         <field name="sms_force_send" invisible="1"/>
@@ -57,6 +98,7 @@
         <field name="name">Whatsapp Marketing</field>
         <field name="res_model">mailing.mailing</field>
         <field name="view_mode">kanban,tree,form,graph</field>
+        <field name="search_view_id" ref="mailing_mailing_view_search_whatsapp"/>
         <field name="domain">[('mailing_type', '=', 'whatsapp')]</field>
         <field name="context">{
             'search_default_assigned_to_me': 1,
@@ -88,7 +130,6 @@
     </record>
 
     <!-- Whatsapp Marketing / Whatsapp Marketing -->
-
     <menuitem id="mass_mailing_sms_menu_mass_whatsapp"
               name="Whatsapp Marketing"
               action="mailing_mailing_action_whatsapp"
