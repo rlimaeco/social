@@ -15,6 +15,12 @@ class SendSMS(models.TransientModel):
         string='Type',
     )
 
+    scheduled_date = fields.Char(
+        string='Scheduled Send Date',
+        help="If set, the queue manager will send the email after the date."
+             " If not set, the email will be send as soon as possible.",
+    )
+
     def _action_send_sms_comment(self, records=None):
         """ Just inject param message_type """
         records = records if records is not None else self._get_records()
@@ -45,7 +51,8 @@ class SendSMS(models.TransientModel):
             for record in records:
                 sms_values = result[record.id]
                 sms_values.update({
-                    'message_type': self.message_type
+                    'message_type': self.message_type,
+                    "scheduled_date": self.scheduled_date,
                 })
         return result
 

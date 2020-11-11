@@ -1,9 +1,15 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import datetime
+import logging
+import threading
+
 from odoo.addons.mass_mailing_base.tools import helpers
 
 from odoo import api, fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 class SmsSms(models.Model):
@@ -38,6 +44,39 @@ class SmsSms(models.Model):
     error_message = fields.Char(
         string="Error Message",
     )
+
+    scheduled_date = fields.Char(
+        string='Scheduled Send Date',
+        help="If set, the queue manager will send the email after the date."
+             " If not set, the email will be send as soon as possible.",
+    )
+
+    @api.model
+    def _process_queue(self, ids=None):
+        """ Melhorar domínio para não enviar com data agendada o SMS """
+
+        domain = ['&',
+                 ('state', '=', 'outgoing'),
+                 '|',
+                 ('scheduled_date', '<', datetime.datetime.now()),
+                 ('scheduled_date', '=', False)]
+
+        filtered_ids = self.search(domain, limit=10000).ids
+
+        if ids:
+            ids = list(set(filtered_ids) & set(ids))
+        else:
+            ids = filtered_ids
+        ids.sort()
+
+        res = None
+        try:
+            # auto-commit except in testing mode
+            auto_commit = not getattr(threading.currentThread(), 'testing', False)
+            res = self.browse(ids).send(delete_all=False, auto_commit=auto_commit, raise_exception=False)
+        except Exception:
+            _logger.exception("Failed processing SMS queue")
+        return res
 
     @api.model
     def create(self, values):

@@ -49,13 +49,13 @@ class Mailing(models.Model):
             #     values['body_plaintext'] = self.env['sms.template'].browse(values['sms_template_id']).body
         return super(Mailing, self).create(values)
 
-    def action_send_mail(self, res_ids=None):
+    def action_send_mail(self, res_ids=None, scheduled_date=None):
         mass_sms = self.filtered(lambda m: m.mailing_type in ['sms', 'whatsapp'])
         if mass_sms:
-            mass_sms.action_send_sms(res_ids=res_ids)
+            mass_sms.action_send_sms(res_ids=res_ids, scheduled_date=scheduled_date)
         return super(Mailing, self - mass_sms).action_send_mail(res_ids=res_ids)
 
-    def action_send_sms(self, res_ids=None):
+    def action_send_sms(self, res_ids=None, scheduled_date=None):
         for mailing in self:
             if not res_ids:
                 res_ids = mailing._get_remaining_recipients()
@@ -68,6 +68,10 @@ class Mailing(models.Model):
                 composer.message_type = 'whatsapp'
             else:
                 composer.message_type = 'sms'
+
+            if scheduled_date:
+                composer.scheduled_date = scheduled_date
+
             composer._action_send_sms()
             mailing.write({'state': 'done', 'sent_date': fields.Datetime.now()})
         return True
