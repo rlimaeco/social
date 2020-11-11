@@ -149,3 +149,15 @@ class SmsSms(models.Model):
 
         self.mail_message_id = message
         return message
+
+    def set_reply_mailing_trace(self):
+        """ Buscar por trace de envio para identificar se eh resposta """
+
+        trace_id = self.env["mailing.trace"].sudo().search([
+            ("sms_number", "like", "%{}".format(self.number[-8:])),
+            ("trace_type", "=", self.message_type),
+            ("sent", "!=", False),
+        ], limit=1,  order="sent desc")
+
+        if trace_id:
+            trace_id.set_replied()
