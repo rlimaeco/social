@@ -79,6 +79,7 @@ class UtmCampaign(models.Model):
             'search_default_campaign_id': self.id,
             'default_user_id': self.env.user.id,
             'mailing_sms': True,
+            'default_campaign_id': self.id,
         }
         if type == 'whatsapp':
             name = f"New Activity using {type.capitalize()}"

@@ -52,7 +52,7 @@
             </xpath>
 
             <!-- Form -->
-            <xpath expr="//field[@name='subject']" position="replace">
+            <xpath expr="//field[@name='subject']" position="after">
                 <field name="name" string="Name" attrs="{'readonly': [('state', 'in', ('sending', 'done'))]}"/>
             </xpath>
             <xpath expr="//page[@name='mail_body']" position="after">
