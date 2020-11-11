@@ -1,0 +1,352 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* mass_mailing_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-11 19:31+0000\n"
+"PO-Revision-Date: 2020-11-11 16:42-0300\n"
+"Last-Translator: Rafael Lima <lima@sunnit.com.br>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: pt_BR\n"
+"X-Generator: Poedit 2.4.1\n"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_mailing_view_form_whatsapp
+msgid ""
+"<span name=\"failed_text_whatsapp\" attrs=\"{'invisible': [('mailing_type', "
+"'!=', 'whatsapp')]}\">Whatsapp Message could not be sent.</span>"
+msgstr ""
+"<span name=\"failed_text_whatsapp\" attrs=\"{'invisible': [('mailing_type', "
+"'!=', 'whatsapp')]}\">Mensagem de Whatsapp não pode ser enviada.</span>"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_mailing_view_form_whatsapp
+msgid ""
+"<span name=\"next_departure_whatsapp\" attrs=\"{'invisible': "
+"[('mailing_type', '!=', 'whatsapp')]}\">This Whatsapp marketing is "
+"scheduled for </span>"
+msgstr ""
+"<span name=\"next_departure_whatsapp\" attrs=\"{'invisible': "
+"[('mailing_type', '!=', 'whatsapp')]}\">Esta mensagem de Whatsapp foi "
+"agendada para </span>"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_mailing_view_form_whatsapp
+msgid ""
+"<span name=\"scheduled_text_whatsapp\" attrs=\"{'invisible': "
+"[('mailing_type', '!=', 'whatsapp')]}\">Whatsapp Message are in queue and "
+"will be sent soon.</span>"
+msgstr ""
+"<span name=\"scheduled_text_whatsapp\" attrs=\"{'invisible': "
+"[('mailing_type', '!=', 'whatsapp')]}\">Mensagem de Whatsapp estão na fila "
+"e será enviada em breve.</span>"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
+msgid "Activity's Name"
+msgstr "Nome da Atividade"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
+msgid "Bounced"
+msgstr "Rejeitado"
+
+#. module: mass_mailing_base
+#: model_terms:ir.actions.act_window,help:mass_mailing_base.mailing_mailing_action_whatsapp
+msgid "Create a new Whatsapp Marketing"
+msgstr "Criar uma nova campanha via Whatsapp"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
+msgid "Delivered"
+msgstr "Entregue"
+
+#. module: mass_mailing_base
+#: model:ir.model,name:mass_mailing_base.model_mail_followers
+msgid "Document Followers"
+msgstr "Seguidores do Documento"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
+msgid "Duplicate"
+msgstr "Duplicar"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
+msgid "E-mail Activity"
+msgstr "Atividade E-mail"
+
+#. module: mass_mailing_base
+#: model:ir.model,name:mass_mailing_base.model_mail_thread
+msgid "Email Thread"
+msgstr "Tópico do E-mail"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_sms_sms__error_message
+msgid "Error Message"
+msgstr "Mensagem de Erro"
+
+#. module: mass_mailing_base
+#: model:ir.model,name:mass_mailing_base.model_mailing_trace
+msgid "Mailing Statistics"
+msgstr "E-mail estatísticas"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mailing_mailing__mailing_type
+msgid "Mailing Type"
+msgstr "Tipo de Atividade"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_utm_campaign__mailing_activities_ids
+msgid "Mass Activities"
+msgstr "Atividade em Massa"
+
+#. module: mass_mailing_base
+#: model:ir.model,name:mass_mailing_base.model_mailing_mailing
+msgid "Mass Mailing"
+msgstr "E-mail em massa"
+
+#. module: mass_mailing_base
+#: model:ir.model,name:mass_mailing_base.model_mail_message
+msgid "Message"
+msgstr "Mensagem"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_sms_sms__message_type
+msgid "Message Type"
+msgstr "Tipo de Mensagem"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,help:mass_mailing_base.field_mail_mail__message_type
+#: model:ir.model.fields,help:mass_mailing_base.field_mail_message__message_type
+msgid ""
+"Message type: email for email message, notification for system message, "
+"comment for other messages such as user replies"
+msgstr ""
+"Tipo de mensagem: e-mail para mensagens de e-mail, notificação para "
+"mensagens do sistema e comentário para outros tipos como respostas de "
+"usuário"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,help:mass_mailing_base.field_mail_mail__message_id
+#: model:ir.model.fields,help:mass_mailing_base.field_mail_message__message_id
+msgid "Message unique identifier"
+msgstr "Identificador da mensagem"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_mailing_view_search_whatsapp
+msgid "My Whatsapp Marketing"
+msgstr "Minhas Campanhas Whatsapp"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_mailing_view_form_whatsapp
+msgid "Name"
+msgstr "Nome"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_utm_campaign__mailing_activities_count
+msgid "Number of Mass Activities"
+msgstr "Número de Atividades em Massa"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_utm_campaign__mailing_whatsapp_count
+msgid "Number of Mass Whatsapp"
+msgstr "Número de Whatsapp em Massa"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
+msgid "Opened"
+msgstr "Aberto"
+
+#. module: mass_mailing_base
+#: model:ir.model,name:mass_mailing_base.model_sms_sms
+msgid "Outgoing SMS"
+msgstr "SMS de Saída"
+
+
+#. module: mass_mailing_base
+#: model:ir.model.fields.selection,name:mass_mailing_base.selection__sms_sms__state__read
+msgid "Read"
+msgstr "Lido"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields.selection,name:mass_mailing_base.selection__sms_sms__state__received
+#: model:ir.model.fields.selection,name:mass_mailing_base.selection__sms_sms__type__input
+msgid "Received"
+msgstr "Recebido"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
+msgid "Replied"
+msgstr "Respondido"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields.selection,name:mass_mailing_base.selection__sms_composer__message_type__sms
+msgid "SMS"
+msgstr "SMS"
+
+#. module: mass_mailing_base
+#: model:ir.model,name:mass_mailing_base.model_sms_api
+msgid "SMS API"
+msgstr "API SMS"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
+msgid "SMS Activity"
+msgstr "Atividade SMS"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mail_mail__message_id
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mail_message__message_id
+#: model:ir.model.fields,field_description:mass_mailing_base.field_sms_sms__message_id
+msgid "SMS ID"
+msgstr "ID SMS"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields.selection,name:mass_mailing_base.selection__sms_sms__message_type__sms
+msgid "SMS Phone"
+msgstr "SMS (Celular)"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_sms_sms__state
+msgid "SMS Status"
+msgstr "Estado SMS"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_sms_sms__type
+msgid "SMS Type"
+msgstr "Tipo SMS"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
+msgid "Schedule"
+msgstr "Agendar"
+
+#. module: mass_mailing_base
+#: model:ir.model,name:mass_mailing_base.model_sms_composer
+msgid "Send SMS Wizard"
+msgstr "Diálogo Enviar SMS"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields.selection,name:mass_mailing_base.selection__sms_sms__type__output
+msgid "Sent"
+msgstr "Enviado"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
+msgid "Start"
+msgstr "Iniciar"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
+msgid "Stop"
+msgstr "Interromper"
+
+#. module: mass_mailing_base
+#: code:addons/mass_mailing_base/models/mailing_mailing.py:0
+#, python-format
+msgid "There are no recipients selected."
+msgstr "Nenhuma destinatário foi selecionado."
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_mailing_view_form_whatsapp
+msgid ""
+"This will schedule an Whatsapp marketing to all recipients. Do you still "
+"want to proceed ?"
+msgstr ""
+"Deseja prosseguir com o agendamento da atividade via Whatsapp para todos "
+"destinatários?"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_mailing_view_form_whatsapp
+msgid ""
+"This will send Whatsapp to all recipients now. Do you still want to "
+"proceed ?"
+msgstr ""
+"Deseja prosseguir com o envio da atividade via Whatsapp para todos "
+"destinatários?"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mail_mail__message_type
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mail_message__message_type
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mailing_trace__trace_type
+#: model:ir.model.fields,field_description:mass_mailing_base.field_sms_composer__message_type
+msgid "Type"
+msgstr "Tipo"
+
+#. module: mass_mailing_base
+#: model:ir.model,name:mass_mailing_base.model_utm_campaign
+msgid "UTM Campaign"
+msgstr "Campanha UTM"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields.selection,name:mass_mailing_base.selection__mail_message__message_type__whatsapp
+#: model:ir.model.fields.selection,name:mass_mailing_base.selection__sms_composer__message_type__whatsapp
+#: model:ir.model.fields.selection,name:mass_mailing_base.selection__sms_sms__message_type__whatsapp
+msgid "WhatsApp"
+msgstr "Whatsapp"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields.selection,name:mass_mailing_base.selection__mailing_mailing__mailing_type__whatsapp
+#: model:ir.model.fields.selection,name:mass_mailing_base.selection__mailing_trace__trace_type__whatsapp
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_kanban
+msgid "Whatsapp"
+msgstr "Whatsapp"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
+msgid "Whatsapp Activity"
+msgstr "Atividade Whatsapp"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_mailing_view_form_whatsapp
+msgid "Whatsapp Content"
+msgstr "Conteúdo via Whatsapp"
+
+#. module: mass_mailing_base
+#: model:ir.actions.act_window,name:mass_mailing_base.mailing_mailing_action_whatsapp
+#: model:ir.ui.menu,name:mass_mailing_base.mass_mailing_sms_menu_mass_whatsapp
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_mailing_view_tree_whatsapp
+msgid "Whatsapp Marketing"
+msgstr "Marketing Whatsapp"
+
+#. module: mass_mailing_base
+#: model_terms:ir.actions.act_window,help:mass_mailing_base.mailing_mailing_action_whatsapp
+msgid ""
+"You can easily send through Whatsapp to any contact saved in other Odoo "
+"apps."
+msgstr ""
+"Você pode enviar facilmente via Whatsapp para qualquer contato salvo na "
+"plataforma."
+
+#. module: mass_mailing_sms
+#: model:ir.actions.act_window,name:mass_mailing_sms.mailing_mailing_action_sms
+#: model:ir.ui.menu,name:mass_mailing_sms.mass_mailing_sms_menu_mass_sms
+#: model:ir.ui.menu,name:mass_mailing_sms.mass_mailing_sms_menu_root
+#: model_terms:ir.ui.view,arch_db:mass_mailing_sms.mailing_mailing_view_tree_sms
+msgid "SMS Marketing"
+msgstr "Marketing SMS"
+
+#. module: mass_mailing_sms
+#: model:ir.model.fields,field_description:mass_mailing_sms.field_mailing_mailing__body_plaintext
+msgid "SMS Body"
+msgstr "Corpo do SMS"
+
+#. module: mass_mailing_sms
+#: model_terms:ir.ui.view,arch_db:mass_mailing_sms.mailing_mailing_view_form_sms
+msgid "SMS Content"
+msgstr "Conteúdo via SMS"
+
+#. module: mass_mailing_sms
+#: model:ir.ui.menu,name:mass_mailing_sms.mailing_list_menu_sms
+#: model:ir.ui.menu,name:mass_mailing_sms.mass_mailing_sms_menu_contacts
+msgid "Contacts Lists"
+msgstr "Máquinas"

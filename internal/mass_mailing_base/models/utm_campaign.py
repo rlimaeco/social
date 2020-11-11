@@ -71,6 +71,48 @@ class UtmCampaign(models.Model):
         action['domain'] = [('mailing_type', '=', 'whatsapp')]
         return action
 
+    def prepare_action_wizard_mailing(self, type):
+
+        context = {
+            'default_mailing_type': type,
+            'search_default_assigned_to_me': 1,
+            'search_default_campaign_id': self.id,
+            'default_user_id': self.env.user.id,
+            'mailing_sms': True,
+        }
+        if type == 'whatsapp':
+            name = f"New Activity using {type.capitalize()}"
+            view_id = self.env.ref('mass_mailing_base.mailing_mailing_view_form_whatsapp').id
+        elif type == 'sms':
+            name = f"New Activity using {type.upper()}"
+            view_id = self.env.ref('mass_mailing_sms.mailing_mailing_view_form_sms').id
+        elif type == 'mail':
+            name = "New Activity using E-mail"
+            view_id = self.env.ref('mass_mailing.view_mail_mass_mailing_form').id
+            context.pop('mailing_sms')
+        else:
+            view_id = False
+
+        return {
+            'name': name,
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mailing.mailing',
+            'view_id': view_id,
+            'target': 'new',
+            'context': context
+        }
+
+    def action_wizard_mailing_whatsapp(self):
+        return self.prepare_action_wizard_mailing('whatsapp')
+
+    def action_wizard_mailing_sms(self):
+        return self.prepare_action_wizard_mailing('sms')
+
+    def action_wizard_mailing_mail(self):
+        return self.prepare_action_wizard_mailing('mail')
+
     def action_start_campaign(self):
         pass
 

@@ -13,8 +13,8 @@ class SmsSms(models.Model):
 
     state = fields.Selection(
         selection_add=[
-            ('received', 'Recebida'),
-            ('read', 'Lido'),
+            ('received', 'Received'),
+            ('read', 'Read'),
         ]
     )
 
@@ -27,16 +27,16 @@ class SmsSms(models.Model):
     )
 
     type = fields.Selection(
-        string="Tipo de SMS",
+        string="SMS Type",
         selection=[
-            ('input', 'Recebido'),
-            ('output', 'Enviado'),
+            ('input', 'Received'),
+            ('output', 'Sent'),
         ],
         default="output",
     )
 
     error_message = fields.Char(
-        string="Mensagem de ERRO",
+        string="Error Message",
     )
 
     @api.model
