@@ -13,6 +13,8 @@
                         <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
                     </header>
                 </xpath>
+                <button name="action_redirect_to_invoiced" position="replace"></button>
+                <button name="action_redirect_to_quotations" position="replace"></button>
                 <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
                     <button name="action_redirect_to_mailing_whatsapp"
                             type="object"
@@ -24,9 +26,9 @@
                 </xpath>
                 <xpath expr="//notebook" position="replace">
                     <field name="mailing_activities_count" invisible="1"/>
-                    <group name="Activities" attrs="{'invisible': [('mailing_activities_count', '=', 0)]}">
-                        <field name="mailing_activities_ids" readonly="1" nolabel="1">
-                            <tree default_order="id">
+                    <group name="Activities" attrs="{'invisible': [('mailing_activities_count', '=', 0)]}" colspan="4">
+                        <field name="mailing_activities_ids" nolabel="1">
+                            <tree>
                                 <field name="name" string="Activity's Name"/>
                                 <field name="mailing_type"/>
                                 <field name="sent_date"/>
@@ -40,44 +42,7 @@
                         </field>
                     </group>
 
-                    <div class="o_utm_campaign_mass_mailing_substats d-flex justify-content-end align-items-center">
-                        <div class="d-flex justify-content-end align-items-center flex-column">
-                            <label for="received_ratio" string="Delivered" class="m-0"/>
-                            <div class="m-0">
-                                <span class="text-right">
-                                    <field name="received_ratio"/>
-                                    <span>%</span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-end align-items-center flex-column">
-                            <label for="opened_ratio" string="Opened" class="m-0"/>
-                            <div class="m-0">
-                                <span class="text-right">
-                                    <field name="opened_ratio"/>
-                                    <span>%</span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-end align-items-center flex-column">
-                            <label for="replied_ratio" string="Replied" class="m-0"/>
-                            <div class="m-0">
-                                <span class="text-right">
-                                    <field name="replied_ratio"/>
-                                    <span>%</span>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-end align-items-center flex-column">
-                            <label for="bounced_ratio" string="Bounced" class="m-0"/>
-                            <div class="m-0">
-                                <span class="text-right">
-                                    <field name="bounced_ratio"/>
-                                    <span>%</span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+
                     <footer>
                         <button name="action_wizard_mailing_mail" type="object" class="btn-link" icon="fa-plus-circle"
                                 groups="mass_mailing.group_mass_mailing_campaign" string="E-mail Activity"/>
@@ -85,6 +50,47 @@
                                 groups="mass_mailing.group_mass_mailing_campaign"  string="SMS Activity"/>
                         <button name="action_wizard_mailing_whatsapp" type="object"  class="btn-link" icon="fa-plus-circle"
                                 groups="mass_mailing.group_mass_mailing_campaign"  string="Whatsapp Activity"/>
+
+                        <group attrs="{'invisible': [('mailing_activities_count', '=', 0)]}">
+                            <div class="o_utm_campaign_mass_mailing_substats d-flex justify-content-end align-items-center">
+                                <div class="d-flex justify-content-end align-items-center flex-column">
+                                    <label for="received_ratio" string="Delivered" class="m-0"/>
+                                    <div class="m-0">
+                                        <span class="text-right">
+                                            <field name="received_ratio"/>
+                                            <span>%</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end align-items-center flex-column">
+                                    <label for="opened_ratio" string="Opened" class="m-0"/>
+                                    <div class="m-0">
+                                        <span class="text-right">
+                                            <field name="opened_ratio"/>
+                                            <span>%</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end align-items-center flex-column">
+                                    <label for="replied_ratio" string="Replied" class="m-0"/>
+                                    <div class="m-0">
+                                        <span class="text-right">
+                                            <field name="replied_ratio"/>
+                                            <span>%</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end align-items-center flex-column">
+                                    <label for="bounced_ratio" string="Bounced" class="m-0"/>
+                                    <div class="m-0">
+                                        <span class="text-right">
+                                            <field name="bounced_ratio"/>
+                                            <span>%</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </group>
                     </footer>
                 </xpath>
 

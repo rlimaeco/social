@@ -2,7 +2,7 @@
     'name': 'Mass Mailing Base',
     'summary': 'Base for mass mailing sms messages',
     'description': '',
-    'version': '13.0.0.8.2',
+    'version': '13.0.0.9.3',
     'author': 'SUNNIT',
     'category': 'Marketing/Email Marketing',
     'contributors': [
@@ -10,7 +10,7 @@
         'Rafael Lima <lima@sunnit.com.br>',
     ],
     'depends': [
-        'mass_mailing_sms', 'phone_validation','utm'
+        'mass_mailing_sms', 'phone_validation','utm', 'mass_mailing_sale'
     ],
     'data': [
         'wizard/sms_composer_views.xml',

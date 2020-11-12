@@ -19,6 +19,8 @@
         <field name="inherit_id" ref="mass_mailing_sms.mailing_mailing_view_form_sms"/>
         <field name="arch" type="xml">
             <!-- Buttons / Actions -->
+            <button name="action_redirect_to_invoiced" position="replace"></button>
+            <button name="action_redirect_to_quotations" position="replace"></button>
             <xpath expr="//button[@name='action_put_in_queue_sms']" position="attributes">
                 <attribute name="confirm">This will schedule an Whatsapp marketing to all recipients. Do you still want to proceed ?</attribute>
             </xpath>
@@ -52,6 +54,7 @@
             </xpath>
 
             <!-- Form -->
+            <field name="name" position="replace"></field>
             <xpath expr="//field[@name='subject']" position="after">
                 <field name="name" string="Name" attrs="{'readonly': [('state', 'in', ('sending', 'done'))]}"/>
             </xpath>
