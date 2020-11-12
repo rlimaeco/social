@@ -161,3 +161,8 @@ class SmsSms(models.Model):
 
         if trace_id:
             trace_id.set_replied()
+
+    def set_opened_test(self):
+        """ Função para testar  """
+        if self.mailing_trace_ids:
+            self.mailing_trace_ids.set_opened()

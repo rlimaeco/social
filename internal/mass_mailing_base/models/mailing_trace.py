@@ -1,5 +1,8 @@
-# -*- coding: utf-8 -*-
+# Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 from odoo import api, fields, models
+from dateutil.relativedelta import relativedelta
 
 
 class MailingTrace(models.Model):
@@ -12,12 +15,22 @@ class MailingTrace(models.Model):
 
         traces = super(MailingTrace, self).set_opened(mail_mail_ids, mail_message_ids)
 
-        mailing_ids = self.env["mailing.mailing"].search([
+        mailing_id = self.env["mailing.mailing"].search([
             ("campaign_id", "=", self.campaign_id.id),
             ("trigger", "=", "message_opened"),
+            ("trigger_mailing_id", "=", self.mass_mailing_id.id),
+            # ("mailing_type", "=", self.trace_type),
         ])
 
-        if mailing_ids:
-            mailing_ids.action_send_mail(self.env[self.model].browse(self.res_id))
+        if mailing_id:
+
+            if mailing_id.trigger_type_time == "hours":
+                scheduled = fields.Datetime.now() + relativedelta(hours=mailing_id.trigger_qty_time)
+
+            if mailing_id.trigger_type_time == "days":
+                scheduled = fields.Datetime.today() + relativedelta(days=mailing_id.trigger_qty_time)
+
+            res_ids = self.env[self.model].browse(self.res_id).ids
+            mailing_id.action_send_mail(res_ids, scheduled_date=scheduled)
 
         return traces

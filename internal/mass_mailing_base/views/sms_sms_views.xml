@@ -6,6 +6,10 @@
         <field name="model">sms.sms</field>
         <field name="inherit_id" ref="sms.sms_tsms_view_form" />
         <field name="arch" type="xml">
+            <xpath expr="//button[@name='send']" position="after">
+                <button name="set_opened_test" string="Set Opened" type="object" class="oe_highlight" groups="base.group_no_one"/>
+            </xpath>
+
             <field name="number" position="after">
                 <field name="message_type" />
                 <field name="type" />
