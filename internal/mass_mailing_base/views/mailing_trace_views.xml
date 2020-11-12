@@ -21,6 +21,9 @@
         <field name="model">mailing.trace</field>
         <field name="inherit_id" ref="mass_mailing.mailing_trace_view_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="set_opened_test" string="Set Opened" type="object" class="oe_highlight" groups="base.group_no_one"/>
+            </xpath>
 
             <xpath expr="//span[@name='trace_type_name_mail']" position="after">
                 <span name="trace_type_name_sms" attrs="{'invisible': [('trace_type', 'not in', ['sms', 'whatsapp'])]}">This Message</span>
