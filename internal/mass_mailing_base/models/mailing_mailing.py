@@ -1,6 +1,8 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import threading
+
 from odoo import fields, models, api, _
 from odoo.exceptions import UserError
 
@@ -78,10 +80,62 @@ class Mailing(models.Model):
         return super(Mailing, self).create(values)
 
     def action_send_mail(self, res_ids=None, scheduled_date=None):
-        mass_sms = self.filtered(lambda m: m.mailing_type in ['sms', 'whatsapp'])
+        """
+        Sobrescrita de método para injetar o parametro de agendamento de email
+        """
+        mass_sms = self.filtered(
+            lambda m: m.mailing_type in ['sms', 'whatsapp'])
         if mass_sms:
-            mass_sms.action_send_sms(res_ids=res_ids, scheduled_date=scheduled_date)
-        return super(Mailing, self - mass_sms).action_send_mail(res_ids=res_ids)
+            mass_sms.action_send_sms(
+                res_ids=res_ids, scheduled_date=scheduled_date)
+
+        if not scheduled_date:
+            res = super(
+                Mailing, self - mass_sms).action_send_mail(res_ids=res_ids)
+            return res
+
+        author_id = self.env.user.partner_id.id
+
+        for mailing in self:
+            if not res_ids:
+                res_ids = mailing._get_remaining_recipients()
+            if not res_ids:
+                raise UserError(_('There are no recipients selected.'))
+
+            composer_values = {
+                'author_id': author_id,
+                'attachment_ids':
+                    [(4, attachment.id) for attachment in mailing.attachment_ids],
+                'body': mailing.body_html,
+                'subject': mailing.subject,
+                'model': mailing.mailing_model_real,
+                'email_from': mailing.email_from,
+                'record_name': False,
+                'composition_mode': 'mass_mail',
+                'mass_mailing_id': mailing.id,
+                'mailing_list_ids':
+                    [(4, l.id) for l in mailing.contact_list_ids],
+                'no_auto_thread': mailing.reply_to_mode != 'thread',
+                'template_id': None,
+                'mail_server_id': mailing.mail_server_id.id,
+                'scheduled_date': scheduled_date,
+            }
+            if mailing.reply_to_mode == 'email':
+                composer_values['reply_to'] = mailing.reply_to
+
+            composer = self.env['mail.compose.message'].with_context(
+                active_ids=res_ids).create(composer_values)
+            extra_context = self._get_mass_mailing_context()
+            composer = composer.with_context(
+                active_ids=res_ids, **extra_context)
+
+            all_mail_values = composer.get_mail_values(res_ids)
+            batch_mails = self.env['mail.mail']
+
+            for res_id, mail_values in all_mail_values.items():
+                batch_mails |= batch_mails.create(mail_values)
+
+            return batch_mails
 
     def action_send_sms(self, res_ids=None, scheduled_date=None):
         for mailing in self:
@@ -90,7 +144,8 @@ class Mailing(models.Model):
             if not res_ids:
                 raise UserError(_('There are no recipients selected.'))
 
-            composer = self.env['sms.composer'].with_context(active_id=False).create(
+            composer = self.env['sms.composer'].\
+                with_context(active_id=False).create(
                 mailing._send_sms_get_composer_values(res_ids))
             if mailing.mailing_type == 'whatsapp':
                 composer.message_type = 'whatsapp'
@@ -101,6 +156,8 @@ class Mailing(models.Model):
                 composer.scheduled_date = scheduled_date
 
             composer._action_send_sms()
-            mailing.write({'state': 'done', 'sent_date': fields.Datetime.now()})
+            mailing.write(
+                {'state': 'done', 'sent_date': fields.Datetime.now()}
+            )
         return True
 

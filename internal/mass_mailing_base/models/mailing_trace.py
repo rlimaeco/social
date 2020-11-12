@@ -18,9 +18,9 @@ class MailingTrace(models.Model):
         mailing_id = self.env["mailing.mailing"].search([
             ("campaign_id", "=", self.campaign_id.id),
             ("trigger", "=", "message_opened"),
-            ("trigger_mailing_id", "=", self.mass_mailing_id.id),
+            # ("trigger_mailing_id", "=", self.mass_mailing_id.id),
             # ("mailing_type", "=", self.trace_type),
-        ])
+        ], limit=1)
 
         if mailing_id:
 
@@ -34,3 +34,7 @@ class MailingTrace(models.Model):
             mailing_id.action_send_mail(res_ids, scheduled_date=scheduled)
 
         return traces
+
+    def set_opened_test(self):
+        """ Função para testar  """
+        self.set_opened()
