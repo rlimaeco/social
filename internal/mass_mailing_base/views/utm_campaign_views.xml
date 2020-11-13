@@ -71,12 +71,6 @@
 
 
                     <footer>
-                        <button name="action_wizard_mailing_mail" type="object" class="btn-link" icon="fa-plus-circle"
-                                groups="mass_mailing.group_mass_mailing_campaign" string="E-mail Activity"/>
-                        <button name="action_wizard_mailing_sms" type="object"  class="btn-link" icon="fa-plus-circle"
-                                groups="mass_mailing.group_mass_mailing_campaign"  string="SMS Activity"/>
-                        <button name="action_wizard_mailing_whatsapp" type="object"  class="btn-link" icon="fa-plus-circle"
-                                groups="mass_mailing.group_mass_mailing_campaign"  string="Whatsapp Activity"/>
 
                         <group attrs="{'invisible': [('mailing_activities_count', '=', 0)]}">
                             <div class="o_utm_campaign_mass_mailing_substats d-flex justify-content-end align-items-center">

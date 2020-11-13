@@ -17,11 +17,13 @@ class Mailing(models.Model):
     trigger = fields.Selection(
         string="Type Trigger",
         selection=[
+            ("campaign_start", "Campaign: Start"),
             ("message_opened", "Message: Opened"),
             ("message_not_opened", "Message: Not Opened"),
             ("message_replied", "Message: Replied"),
             ("message_not_replied", "Message: Not Replied"),
         ],
+        default="campaign_start",
     )
 
     trigger_mailing_id = fields.Many2one(

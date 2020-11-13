@@ -23,36 +23,41 @@ class UtmCampaign(models.Model):
         string='Number of Mass Whatsapp',
         compute="_compute_mailing_whatsapp_count",
     )
+
     mailing_model_real = fields.Char(
         compute='_compute_model',
         string='Recipients Real Model',
         default='mailing.contact',
         required=True
     )
+
     mailing_model_id = fields.Many2one(
-        'ir.model',
+        comodel_name='ir.model',
         string='Recipients Model',
         domain=[('model', 'in', MASS_MAILING_BUSINESS_MODELS)],
         default=lambda self: self.env.ref('mass_mailing.model_mailing_list').id
     )
+
     mailing_model_name = fields.Char(
         related='mailing_model_id.model',
         string='Recipients Model Name',
         readonly=True,
         related_sudo=True
     )
+
     mailing_domain = fields.Char(string='Domain', default=[])
 
     contact_list_ids = fields.Many2many(
-        'mailing.list',
-        'mass_utm_campaign_list_rel',
+        comodel_name='mailing.list',
+        relation='mass_utm_campaign_list_rel',
         string='Mailing Lists'
     )
 
     @api.depends('mailing_activities_ids')
     def _compute_mailing_activities_count(self):
         for campaign in self:
-            campaign.mailing_activities_count = len(campaign.mailing_activities_ids)
+            campaign.mailing_activities_count = \
+                len(campaign.mailing_activities_ids)
 
     @api.depends('mailing_activities_ids')
     def _compute_mailing_whatsapp_count(self):
@@ -101,49 +106,6 @@ class UtmCampaign(models.Model):
         }
         action['domain'] = [('mailing_type', '=', 'whatsapp')]
         return action
-
-    def prepare_action_wizard_mailing(self, type):
-
-        context = {
-            'default_mailing_type': type,
-            'search_default_assigned_to_me': 1,
-            'search_default_campaign_id': self.id,
-            'default_user_id': self.env.user.id,
-            'mailing_sms': True,
-            'default_campaign_id': self.id,
-        }
-        if type == 'whatsapp':
-            name = f"New Activity using {type.capitalize()}"
-            view_id = self.env.ref('mass_mailing_base.mailing_mailing_view_form_whatsapp').id
-        elif type == 'sms':
-            name = f"New Activity using {type.upper()}"
-            view_id = self.env.ref('mass_mailing_sms.mailing_mailing_view_form_sms').id
-        elif type == 'mail':
-            name = "New Activity using E-mail"
-            view_id = self.env.ref('mass_mailing.view_mail_mass_mailing_form').id
-            context.pop('mailing_sms')
-        else:
-            view_id = False
-
-        return {
-            'name': name,
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'mailing.mailing',
-            'view_id': view_id,
-            'target': 'new',
-            'context': context
-        }
-
-    def action_wizard_mailing_whatsapp(self):
-        return self.prepare_action_wizard_mailing('whatsapp')
-
-    def action_wizard_mailing_sms(self):
-        return self.prepare_action_wizard_mailing('sms')
-
-    def action_wizard_mailing_mail(self):
-        return self.prepare_action_wizard_mailing('mail')
 
     def action_start_campaign(self):
         pass
