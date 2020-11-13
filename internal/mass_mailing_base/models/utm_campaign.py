@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields, models, api
-from odoo.addons.mass_mailing.models.mailing import MASS_MAILING_BUSINESS_MODELS
 
 
 class UtmCampaign(models.Model):
@@ -76,11 +75,6 @@ class UtmCampaign(models.Model):
         for campaign in self:
             qty_activities = campaign.mailing_activities_ids.filtered(lambda m: m.mailing_type == 'mail')
             campaign.mailing_mail_count = len(qty_activities)
-
-    @api.depends('mailing_model_id')
-    def _compute_model(self):
-        for record in self:
-            record.mailing_model_real = (record.mailing_model_name != 'mailing.list') and record.mailing_model_name or 'mailing.contact'
 
     def action_create_mass_whatsapp(self):
         action = self.env.ref('mass_mailing.action_create_mass_mailings_from_campaign').read()[0]
