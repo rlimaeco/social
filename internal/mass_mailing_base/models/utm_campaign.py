@@ -3,6 +3,16 @@
 
 from odoo import fields, models, api
 
+MASS_MAILING_BUSINESS_MODELS = [
+    'crm.lead',
+    'event.registration',
+    'hr.applicant',
+    'res.partner',
+    'event.track',
+    'sale.order',
+    'mailing.list',
+    'mailing.contact'
+]
 
 class UtmCampaign(models.Model):
     _inherit = 'utm.campaign'
