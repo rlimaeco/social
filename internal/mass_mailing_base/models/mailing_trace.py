@@ -63,6 +63,35 @@ class MailingTrace(models.Model):
 
         return traces
 
+    def set_clicked(self, mail_mail_ids=None, mail_message_ids=None):
+        """   """
+        traces = super(MailingTrace, self).\
+            set_replied(mail_mail_ids, mail_message_ids)
+
+        mailing_id = self.get_mailing("message_clicked")
+
+        if mailing_id:
+            scheduled = self.get_scheduled(mailing_id)
+            res_ids = self.env[self.model].browse(self.res_id).ids
+            mailing_id.action_send_mail(res_ids, scheduled_date=scheduled)
+
+        return traces
+
+
+    def set_bounced(self, mail_mail_ids=None, mail_message_ids=None):
+        """   """
+        traces = super(MailingTrace, self).\
+            set_replied(mail_mail_ids, mail_message_ids)
+
+        mailing_id = self.get_mailing("message_bounced")
+
+        if mailing_id:
+            scheduled = self.get_scheduled(mailing_id)
+            res_ids = self.env[self.model].browse(self.res_id).ids
+            mailing_id.action_send_mail(res_ids, scheduled_date=scheduled)
+
+        return traces
+
     def set_opened_test(self):
         """ Função para testar  """
         self.set_opened()
