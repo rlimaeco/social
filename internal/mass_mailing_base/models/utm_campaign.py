@@ -62,6 +62,11 @@ class UtmCampaign(models.Model):
         string='Mailing Lists'
     )
 
+    @api.depends('mailing_model_id')
+    def _compute_model(self):
+        for record in self:
+            record.mailing_model_real = (record.mailing_model_name != 'mailing.list') and record.mailing_model_name or 'mailing.contact'
+
     @api.depends('mailing_activities_ids')
     def _compute_mailing_activities_count(self):
         for campaign in self:
