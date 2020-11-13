@@ -77,7 +77,6 @@ class MailingTrace(models.Model):
 
         return traces
 
-
     def set_bounced(self, mail_mail_ids=None, mail_message_ids=None):
         """   """
         traces = super(MailingTrace, self).\
