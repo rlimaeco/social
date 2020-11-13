@@ -11,25 +11,53 @@ class MailingTrace(models.Model):
 
     trace_type = fields.Selection(selection_add=[('whatsapp', 'Whatsapp')])
 
-    def set_opened(self, mail_mail_ids=None, mail_message_ids=None):
+    def get_scheduled(self, mailing_id):
+        """   """
+        scheduled = fields.Datetime.now() + relativedelta(minutes=1)
+        
+        if mailing_id.trigger_type_time == "hours":
+            scheduled += relativedelta(hours=mailing_id.trigger_qty_time)
 
-        traces = super(MailingTrace, self).set_opened(mail_mail_ids, mail_message_ids)
+        if mailing_id.trigger_type_time == "days":
+            scheduled += relativedelta(days=mailing_id.trigger_qty_time)
+
+        return scheduled
+
+    def get_mailing(self, trigger):
+        """ Get mailing  off campaign from mailing.trace """
 
         mailing_id = self.env["mailing.mailing"].search([
             ("campaign_id", "=", self.campaign_id.id),
-            ("trigger", "=", "message_opened"),
+            ("trigger", "=", trigger),
             # ("trigger_mailing_id", "=", self.mass_mailing_id.id),
             # ("mailing_type", "=", self.trace_type),
         ], limit=1)
 
+        return mailing_id
+
+    def set_opened(self, mail_mail_ids=None, mail_message_ids=None):
+        """   """
+        traces = super(MailingTrace, self).\
+            set_opened(mail_mail_ids, mail_message_ids)
+
+        mailing_id = self.get_mailing("message_opened")
+
         if mailing_id:
+            scheduled = self.get_scheduled(mailing_id)
+            res_ids = self.env[self.model].browse(self.res_id).ids
+            mailing_id.action_send_mail(res_ids, scheduled_date=scheduled)
 
-            if mailing_id.trigger_type_time == "hours":
-                scheduled = fields.Datetime.now() + relativedelta(hours=mailing_id.trigger_qty_time)
+        return traces
 
-            if mailing_id.trigger_type_time == "days":
-                scheduled = fields.Datetime.today() + relativedelta(days=mailing_id.trigger_qty_time)
+    def set_replied(self, mail_mail_ids=None, mail_message_ids=None):
+        """   """
+        traces = super(MailingTrace, self).\
+            set_replied(mail_mail_ids, mail_message_ids)
 
+        mailing_id = self.get_mailing("message_replied")
+
+        if mailing_id:
+            scheduled = self.get_scheduled(mailing_id)
             res_ids = self.env[self.model].browse(self.res_id).ids
             mailing_id.action_send_mail(res_ids, scheduled_date=scheduled)
 

@@ -13,8 +13,10 @@
                         <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
                     </header>
                 </xpath>
+
                 <button name="action_redirect_to_invoiced" position="replace"></button>
                 <button name="action_redirect_to_quotations" position="replace"></button>
+
                 <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
                     <button name="action_redirect_to_mailing_whatsapp"
                             type="object"
@@ -24,7 +26,9 @@
                         <field name="mailing_whatsapp_count" widget="statinfo" string="Whatsapp"/>
                     </button>
                 </xpath>
+
                 <field name="tag_ids" position="after">
+
                     <label for="mailing_model_id" string="Recipients"/>
                     <div name="mailing_model_id_container">
                         <div class="row">
@@ -35,9 +39,7 @@
                                 <label for="contact_list_ids" string="Select mailing lists:" class="oe_edit_only"/>
                                 <field name="contact_list_ids" widget="many2many_tags"
                                        placeholder="Select mailing lists..." class="oe_inline"
-                                       attrs="{
-                                                'required':[('mailing_model_name','=','mailing.list')]
-                                        }"/>
+                                       attrs="{'required':[('mailing_model_name','=','mailing.list')]}"/>
                             </div>
                         </div>
 
@@ -48,6 +50,7 @@
                         </div>
                     </div>
                 </field>
+
                 <xpath expr="//notebook" position="replace">
                     <field name="mailing_activities_count" invisible="1"/>
                     <group name="Activities" attrs="{'invisible': [('mailing_activities_count', '=', 0)]}" colspan="4">
