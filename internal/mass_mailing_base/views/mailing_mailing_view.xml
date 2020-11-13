@@ -71,6 +71,7 @@
             <xpath expr="//page[@name='mail_body']" position="after">
                 <page string="Gatilhos" name="trigger">
                     <group>
+                        <field name="template_mail_id" />
                         <field name="trigger" />
                         <field name="trigger_mailing_id" />
                         <field name="trigger_qty_time" />

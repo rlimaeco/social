@@ -42,6 +42,11 @@ class Mailing(models.Model):
         default="days"
     )
 
+    template_mail_id = fields.Many2one(
+        comodel_name="mail.template",
+        string="Email Template",
+    )
+
     @api.model
     def default_get(self, fields):
         res = super(Mailing, self).default_get(fields)
@@ -138,6 +143,9 @@ class Mailing(models.Model):
             return batch_mails
 
     def action_send_sms(self, res_ids=None, scheduled_date=None):
+        """
+        Inject message_type and scheduled date in action_send_sms
+        """
         for mailing in self:
             if not res_ids:
                 res_ids = mailing._get_remaining_recipients()
