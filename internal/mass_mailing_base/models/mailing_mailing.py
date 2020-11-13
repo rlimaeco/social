@@ -14,41 +14,6 @@ class Mailing(models.Model):
     # mailing options
     mailing_type = fields.Selection(selection_add=[("whatsapp", "Whatsapp")])
 
-    trigger = fields.Selection(
-        string="Type Trigger",
-        selection=[
-            ("campaign_start", "Campaign: Start"),
-            ("message_opened", "Message: Opened"),
-            ("message_not_opened", "Message: Not Opened"),
-            ("message_replied", "Message: Replied"),
-            ("message_not_replied", "Message: Not Replied"),
-        ],
-        default="campaign_start",
-    )
-
-    trigger_mailing_id = fields.Many2one(
-        comodel_name="mailing.mailing",
-        string="Activity Trigger",
-    )
-
-    trigger_qty_time = fields.Integer(
-        string="Quantidade para acionar"
-    )
-    
-    trigger_type_time = fields.Selection(
-        string="Type Time Trigger",
-        selection=[
-            ("hours", "Hours"),
-            ("days", "Days"),
-        ],
-        default="days"
-    )
-
-    template_mail_id = fields.Many2one(
-        comodel_name="mail.template",
-        string="Email Template",
-    )
-
     @api.model
     def default_get(self, fields):
         res = super(Mailing, self).default_get(fields)

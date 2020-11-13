@@ -67,19 +67,6 @@
                 </page>
             </xpath>
 
-            <!-- Gatilhos MKT Automation -->
-            <xpath expr="//page[@name='mail_body']" position="after">
-                <page string="Gatilhos" name="trigger">
-                    <group>
-                        <field name="template_mail_id" />
-                        <field name="trigger" />
-                        <field name="trigger_mailing_id" />
-                        <field name="trigger_qty_time" />
-                        <field name="trigger_type_time" />
-                    </group>
-                </page>
-            </xpath>
-
         </field>
     </record>
 
