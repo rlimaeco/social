@@ -58,8 +58,9 @@ class Mailing(models.Model):
         mass_sms = self.filtered(
             lambda m: m.mailing_type in ['sms', 'whatsapp'])
         if mass_sms:
-            mass_sms.action_send_sms(
+            res = mass_sms.action_send_sms(
                 res_ids=res_ids, scheduled_date=scheduled_date)
+            return res
 
         if not scheduled_date:
             res = super(
