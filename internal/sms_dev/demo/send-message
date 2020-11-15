@@ -1,0 +1,20 @@
+
+- Exemplo do SMS DEV
+curl -G --data-urlencode 'msg=Teste de envio' --request GET --url 'https://api.smsdev.com.br/v1/send?key=SUA_CHAVE_KEY&type=9&number=11988887777'
+
+
+Send Message
+
+- Acessar https://hookbin.com/
+
+- Gerar novo endpoint
+
+
+- Substituir URL gerada
+
+curl -G --data-urlencode 'msg=Teste de envio' --request GET --url 'https://hookb.in/9X1RXk78Npu600eMoO10?key=SUA_CHAVE_KEY&type=9&number=11988887777'
+
+
+
+curl -G --data-urlencode 'msg=Teste de envio' --request GET --url 'http://localhost/smsdev/homolog?key=SUA_CHAVE_KEY&type=9&number=11988887777'
+

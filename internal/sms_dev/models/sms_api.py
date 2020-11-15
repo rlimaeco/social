@@ -27,6 +27,7 @@ class SmsApi(models.AbstractModel):
         params = self._prepare_smsdev_params(account, number, message)
 
         url = 'https://api.smsdev.com.br/v1/send'
+        url = "http://localhost/smsdev/homolog"
         response = requests.post(url, params=params)
 
         if response:
