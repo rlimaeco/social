@@ -88,6 +88,10 @@ class SmsApi(models.AbstractModel):
                     sms_id.error_code = "{} {}".format(
                         res.error_code, res.error_message)
 
+                # Setar sms e trace como enviados.
+                if res.status in ["sent", "queued"]:
+                    sms_id.set_sent()
+
             twilio_to_iap = {
                 'queued': 'sent',
                 'sent': 'sent',
