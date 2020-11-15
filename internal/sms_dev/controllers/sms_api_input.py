@@ -1,10 +1,22 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import logging
+
 from odoo.addons.mass_mailing_base.tools import helpers
 
 from odoo import http
 from odoo.http import request, route
+
+_logger = logging.getLogger(__name__)
+
+# Estados do SMSDEV
+# RECEBIDA – Mensagem entregue no aparelho do cliente.
+# ENVIADA – Mensagem enviada a operadora.
+# ERRO – Erro de validação da mensagem.
+# FILA – Mensagem aguardando processamento.
+# CANCELADA – Mensagem cancelada pelo usuário.
+# BLACK LIST – Destinatário ativo no grupo ‘Black List’.
 
 
 class SmsDEVWebhooks(http.Controller):
@@ -44,3 +56,38 @@ class SmsDEVWebhooks(http.Controller):
         else:
             response = 'ERRO - durante a comunicação com o Odoo SUNNIT'
         return str(response)
+
+    @route(['/smsdev/input'], type='json', auth="none", methods=['GET', 'POST', 'OPTIONS'], cors="*", csrf=False)
+    def smsdev_change_state(self,  **post):
+        """
+        Webhoock para Atualizar status mensagens do SmsDev
+        https://painel.smsdev.com.br/integracao/callback
+        POST from smsdev:
+        {
+
+            "key": "XXXXXXXXXXXXXXX", // Chave Key usuário
+            "id": "123456789",       // ID da mensagem da situação
+            "refer": "XXXXXXX",  // Referencia utiliza na mensagem de enviada
+            "situacao": "RECEBIDA", // Situação da mensagem
+            "data_envio" : "28022020145322", // Formato ddmmrrrrhh24miss
+            "operadora": "VIVO-PORTABILIDADE", // Operadora identificada (HLR)
+            "qtd_credito": "1" // Qtd de crédito consumido
+        }
+        """
+        post = request.jsonrequest
+
+        if post:
+            message_sid = post.get('id')
+            message_status = post.get('situacao')
+
+            if message_sid and message_status:
+                sms_sms_model = request.env['sms.sms'].sudo()
+                sms_id = sms_sms_model.search([
+                    ("message_id", "=", message_sid)])
+                if sms_id:
+                    trace = request.env['mailing.trace'].sudo().search([
+                        ('sms_sms_id_int', '=', sms_id.id)
+                    ])
+
+                    if message_status == "RECEBIDA":
+                        trace.set_opened()
