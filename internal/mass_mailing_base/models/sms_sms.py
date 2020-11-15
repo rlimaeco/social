@@ -20,7 +20,6 @@ class SmsSms(models.Model):
     state = fields.Selection(
         selection_add=[
             ('received', 'Received'),
-            ('read', 'Read'),
         ],
     )
 
@@ -83,6 +82,11 @@ class SmsSms(models.Model):
         sms_id = super(SmsSms, self).create(values)
         if sms_id.mail_message_id and sms_id.mail_message_id.message_type:
             sms_id.message_type = sms_id.mail_message_id.message_type
+
+        # Função que verifica se SMS criado é devido a alguma resposta
+        # de SMS ja enviado anteriormente
+        if self.type == "input":
+            sms_id.set_reply_mailing_trace()
         return sms_id
 
     def create_mail_message(self, model, partner_id=False):
@@ -151,7 +155,8 @@ class SmsSms(models.Model):
         return message
 
     def set_reply_mailing_trace(self):
-        """ Buscar por trace de envio para identificar se eh resposta """
+        """ Verificar se existe envio de mensagem com mesmo numero.
+        Se existir o envio de mensagem, setar mensagem como respondida  """
 
         trace_id = self.env["mailing.trace"].sudo().search([
             ("sms_number", "like", "%{}".format(self.number[-8:])),
@@ -166,3 +171,22 @@ class SmsSms(models.Model):
 
             # Marcar como respondido
             trace_id.set_replied()
+
+    def set_opened(self):
+        """   """
+        for trace_id in self.mailing_trace_ids:
+            trace_id.set_opened()
+
+    def set_clicked(self):
+        """   """
+        for trace_id in self.mailing_trace_ids:
+            trace_id.set_clicked()
+
+    def set_replied(self):
+        """   """
+        for trace_id in self.mailing_trace_ids:
+            trace_id.set_replied()
+
+    def set_bounced(self):
+        for trace_id in self.mailing_trace_ids:
+            trace_id.set_bounced()
