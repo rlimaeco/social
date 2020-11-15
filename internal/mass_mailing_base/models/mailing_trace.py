@@ -8,6 +8,11 @@ class MailingTrace(models.Model):
 
     _inherit = 'mailing.trace'
 
+    def set_sent(self, mail_mail_ids=None, mail_message_ids=None):
+        traces = self._get_records(mail_mail_ids, mail_message_ids, [('sent', '=', False)])
+        traces.write({'sent': fields.Datetime.now(), 'bounced': False})
+        return traces
+
     trace_type = fields.Selection(
         selection_add=[('whatsapp', 'Whatsapp')],
     )

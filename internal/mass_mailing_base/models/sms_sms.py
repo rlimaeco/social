@@ -172,6 +172,12 @@ class SmsSms(models.Model):
             # Marcar como respondido
             trace_id.set_replied()
 
+    def set_sent(self):
+        """   """
+        self.state = "sent"
+        for trace_id in self.mailing_trace_ids:
+            trace_id.set_sent()
+
     def set_opened(self):
         """   """
         for trace_id in self.mailing_trace_ids:
