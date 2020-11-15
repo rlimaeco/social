@@ -85,7 +85,7 @@ class SmsSms(models.Model):
 
         # Função que verifica se SMS criado é devido a alguma resposta
         # de SMS ja enviado anteriormente
-        if self.type == "input":
+        if sms_id.type == "input":
             sms_id.set_reply_mailing_trace()
         return sms_id
 
