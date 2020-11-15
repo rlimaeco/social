@@ -36,21 +36,6 @@ trace_sms_state = {
 
 class TwilioWebhooks(http.Controller):
 
-    def set_reply_mailing_trace(self, sms_id):
-
-        trace_id = request.env["mailing.trace"].sudo().search([
-            ("sms_number", "like", "%{}".format(sms_id.number[-8:])),
-            ("trace_type", "=", sms_id.message_type),
-            ("sent", "!=", False),
-        ], limit=1,  order="sent desc")
-
-        if trace_id:
-            trace_id.write(
-                {"replied": fields.Datetime.now(), 'exception': False})
-            if not trace_id.opened:
-                trace_id.write(
-                    {"opened": fields.Datetime.now(), 'exception': False})
-
     @route(['/twilio/input'], type='http', auth="none", methods=['GET', 'POST', 'OPTIONS'], cors="*", csrf=False)
     def tw_input(self,  **post):
         """
@@ -88,7 +73,7 @@ class TwilioWebhooks(http.Controller):
             sms_id = request.env['sms.sms'].sudo().create(params_sms_id)
             message = sms_id.find_and_attach_to_lead()
             if message:
-                self.set_reply_mailing_trace(sms_id)
+                sms_id.set_reply_mailing_trace()
                 response = '200 OK - Odoo SUNNIT recebeu SMS do Twilio'
         else:
             response = 'ERRO - durante a comunicação com o Odoo SUNNIT'
