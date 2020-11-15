@@ -21,7 +21,7 @@ class SmsSms(models.Model):
         selection_add=[
             ('received', 'Received'),
             ('read', 'Read'),
-        ]
+        ],
     )
 
     message_type = fields.Selection(
@@ -160,4 +160,9 @@ class SmsSms(models.Model):
         ], limit=1,  order="sent desc")
 
         if trace_id:
+            # Se nao identificou leitura,
+            if not trace_id.opened:
+                trace_id.set_opened()
+
+            # Marcar como respondido
             trace_id.set_replied()
