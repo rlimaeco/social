@@ -19,6 +19,7 @@
         'views/mailing_mailing_view.xml',
         'views/iap_account_view.xml',
         'views/mailing_trace_views.xml',
+        'views/mailing_contact_views.xml',
         'data/utm_data.xml',
     ],
     'demo': [
