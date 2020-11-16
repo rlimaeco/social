@@ -12,7 +12,17 @@ class Mailing(models.Model):
     _inherit = 'mailing.mailing'
 
     # mailing options
-    mailing_type = fields.Selection(selection_add=[("whatsapp", "Whatsapp")])
+    mailing_type = fields.Selection(
+        selection_add=[
+            ("whatsapp", "Whatsapp"),
+            ("action_server", "Ação do servidor"),
+        ]
+    )
+
+    ir_actions_server_id = fields.Many2one(
+        comodel_name='ir.actions.server',
+        string='Server action',
+    )
 
     @api.model
     def default_get(self, fields):
@@ -55,6 +65,14 @@ class Mailing(models.Model):
         """
         Sobrescrita de método para injetar o parametro de agendamento de email
         """
+
+        # mailing_action_server_id = self.filtered(
+        #     lambda m: m.mailing_type in ['action_server'])
+        # if mailing_action_server_id:
+        #     res = mailing_action_server_id.ir_actions_server_id.run()
+        #     return res
+
+        # Enviar SMS
         mass_sms = self.filtered(
             lambda m: m.mailing_type in ['sms', 'whatsapp'])
         if mass_sms:
