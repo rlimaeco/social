@@ -9,6 +9,25 @@ from odoo.http import request, route
 
 class ChatAPIWebhooks(http.Controller):
 
+    def change_state_message(self, acks):
+        """ Alterar status de Mensagens do CHATAPI """
+        responses = []
+        for ack in acks:
+            sms_id = request.env['sms.sms'].sudo().search([
+                ("message_id", "=", ack.ack.get("id"))
+            ])
+
+            if sms_id:
+                message_status = ack.get("status")
+                # State do SMS de enviado ou erro
+                if message_status in ["delivered", "viewed"]:
+                    sms_id.set_sent()
+
+                # State do mailing.trace que garante que whatsapp foi lido
+                if message_status == "viewed":
+                    sms_id.set_opened()
+
+            responses.append("Atualizado status do SMS: {}".format(sms_id))
 
     def inputMessage(self, messages):
         """
@@ -37,7 +56,7 @@ class ChatAPIWebhooks(http.Controller):
                 ])
 
                 if sms_id:
-                    sms_id.state = "sent"
+                    sms_id.set_sent()
 
             # Mensagem recebida
             elif message.get("body"):
@@ -56,9 +75,9 @@ class ChatAPIWebhooks(http.Controller):
                 message_id = sms_id.find_and_attach_to_lead()
 
                 if message_id:
-                    responses.append(
-                        " {}: 200 OK - MSG processada com SUCESSO".format(
-                            message.get("id")))
+                    response = " {}: 200 OK - SUCESSO".format(message.get("id"))
+                    responses.append(response)
+
             else:
                 responses.append(" {}: ERRO - Mensagem não processada".
                                 format(message.get("id")))
@@ -69,13 +88,19 @@ class ChatAPIWebhooks(http.Controller):
     def chatapi_input(self,  **post):
         """
         Webhoock principal do ChatAPI
-        https://app.chat-api.com/
+         Acessar: https://app.chat-api.com/
+         setar: https://odoo.dev.sunnit.com.br/chatapi
         """
-        response = "MENSAGEM RECEBIDA"
         post = request.jsonrequest
         print(post)
+
+        # Mensagem nova
         if post.get('messages'):
             responses = self.inputMessage(post.get('messages'))
+
+        # Alteração de status
+        if post.get("ack"):
+            responses = self.change_state_message(post.get("ack"))
 
         response = str(" - ".join(responses))
         return response
