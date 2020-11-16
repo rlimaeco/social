@@ -20,8 +20,7 @@ class SmsSms(models.Model):
     state = fields.Selection(
         selection_add=[
             ('received', 'Received'),
-        ],
-        required=False
+        ]
     )
 
     message_type = fields.Selection(
