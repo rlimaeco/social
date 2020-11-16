@@ -14,7 +14,7 @@ class ChatAPIWebhooks(http.Controller):
         responses = []
         for ack in acks:
             sms_id = request.env['sms.sms'].sudo().search([
-                ("message_id", "=", ack.ack.get("id"))
+                ("message_id", "=", ack.get("id"))
             ])
 
             if sms_id:
@@ -28,6 +28,7 @@ class ChatAPIWebhooks(http.Controller):
                     sms_id.set_opened()
 
             responses.append("Atualizado status do SMS: {}".format(sms_id))
+        return responses
 
     def inputMessage(self, messages):
         """
