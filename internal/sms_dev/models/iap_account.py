@@ -11,8 +11,12 @@ class IapAccount(models.Model):
         selection_add=[("smsdev", "SmsDev")],
     )
 
-    smsdev_type = fields.Char(
+    smsdev_type = fields.Selection(
         string="Type",
+        selection=[
+            ('9', 'Produção'),
+            ('1', 'Homologação'),
+        ],
         default="9",
     )
 

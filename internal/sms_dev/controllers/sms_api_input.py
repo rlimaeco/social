@@ -1,22 +1,10 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import logging
-
 from odoo.addons.mass_mailing_base.tools import helpers
 
 from odoo import http
 from odoo.http import request, route
-
-_logger = logging.getLogger(__name__)
-
-# Estados do SMSDEV
-# RECEBIDA – Mensagem entregue no aparelho do cliente.
-# ENVIADA – Mensagem enviada a operadora.
-# ERRO – Erro de validação da mensagem.
-# FILA – Mensagem aguardando processamento.
-# CANCELADA – Mensagem cancelada pelo usuário.
-# BLACK LIST – Destinatário ativo no grupo ‘Black List’.
 
 
 class SmsDEVWebhooks(http.Controller):
@@ -57,7 +45,7 @@ class SmsDEVWebhooks(http.Controller):
             response = 'ERRO - durante a comunicação com o Odoo SUNNIT'
         return str(response)
 
-    @route(['/smsdev/input'], type='json', auth="none", methods=['GET', 'POST', 'OPTIONS'], cors="*", csrf=False)
+    @route(['/smsdev/changestate'], type='json', auth="none", methods=['GET', 'POST', 'OPTIONS'], cors="*", csrf=False)
     def smsdev_change_state(self,  **post):
         """
         Webhoock para Atualizar status mensagens do SmsDev
@@ -85,9 +73,12 @@ class SmsDEVWebhooks(http.Controller):
                 sms_id = sms_sms_model.search([
                     ("message_id", "=", message_sid)])
                 if sms_id:
-                    trace = request.env['mailing.trace'].sudo().search([
+                    trace_id = request.env['mailing.trace'].sudo().search([
                         ('sms_sms_id_int', '=', sms_id.id)
                     ])
 
-                    if message_status == "RECEBIDA":
-                        trace.set_opened()
+                    if trace_id:
+                        # RECEBIDA – Mensagem entregue no aparelho do cliente
+                        # ENVIADA – Mensagem enviada a operadora.
+                        if message_status in ["ENVIADA", "RECEBIDA"]:
+                            sms_id.set_sent()

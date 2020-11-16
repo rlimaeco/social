@@ -27,15 +27,21 @@ class SmsApi(models.AbstractModel):
         params = self._prepare_smsdev_params(account, number, message)
 
         url = 'https://api.smsdev.com.br/v1/send'
-        url = "http://localhost/smsdev/homolog"
+        # Ambiente de homologacao
+        if account.smsdev_type == "1":
+            url = "http://localhost/smsdev/homolog"
+
         response = requests.post(url, params=params)
 
         if response:
             result = json.loads(response.content)
             sms_id.message_id = result.get("id")
 
+            if result.get("situacao") == "OK":
+                sms_id.set_sent()
+
             print(response.content)
             return {
                 "sid": result.get("id"),
-                "state": json.loads(response.content).get("situacao")
+                "state": result.get("situacao")
             }
