@@ -185,11 +185,13 @@ class SmsSms(models.Model):
 
     def set_clicked(self):
         """   """
+        self.set_opened()
         for trace_id in self.mailing_trace_ids:
             trace_id.set_clicked()
 
     def set_replied(self):
         """   """
+        self.set_opened()
         for trace_id in self.mailing_trace_ids:
             trace_id.set_replied()
 
