@@ -18,9 +18,9 @@
         <field name="model">mailing.mailing</field>
         <field name="inherit_id" ref="mass_mailing_sms.mailing_mailing_view_form_sms"/>
         <field name="arch" type="xml">
-            <!-- Buttons / Actions -->
-            <button name="action_redirect_to_invoiced" position="replace"></button>
-            <button name="action_redirect_to_quotations" position="replace"></button>
+<!--&lt;!&ndash;            &lt;!&ndash; Buttons / Actions &ndash;&gt;&ndash;&gt;-->
+<!--            <button name="action_redirect_to_invoiced" position="replace"></button>-->
+<!--            <button name="action_redirect_to_quotations" position="replace"></button>-->
             <xpath expr="//button[@name='action_put_in_queue_sms']" position="attributes">
                 <attribute name="confirm">This will schedule an Whatsapp marketing to all recipients. Do you still want to proceed ?</attribute>
             </xpath>
