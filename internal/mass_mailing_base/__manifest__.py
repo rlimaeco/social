@@ -2,7 +2,7 @@
     'name': 'Mass Mailing Base',
     'summary': 'Base for mass mailing sms messages',
     'description': '',
-    'version': '13.0.0.9.3',
+    'version': '13.0.0.10.3',
     'author': 'SUNNIT',
     'category': 'Marketing/Email Marketing',
     'contributors': [

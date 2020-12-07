@@ -134,6 +134,7 @@ class SmsSms(models.Model):
                     "name": "New LEAD from {}".format(self.message_type),
                     "partner_id": partner_id.id,
                     "partner_name": partner_id.name,
+                    "type": "opportunity"
                 })
 
                 message = self.create_mail_message(
@@ -148,6 +149,7 @@ class SmsSms(models.Model):
                     mail_create_nosubscribe=True).sudo().create({
                     "name": "New LEAD from {}".format(self.number),
                     "mobile": self.number,
+                    "type": "opportunity"
                 })
                 message = self.create_mail_message(model=lead_id)
 
