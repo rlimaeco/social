@@ -65,12 +65,13 @@ class MailInput(models.Model):
                 if not lead:
                     lead = self.env["crm.lead"].create(
                         {
-                            "type": "lead",
                             "name": msg.get('subject'),
                             "partner_name": name_from,
                             "partner_id": partner.id,
                             "email_from": email_from,
                             "description": desc,
+                            "type": "opportunity",
+                            "team_id": self.env.ref("sunnit_crm.crm_team_0"),
                         }
                     )
 

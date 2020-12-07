@@ -2,7 +2,7 @@
 {
     "name": "Mail Input",
     "summary": "Receive e-mails in leads",
-    "version": "13.0.1.1.4",
+    "version": "13.0.1.1.5",
     "category": "Contacts",
     'author': 'SUNNIT',
     'contributors': [
