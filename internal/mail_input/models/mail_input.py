@@ -50,7 +50,11 @@ class MailInput(models.Model):
 
                 desc = html2plaintext(msg.get("body")) if msg.get("body") else ""
 
-                lead = self.env['crm.lead'].search([('email_from', '=', email_from),('type', '=', 'lead')], limit=1)
+                presignup = self.env.ref("sunnit_crm.crm_team_0")
+
+                lead = self.env['crm.lead'].search([
+                    ('email_from', '=', email_from),
+                    ('team_id', '=', presignup.id)], limit=1)
 
                 if not lead.partner_id:
                     partner = self.env['res.partner'].search([('email', '=', email_from)], limit=1)
@@ -65,13 +69,14 @@ class MailInput(models.Model):
                 if not lead:
                     lead = self.env["crm.lead"].create(
                         {
+                            "lead_type": "presignup",
+                            "type": "opportunity",
                             "name": msg.get('subject'),
                             "partner_name": name_from,
                             "partner_id": partner.id,
                             "email_from": email_from,
                             "description": desc,
-                            "type": "opportunity",
-                            "team_id": self.env.ref("sunnit_crm.crm_team_0"),
+                            "team_id": presignup.id,
                         }
                     )
 
