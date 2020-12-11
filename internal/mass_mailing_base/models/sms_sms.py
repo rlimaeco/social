@@ -6,7 +6,7 @@ import logging
 import threading
 
 from odoo.addons.mass_mailing_base.tools import helpers
-
+from odoo.tools.translate import _
 from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
@@ -113,6 +113,7 @@ class SmsSms(models.Model):
         crm_lead_model = self.env['crm.lead'].sudo()
 
         lead_id = helpers.get_record_from_number(crm_lead_model, self.number)
+        presignup = self.env.ref("sunnit_crm.crm_team_0")
 
         # Se já existe uma LEAD, adiciona SMS na thread de comunicação
         if lead_id:
@@ -122,6 +123,7 @@ class SmsSms(models.Model):
             )
 
         # Senão, buscar pelo partner e gerar nova LEAD
+
         else:
             partner_id = helpers.get_record_from_number(
                 res_partner_model, self.number)
@@ -131,10 +133,12 @@ class SmsSms(models.Model):
                 # creates a new lead from the website form
                 lead_id = crm_lead_model.with_context(
                     mail_create_nosubscribe=True).create({
-                    "name": "New LEAD from {}".format(self.message_type),
+                    "name": _("LEAD via {}").format(self.message_type),
                     "partner_id": partner_id.id,
                     "partner_name": partner_id.name,
-                    "type": "opportunity"
+                    "lead_type": "presignup",
+                    "type": "opportunity",
+                    "team_id": presignup.id
                 })
 
                 message = self.create_mail_message(
@@ -147,9 +151,11 @@ class SmsSms(models.Model):
 
                 lead_id = self.env['crm.lead'].with_context(
                     mail_create_nosubscribe=True).sudo().create({
-                    "name": "New LEAD from {}".format(self.number),
+                    "name": _("LEAD from {}").format(self.number),
                     "mobile": self.number,
-                    "type": "opportunity"
+                    "lead_type": "presignup",
+                    "type": "opportunity",
+                    "team_id": presignup.id
                 })
                 message = self.create_mail_message(model=lead_id)
 

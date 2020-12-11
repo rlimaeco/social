@@ -1,7 +1,7 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models, api
+from odoo import fields, models, api, _
 
 
 class UtmCampaign(models.Model):
@@ -10,7 +10,7 @@ class UtmCampaign(models.Model):
     mailing_activities_ids = fields.One2many(
         comodel_name='mailing.mailing',
         inverse_name='campaign_id',
-        string='Mass Activities',
+        string='Mass Activities', copy=True
     )
 
     mailing_activities_count = fields.Integer(
@@ -72,3 +72,17 @@ class UtmCampaign(models.Model):
         action['domain'] = [('mailing_type', '=', 'whatsapp')]
         return action
 
+    # @api.returns('self', lambda value: value.id)
+    # def copy(self, default=None):
+    #     self.ensure_one()
+    #
+    #     # context = dict(self._context)
+    #     # context.setdefault('default_contact_list_ids', [(6, 0, self.mailing_activities_ids.ids)])
+    #     activities = []
+    #
+    #     for activity in self.mailing_activities_ids:
+    #         activities.append((0, 0, {activity}))
+    #     default = {}
+    #     default['mailing_activities_ids'] = [(0, 0, self.mailing_activities_ids)]
+    #
+    #     return super(UtmCampaign, self).copy(default=default)
