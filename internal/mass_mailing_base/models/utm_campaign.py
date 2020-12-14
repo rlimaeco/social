@@ -72,17 +72,7 @@ class UtmCampaign(models.Model):
         action['domain'] = [('mailing_type', '=', 'whatsapp')]
         return action
 
-    # @api.returns('self', lambda value: value.id)
-    # def copy(self, default=None):
-    #     self.ensure_one()
-    #
-    #     # context = dict(self._context)
-    #     # context.setdefault('default_contact_list_ids', [(6, 0, self.mailing_activities_ids.ids)])
-    #     activities = []
-    #
-    #     for activity in self.mailing_activities_ids:
-    #         activities.append((0, 0, {activity}))
-    #     default = {}
-    #     default['mailing_activities_ids'] = [(0, 0, self.mailing_activities_ids)]
-    #
-    #     return super(UtmCampaign, self).copy(default=default)
+    def unlink(self):
+        for activity in self.mailing_activities_ids:
+            activity.unlink()
+        return super(UtmCampaign, self).unlink()
