@@ -10,7 +10,7 @@
         'Rafael Lima <lima@sunnit.com.br>',
     ],
     'depends': [
-        'mass_mailing_sms', 'phone_validation','utm', 'mass_mailing_sale'
+        'mass_mailing_sms', 'phone_validation','utm', 'mass_mailing_sale','sunnit_crm'
     ],
     'data': [
         'wizard/sms_composer_views.xml',
