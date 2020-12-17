@@ -113,12 +113,14 @@ class SmsSms(models.Model):
         crm_lead_model = self.env['crm.lead'].sudo()
 
         lead_id = helpers.get_record_from_number(crm_lead_model, self.number)
-        presignup = self.env.ref("sunnit_crm.crm_team_0")
+
 
         # Se já existe uma LEAD, adiciona SMS na thread de comunicação
         if lead_id:
             # Qualifica Lead
-            lead_id.update_stage(new_stage="Qualificado")
+            new_stage_id = lead_id.get_stage(partial_name="Novo")
+            if lead_id.stage_id.id == new_stage_id:
+                lead_id.update_stage(new_stage="Qualificado")
 
             message = self.create_mail_message(
                 model=lead_id,
@@ -128,6 +130,7 @@ class SmsSms(models.Model):
         # Senão, buscar pelo partner e gerar nova LEAD
 
         else:
+            presignup = self.env.ref("sunnit_crm.crm_team_0")
             partner_id = helpers.get_record_from_number(
                 res_partner_model, self.number)
             if partner_id:
