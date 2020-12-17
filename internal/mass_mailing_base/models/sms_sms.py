@@ -117,6 +117,9 @@ class SmsSms(models.Model):
 
         # Se já existe uma LEAD, adiciona SMS na thread de comunicação
         if lead_id:
+            # Qualifica Lead
+            lead_id.update_stage(new_stage="Qualificado")
+
             message = self.create_mail_message(
                 model=lead_id,
                 partner_id=lead_id.partner_id,
