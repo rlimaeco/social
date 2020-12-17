@@ -34,72 +34,86 @@ class MailInput(models.Model):
             result.append((rec.id, name))
         return result
 
-    def create_message_lead(self, msg):
-        """
-            Create mail message in partner's lead
-        """
+    def create_mail_message(self, msg, lead, partner=False):
+        """Criar mail message no crm.lead"""
+        mail_message_model = self.env['mail.message'].sudo()
+
+        msg_data ={
+            'subject': msg.get('subject'),
+            'body': msg.get('body'),
+            'res_id': lead.id,
+            'model': 'crm.lead',
+            'message_type': 'email',
+            'email_from': partner.email if partner else False,
+            'author_id': partner.id if partner else False
+        }
+        message = mail_message_model.create(msg_data)
+        return message or False
+
+    @staticmethod
+    def get_infos_from_msg(msg):
         email_from_str = msg.get('email_from', False)
 
         if email_from_str:
             try:
                 name_from = re.findall(r'\"(.+?)\"', email_from_str)[0]
                 email_from = re.findall('\S+@\S+', email_from_str)[0][1:-1]
+                return [name_from, email_from]
             except Exception:
                 return False
-            else:
-
-                desc = html2plaintext(msg.get("body")) if msg.get("body") else ""
-
-                presignup = self.env.ref("sunnit_crm.crm_team_0")
-
-                lead = self.env['crm.lead'].search([
-                    ('email_from', '=', email_from),
-                    ('team_id', '=', presignup.id)], limit=1)
-
-                if not lead.partner_id:
-                    partner = self.env['res.partner'].search([('email', '=', email_from)], limit=1)
-                    if not partner:
-                        partner = self.env['res.partner'].create({
-                            'name': name_from,
-                            'email': email_from
-                        })
-                else:
-                    partner = lead.partner_id
-
-                if not lead:
-                    lead = self.env["crm.lead"].create(
-                        {
-                            "lead_type": "presignup",
-                            "type": "opportunity",
-                            "name": msg.get('subject'),
-                            "partner_name": name_from,
-                            "partner_id": partner.id,
-                            "email_from": email_from,
-                            "description": desc,
-                            "team_id": presignup.id,
-                        }
-                    )
-
-                msg_data ={
-                    'subject': msg.get('subject'),
-                    'body': msg.get('body'),
-                    'author_id': partner.id,
-                    'res_id': lead.id,
-                    'email_from': partner.email or False,
-                    'message_type': 'email',
-                    'model': 'crm.lead'
-                }
-
-                self.env['mail.message'].create(msg_data)
-
-                return lead
         else:
             return False
 
+    def create_message_lead(self, msg):
+        """
+            Create mail message in partner's lead
+        """
+        name_from, email_from = self.get_infos_from_msg(msg)
 
-    # @api.model
-    # def create(self, values):
-    #     return super(MailInput, self).create(values)
+        if name_from and email_from:
+
+            desc = html2plaintext(msg.get("body")) if msg.get("body") else ""
+
+            presignup = self.env.ref("sunnit_crm.crm_team_0")
+
+            lead = self.env['crm.lead'].search([
+                ('email_from', '=', email_from),
+                ('team_id', '=', presignup.id)], limit=1)
+
+            if not lead.partner_id:
+                partner = self.env['res.partner'].search([('email', '=', email_from)], limit=1)
+                if not partner:
+                    partner = self.env['res.partner'].create({
+                        'name': name_from,
+                        'email': email_from
+                    })
+            else:
+                partner = lead.partner_id
+
+            if not lead:
+                lead = self.env["crm.lead"].create(
+                    {
+                        "lead_type": "presignup",
+                        "type": "opportunity",
+                        "name": msg.get('subject'),
+                        "partner_name": name_from,
+                        "partner_id": partner.id,
+                        "email_from": email_from,
+                        "description": desc,
+                        "team_id": presignup.id,
+                    }
+                )
+            else:
+                # Qualifica Lead
+                new_stage_id = lead.get_stage(partial_name="Novo")
+                if lead.stage_id.id == new_stage_id:
+                    lead.update_stage(new_stage="Qualificado")
+
+            self.create_mail_message(self, msg, lead, partner=partner)
+
+            return lead
+        else:
+            return False
 
     @api.model
     def message_new(self, msg_dict, custom_values=None):
@@ -111,17 +125,7 @@ class MailInput(models.Model):
         # do not want to explicitly set user_id to False; however we do not
         # want the gateway user to be responsible if no other responsible is
         # found.
-        create_context = dict(self.env.context or {})
-        create_context['default_user_id'] = False
-
-        lead = self.create_message_lead(msg_dict)
-
-        defaults = {'partner_id': lead.partner_id.id, 'subject': lead.name,
-                    'email_from': lead.email_from}
-
-        # create_context['mail_create_nosubscribe'] = "True"
-        create_context['mail_create_nolog'] = "True"
-        # create_context['mail_notrack'] = "True"
+        create_context, defaults = self.prepare_lead_update(msg_dict)
 
         return super(MailInput, self.with_context(create_context)).message_new(msg_dict, custom_values=defaults)
 
@@ -138,9 +142,11 @@ class MailInput(models.Model):
                               given their ids; if the dict is None or is
                               void, no write operation is performed.
         """
-        # if update_vals:
-        #     self.write(update_vals)
-        # return True
+        create_context, defaults = self.prepare_lead_update(msg_dict)
+
+        return super(MailInput, self.with_context(create_context)).message_update(msg_dict, update_vals=defaults)
+
+    def prepare_lead_update(self, msg_dict):
         create_context = dict(self.env.context or {})
         create_context['default_user_id'] = False
 
@@ -149,14 +155,7 @@ class MailInput(models.Model):
         defaults = {'partner_id': lead.partner_id.id, 'subject': lead.name,
                     'email_from': lead.email_from}
 
-        # create_context['mail_create_nosubscribe'] = "True"
         create_context['mail_create_nolog'] = "True"
+        # create_context['mail_create_nosubscribe'] = "True"
         # create_context['mail_notrack'] = "True"
-
-        return super(MailInput, self.with_context(create_context)).message_update(msg_dict, update_vals=defaults)
-
-
-    @api.model
-    def create(self, values):
-        res = super(MailInput, self).create(values)
-        return res
+        return create_context, defaults
