@@ -34,7 +34,7 @@ class MailInput(models.Model):
             result.append((rec.id, name))
         return result
 
-    def create_mail_message(self, msg, lead, partner=False):
+    def create_mail_in_lead(self, msg, lead, partner=False):
         """Criar mail message no crm.lead"""
         mail_message_model = self.env['mail.message'].sudo()
 
@@ -64,10 +64,9 @@ class MailInput(models.Model):
         else:
             return False
 
-    def create_message_lead(self, msg):
-        """
-            Create mail message in partner's lead
-        """
+    def find_and_attach_to_lead(self, msg):
+        """ Buscar Lead/partner para anexar mensagem de entrada"""
+
         name_from, email_from = self.get_infos_from_msg(msg)
 
         if name_from and email_from:
@@ -109,7 +108,7 @@ class MailInput(models.Model):
                 if lead.stage_id.id == new_stage_id:
                     lead.update_stage(new_stage="Qualificado")
 
-            self.create_mail_message(self, msg, lead, partner=partner)
+            self.create_mail_in_lead(msg, lead, partner=partner)
 
             return lead
         else:
@@ -150,7 +149,7 @@ class MailInput(models.Model):
         create_context = dict(self.env.context or {})
         create_context['default_user_id'] = False
 
-        lead = self.create_message_lead(msg_dict)
+        lead = self.find_and_attach_to_lead(msg_dict)
 
         defaults = {'partner_id': lead.partner_id.id, 'subject': lead.name,
                     'email_from': lead.email_from}
