@@ -31,7 +31,7 @@ class SmsSms(models.Model):
         ],
     )
 
-    type = fields.Selection(
+    direction_type = fields.Selection(
         string="SMS Type",
         selection=[
             ('input', 'Received'),
@@ -85,7 +85,7 @@ class SmsSms(models.Model):
 
         # Função que verifica se SMS criado é devido a alguma resposta
         # de SMS ja enviado anteriormente
-        if sms_id.type == "input":
+        if sms_id.direction_type == "input":
             sms_id.set_reply_mailing_trace()
         return sms_id
 

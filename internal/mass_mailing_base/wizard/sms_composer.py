@@ -12,7 +12,7 @@ class SendSMS(models.TransientModel):
             ('whatsapp', 'WhatsApp'),
             ('sms', 'SMS'),
         ],
-        string='Type',
+        string='Message Type',
     )
 
     scheduled_date = fields.Char(
