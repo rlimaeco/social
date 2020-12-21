@@ -34,7 +34,7 @@ class SmsDEVWebhooks(http.Controller):
                 "message_type": "sms",
                 "message_id": post.get("id"),
                 "state": "received",
-                "type": "input",
+                "direction_type": "input",
             }
 
             sms_id = request.env['sms.sms'].sudo().create(params_sms_id)
