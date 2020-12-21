@@ -41,7 +41,7 @@ class TwilioWebhooks(http.Controller):
                 "message_type": message_type,
                 "message_id": post.get("SmsMessageSid"),
                 "state": "received",
-                "type": "input",
+                "direction_type": "input",
             }
 
             sms_id = request.env['sms.sms'].sudo().create(params_sms_id)
