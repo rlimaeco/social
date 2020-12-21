@@ -70,7 +70,7 @@ class ChatAPIWebhooks(http.Controller):
                     "message_type": message_type,
                     "message_id": message.get("id"),
                     "state": "received",
-                    "type": "input",
+                    "direction_type": "input",
                 }
                 sms_id = request.env['sms.sms'].sudo().create(params_sms_id)
                 message_id = sms_id.find_and_attach_to_lead()
