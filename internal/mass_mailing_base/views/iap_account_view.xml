@@ -2,7 +2,7 @@
 <odoo>
 
     <record id="iap_account_view_tree" model="ir.ui.view">
-        <field name="name">iap.account.tree (in iap_twilio)</field>
+        <field name="name">iap.account.tree (in mass_mailing_base)</field>
         <field name="inherit_id" ref="iap.iap_account_view_tree" />
         <field name="model">iap.account</field>
         <field name="arch" type="xml">
