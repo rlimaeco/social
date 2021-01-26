@@ -9,6 +9,7 @@ class IapAccount(models.Model):
 
     provider = fields.Selection(
         selection_add=[("chatapi", "ChatAPI")],
+        ondelete={'chatapi': 'set default'},
     )
 
     chatapi_token = fields.Char(
