@@ -9,6 +9,7 @@ class IapAccount(models.Model):
 
     provider = fields.Selection(
         selection_add=[("twilio", "Twilio")],
+        ondelete={'twilio': 'set default'},
     )
 
     twilio_account_sid = fields.Char(
