@@ -9,6 +9,7 @@ class IapAccount(models.Model):
 
     provider = fields.Selection(
         selection_add=[("smsdev", "SmsDev")],
+        ondelete={'smsdev': 'set default'},
     )
 
     smsdev_type = fields.Selection(
