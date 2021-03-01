@@ -2,7 +2,7 @@
 {
     "name": "IAP ChatAPI for messages",
     "summary": "Send sms using ChatAPI IAP",
-    "version": "13.0.1.0.1",
+    "version": "14.0.0.0.1",
     "category": "SMS",
     'author': 'SUNNIT',
     'contributors': [
