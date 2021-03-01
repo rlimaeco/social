@@ -1,12 +1,12 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# Copyright (C) 2021 - Rafael Lima <rafaelslima.py@gmail.com>
+# Copyright (C) 2021 - Hendrix Costa <hendrixcosta@gmail.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+from odoo.addons.mass_mailing_base.tools import helpers
 from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 from werkzeug import urls
-
-from odoo.addons.mass_mailing_base.tools import helpers
-
 
 from odoo import models
 from odoo.exceptions import UserError
