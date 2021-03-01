@@ -2,11 +2,12 @@
 {
     "name": "Mail Input",
     "summary": "Receive e-mails in leads",
-    "version": "13.0.1.1.6",
+    "version": "14.0.0.0.1",
     "category": "Contacts",
     'author': 'SUNNIT',
     'contributors': [
         'Rafael Lima <lima@sunnit.com.br>',
+        'Hendrix Costa <hendrixcosta@gmail.com>',
     ],
     "license": "AGPL-3",
     "application": False,

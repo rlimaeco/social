@@ -1,4 +1,7 @@
-# -*- coding: utf-8 -*-
+# Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# Copyright (C) 2021 - Rafael Lima <rafaelslima.py@gmail.com>
+# Copyright (C) 2021 - Hendrix Costa <hendrixcosta@gmail.com>
+
 import re
 from odoo import api, fields, models
 from odoo.tools import html2plaintext
