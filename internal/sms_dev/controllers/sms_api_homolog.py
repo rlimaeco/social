@@ -1,9 +1,11 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# Copyright (C) 2021 - Rafael Lima <rafaelslima.py@gmail.com>
+# Copyright (C) 2021 - Hendrix Costa <hendrixcosta@gmail.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import json
 from random import random
 
-import json
 from odoo import http
 from odoo.http import route
 
