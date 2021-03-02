@@ -20,6 +20,13 @@ PS.: Para esse módulo funcionar será preciso instalar algum módulo de provide
 * Sera descontinuado.
 
 
+Exemplo:
+
+Envio de Whatsapp
+https://youtu.be/oniD6AHwhrU
+
+Envio em massa de Whatsapp
+https://youtu.be/jC45rOaDccM
 
 # Roadmap
 
