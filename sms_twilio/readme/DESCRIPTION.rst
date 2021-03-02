@@ -1,2 +1,1 @@
-Implementation of **Twilio** for sending sms.
-This module depend of odoo native **sms** module it only implement ovh as provider instead of odoo SA.
+This module implements the IAP Provider Twilio to send SMS and Whastapp.
