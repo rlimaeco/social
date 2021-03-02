@@ -12,7 +12,6 @@
     "license": "AGPL-3",
     "application": False,
     "installable": True,
-    "external_dependencies": {"python": ["twilio"]},
     "depends": ["mass_mailing_base"],
     "data": [
         "views/iap_account_view.xml",
