@@ -1,11 +1,9 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# Copyright (C) 2021 - Rafael Lima <rafaelslima.py@gmail.com>
+# Copyright (C) 2021 - Hendrix Costa <hendrixcosta@gmail.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import re
-
-from odoo.addons.mass_mailing_base.tools import helpers
-
-from odoo import models, api
+from odoo import models
 from odoo.tools import html2plaintext, plaintext2html
 
 
@@ -16,7 +14,7 @@ class MailThread(models.AbstractModel):
                      number_field=False, sms_numbers=None,
                      sms_pid_to_number=None, message_type="sms", **kwargs):
         """ Sobrescrita de metodo para receber o message_type como parametro
-        e passar para a funcao message_post o parametro e nao hardcode
+        e passar para a funcao message_post
 
         Main method to post a message on a record using SMS-based
         notification method.
@@ -35,8 +33,7 @@ class MailThread(models.AbstractModel):
             sms_pid_to_number if sms_pid_to_number is not None else {}
 
         if number_field or (partner_ids is False and sms_numbers is None):
-            info = self._sms_get_recipients_info(
-                force_field=number_field, message_type=message_type)[self.id]
+            info = self._sms_get_recipients_info(force_field=number_field)[self.id]
             info_partner_ids =\
                 info['partner'].ids if info['partner'] else False
             info_number = \
@@ -59,19 +56,3 @@ class MailThread(models.AbstractModel):
             sms_numbers=sms_numbers, sms_pid_to_number=sms_pid_to_number,
             **kwargs
         )
-
-    def _sms_get_recipients_info(self, force_field=False, message_type="sms"):
-        """" Manipular numeros de destinatario"""
-        recipients_info = \
-            super(MailThread, self)._sms_get_recipients_info(force_field)
-
-        for record in self:
-
-            if not recipients_info.get(record.id).get("sanitized"):
-                # Verificar com um 9 a mais
-                alternative_number = helpers.valid_alternative_9number(recipients_info.get(record.id))
-
-                if alternative_number:
-                    recipients_info.get(record.id).update(sanitized=recipients_info.get(record.id).get("number"))
-
-        return recipients_info

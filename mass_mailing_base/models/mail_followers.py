@@ -1,7 +1,9 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# Copyright (C) 2021 - Rafael Lima <rafaelslima.py@gmail.com>
+# Copyright (C) 2021 - Hendrix Costa <hendrixcosta@gmail.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import models
 
 
 class Followers(models.Model):
@@ -10,7 +12,7 @@ class Followers(models.Model):
     def _get_recipient_data(self, records, message_type,
                             subtype_id, pids=None, cids=None):
         """
-        Sobrescrita de método para incluir whatsapp como notif sms
+        Sobrescrita de método para incluir whatsapp como notificacao sms
         """
         if message_type in ["sms", "whatsapp"]:
             if pids is None:

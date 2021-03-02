@@ -3,6 +3,7 @@
 # Copyright (C) 2021 - Hendrix Costa <hendrixcosta@gmail.com>
 
 import re
+
 from odoo import api, fields, models
 from odoo.tools import html2plaintext
 
@@ -76,11 +77,8 @@ class MailInput(models.Model):
 
             desc = html2plaintext(msg.get("body")) if msg.get("body") else ""
 
-            presignup = self.env.ref("sunnit_crm.crm_team_0")
-
             lead = self.env['crm.lead'].search([
-                ('email_from', '=', email_from),
-                ('team_id', '=', presignup.id)], limit=1)
+                ('email_from', '=', email_from)], limit=1)
 
             if not lead.partner_id:
                 partner = self.env['res.partner'].search([('email', '=', email_from)], limit=1)
@@ -95,14 +93,12 @@ class MailInput(models.Model):
             if not lead:
                 lead = self.env["crm.lead"].create(
                     {
-                        "lead_type": "presignup",
                         "type": "opportunity",
                         "name": msg.get('subject'),
                         "partner_name": name_from,
                         "partner_id": partner.id,
                         "email_from": email_from,
                         "description": desc,
-                        "team_id": presignup.id,
                     }
                 )
             else:
@@ -154,8 +150,11 @@ class MailInput(models.Model):
 
         lead = self.find_and_attach_to_lead(msg_dict)
 
-        defaults = {'partner_id': lead.partner_id.id, 'subject': lead.name,
-                    'email_from': lead.email_from}
+        defaults = {
+            'partner_id': lead.partner_id.id,
+            'subject': lead.name,
+            'email_from': lead.email_from
+        }
 
         create_context['mail_create_nolog'] = "True"
         # create_context['mail_create_nosubscribe'] = "True"

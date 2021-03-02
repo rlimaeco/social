@@ -1,5 +1,8 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# Copyright (C) 2021 - Rafael Lima <rafaelslima.py@gmail.com>
+# Copyright (C) 2021 - Hendrix Costa <hendrixcosta@gmail.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
 
 from odoo import fields, models
 
@@ -10,7 +13,7 @@ class MailComposeMessage(models.TransientModel):
     scheduled_date = fields.Char(
         string='Scheduled Send Date',
         help="If set, the queue manager will send the email after the date."
-             " If not set, the email will be send as soon as possible.",
+             "If not set, the email will be send as soon as possible.",
     )
 
     def get_mail_values(self, res_ids):

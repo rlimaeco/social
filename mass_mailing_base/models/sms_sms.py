@@ -1,4 +1,6 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# Copyright (C) 2021 - Rafael Lima <rafaelslima.py@gmail.com>
+# Copyright (C) 2021 - Hendrix Costa <hendrixcosta@gmail.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import datetime
@@ -6,8 +8,9 @@ import logging
 import threading
 
 from odoo.addons.mass_mailing_base.tools import helpers
-from odoo.tools.translate import _
+
 from odoo import api, fields, models
+from odoo.tools.translate import _
 
 _logger = logging.getLogger(__name__)
 
@@ -20,7 +23,8 @@ class SmsSms(models.Model):
     state = fields.Selection(
         selection_add=[
             ('received', 'Received'),
-        ]
+        ],
+        ondelete={'received': 'set default'},
     )
 
     message_type = fields.Selection(
@@ -52,7 +56,7 @@ class SmsSms(models.Model):
 
     @api.model
     def _process_queue(self, ids=None):
-        """ Melhorar domínio para não enviar com data agendada o SMS """
+        """  """
 
         domain = ['&',
                  ('state', '=', 'outgoing'),
@@ -111,26 +115,18 @@ class SmsSms(models.Model):
 
         res_partner_model = self.env['res.partner'].sudo()
         crm_lead_model = self.env['crm.lead'].sudo()
-
         lead_id = helpers.get_record_from_number(crm_lead_model, self.number)
-
 
         # Se já existe uma LEAD, adiciona SMS na thread de comunicação
         if lead_id:
-            # Qualifica Lead
-            new_stage_id = lead_id.get_stage(partial_name="Novo")
-            if lead_id.stage_id.id == new_stage_id:
-                lead_id.update_stage(new_stage="Qualificado")
-
             message = self.create_mail_message(
                 model=lead_id,
                 partner_id=lead_id.partner_id,
             )
 
         # Senão, buscar pelo partner e gerar nova LEAD
-
         else:
-            presignup = self.env.ref("sunnit_crm.crm_team_0")
+            # presignup = self.env.ref("sunnit_crm.crm_team_0")
             partner_id = helpers.get_record_from_number(
                 res_partner_model, self.number)
             if partner_id:
@@ -139,12 +135,12 @@ class SmsSms(models.Model):
                 # creates a new lead from the website form
                 lead_id = crm_lead_model.with_context(
                     mail_create_nosubscribe=True).create({
-                    "name": _("LEAD via {}").format(self.message_type),
+                    "name": _("LEAD {}").format(self.message_type),
                     "partner_id": partner_id.id,
                     "partner_name": partner_id.name,
-                    "lead_type": "presignup",
+                    # "lead_type": "presignup",
                     "type": "opportunity",
-                    "team_id": presignup.id
+                    # "team_id": presignup.id
                 })
 
                 message = self.create_mail_message(
@@ -159,9 +155,9 @@ class SmsSms(models.Model):
                     mail_create_nosubscribe=True).sudo().create({
                     "name": _("LEAD from {}").format(self.number),
                     "mobile": self.number,
-                    "lead_type": "presignup",
+                    # "lead_type": "presignup",
                     "type": "opportunity",
-                    "team_id": presignup.id
+                    # "team_id": presignup.id
                 })
                 message = self.create_mail_message(model=lead_id)
 

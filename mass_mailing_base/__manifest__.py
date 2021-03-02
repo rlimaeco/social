@@ -1,13 +1,13 @@
 {
-    'name': 'Mass Mailing Base',
-    'summary': 'Base for mass mailing sms messages',
+    'name': 'Mass Mailing Base 14',
+    'summary': 'Base for mass mailing sms messages 14',
     'description': '',
-    'version': '13.0.1.0.5',
+    'version': '14.0.0.0.1',
     'author': 'SUNNIT',
     'category': 'Marketing/Email Marketing',
     'contributors': [
         'Hendrix Costa <hendrix@sunnit.com.br>',
-        'Rafael Lima <lima@sunnit.com.br>',
+        'Rafael Lima <rafaelslima.py@gmail.com>',
     ],
     'depends': [
         'mass_mailing_sms', 'phone_validation', 'utm', 'iap_alternative_provider'
@@ -19,10 +19,11 @@
         'views/mailing_mailing_view.xml',
         'views/iap_account_view.xml',
         'views/mailing_trace_views.xml',
-        'views/mailing_contact_views.xml',
         'data/utm_data.xml',
     ],
     'demo': [
     ],
     'application': True,
+    "installable": True,
+
 }

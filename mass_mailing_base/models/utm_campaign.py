@@ -1,4 +1,6 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# Copyright (C) 2021 - Rafael Lima <rafaelslima.py@gmail.com>
+# Copyright (C) 2021 - Hendrix Costa <hendrixcosta@gmail.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import fields, models, api, _
@@ -7,15 +9,12 @@ from odoo import fields, models, api, _
 class UtmCampaign(models.Model):
     _inherit = 'utm.campaign'
 
-    mailing_activities_ids = fields.One2many(
+    mailing_whatsapp_ids = fields.One2many(
         comodel_name='mailing.mailing',
         inverse_name='campaign_id',
-        string='Mass Activities', copy=True
-    )
-
-    mailing_activities_count = fields.Integer(
-        string='Number of Mass Activities',
-        compute="_compute_mailing_activities_count",
+        domain=[('mailing_type', '=', 'whatsapp')],
+        string='Mass Whatsapp',
+        copy=True,
     )
 
     mailing_whatsapp_count = fields.Integer(
@@ -23,29 +22,18 @@ class UtmCampaign(models.Model):
         compute="_compute_mailing_whatsapp_count",
     )
 
-    @api.depends('mailing_activities_ids')
-    def _compute_mailing_activities_count(self):
-        for campaign in self:
-            campaign.mailing_activities_count = \
-                len(campaign.mailing_activities_ids)
-
-    @api.depends('mailing_activities_ids')
+    @api.depends('mailing_whatsapp_ids')
     def _compute_mailing_whatsapp_count(self):
         for campaign in self:
-            qty_activities = campaign.mailing_activities_ids.filtered(lambda m: m.mailing_type == 'whatsapp')
-            campaign.mailing_whatsapp_count = len(qty_activities)
+            campaign.mailing_whatsapp_count = \
+                len(campaign.mailing_whatsapp_ids)
 
-    @api.depends('mailing_sms_ids')
-    def _compute_mailing_sms_count(self):
-        for campaign in self:
-            qty_activities = campaign.mailing_activities_ids.filtered(lambda m: m.mailing_type == 'sms')
-            campaign.mailing_sms_count = len(qty_activities)
-
-    @api.depends('mailing_mail_ids')
-    def _compute_mailing_mail_count(self):
-        for campaign in self:
-            qty_activities = campaign.mailing_activities_ids.filtered(lambda m: m.mailing_type == 'mail')
-            campaign.mailing_mail_count = len(qty_activities)
+    # @api.depends('mailing_mailing_ids')
+    # def _compute_mailing_mail_count(self):
+    #     for campaign in self:
+    #         qty_activities = campaign.mailing_mailing_ids.filtered(
+    #             lambda m: m.mailing_type == 'mail')
+    #         campaign.mailing_mail_count = len(qty_activities)
 
     def action_create_mass_whatsapp(self):
         action = self.env.ref('mass_mailing.action_create_mass_mailings_from_campaign').read()[0]
@@ -73,6 +61,6 @@ class UtmCampaign(models.Model):
         return action
 
     def unlink(self):
-        for activity in self.mailing_activities_ids:
-            activity.unlink()
+        for mailing_id in self.mailing_mailing_ids:
+            mailing_id.unlink()
         return super(UtmCampaign, self).unlink()

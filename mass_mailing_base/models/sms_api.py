@@ -1,4 +1,6 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# Copyright (C) 2021 - Rafael Lima <rafaelslima.py@gmail.com>
+# Copyright (C) 2021 - Hendrix Costa <hendrixcosta@gmail.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, models
@@ -20,7 +22,7 @@ class SmsApi(models.AbstractModel):
     @api.model
     def _send_sms(self, number, message, sms_id=False):
         """
-        Sobrescrita de método para acionar o API do twilio
+        Sobrescrita de método para acionar API
         """
         account_id = self.get_iap(sms_id)
         if account_id and account_id.provider != "odoo":

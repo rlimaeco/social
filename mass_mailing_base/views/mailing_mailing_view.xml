@@ -18,9 +18,6 @@
         <field name="model">mailing.mailing</field>
         <field name="inherit_id" ref="mass_mailing_sms.mailing_mailing_view_form_sms"/>
         <field name="arch" type="xml">
-<!--&lt;!&ndash;            &lt;!&ndash; Buttons / Actions &ndash;&gt;&ndash;&gt;-->
-<!--            <button name="action_redirect_to_invoiced" position="replace"></button>-->
-<!--            <button name="action_redirect_to_quotations" position="replace"></button>-->
             <xpath expr="//button[@name='action_put_in_queue_sms']" position="attributes">
                 <attribute name="confirm">This will schedule an Whatsapp marketing to all recipients. Do you still want to proceed ?</attribute>
             </xpath>
@@ -40,27 +37,36 @@
             </xpath>
 
             <!-- Stat Buttons -->
-            <xpath expr="//button[@name='action_view_sent']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|', '&amp;', ('sent', '=', 0), ('state', 'in', ('draft', 'test')), ('mailing_type', 'not in', ['sms', 'whatsapp'])]}</attribute>
-            </xpath>
-            <xpath expr="//button[@name='action_view_clicked']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',('mailing_type', 'not in', ['sms', 'whatsapp']),('state', 'in', ('draft','test'))]}</attribute>
-            </xpath>
+<!--            <xpath expr="//button[@name='action_view_sent']" position="attributes">-->
+<!--                <attribute name="attrs">{'invisible': ['|', '&amp;', ('sent', '=', 0), ('state', 'in', ('draft', 'test')), ('mailing_type', 'not in', ['sms', 'whatsapp'])]}</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//button[@name='action_view_clicked']" position="attributes">-->
+<!--                <attribute name="attrs">{'invisible': ['|',('mailing_type', 'not in', ['sms', 'whatsapp']),('state', 'in', ('draft','test'))]}</attribute>-->
+<!--            </xpath>-->
             <xpath expr="//button[@name='action_view_opened']" position="attributes">
                 <attribute name="attrs">{'invisible': ['|',('mailing_type', 'not in', ['mail', 'whatsapp']),('state', 'in', ('draft','test'))]}</attribute>
             </xpath>
-            <xpath expr="//button[@name='action_view_replied']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',('mailing_type', 'not in', ['mail', 'whatsapp']),('state', 'in', ('draft','test'))]}</attribute>
-            </xpath>
+<!--            <xpath expr="//button[@name='action_view_replied']" position="attributes">-->
+<!--                <attribute name="attrs">{'invisible': ['|',('mailing_type', 'not in', ['mail', 'whatsapp']),('state', 'in', ('draft','test'))]}</attribute>-->
+<!--            </xpath>-->
 
             <!-- Form -->
-            <field name="name" position="replace"></field>
-            <xpath expr="//field[@name='subject']" position="after">
-                <field name="name" string="Name" attrs="{'readonly': [('state', 'in', ('sending', 'done'))]}"/>
+<!--            <field name="name" position="replace"></field>-->
+<!--            <xpath expr="//field[@name='subject']" position="after">-->
+<!--                <field name="name" string="Name" attrs="{'readonly': [('state', 'in', ('sending', 'done'))]}"/>-->
+<!--            </xpath>-->
+
+            <xpath expr="//field[@name='sms_subject']" position="attributes">
+                <attribute name="attrs">{
+                    'invisible': [('mailing_type', 'not in', ['sms', 'whatsapp'] )],
+                    'readonly': [('state', 'in', ('sending', 'done'))],
+                    'required': [('mailing_type', 'in', ['sms', 'whatsapp'] )]
+                    }</attribute>
             </xpath>
+
             <xpath expr="//page[@name='mail_body']" position="after">
                 <page string="Whatsapp Content" name="whatsapp_body" attrs="{'invisible': [('mailing_type', '!=', 'whatsapp')]}">
-                    <field name="body_plaintext"  attrs="{'required': [('mailing_type', '=', 'whatsapp')]}"/>
+                    <field name="body_plaintext"  widget="sms_widget" options='{"enable_emojis": True}' attrs="{'readonly': [('state', 'in', ('sending', 'done'))], 'required': [('mailing_type', '=', 'whatsapp')]}"/>
                     <group>
                         <field name="sms_force_send" invisible="1"/>
                     </group>
@@ -75,12 +81,19 @@
         <field name="model">mailing.mailing</field>
         <field name="inherit_id" ref="mass_mailing.view_mail_mass_mailing_kanban"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[@name='stat_opened']" position="attributes">
-                <attribute name="attrs">{'invisible': [('mailing_type', '!=', 'mail')]}</attribute>
+            <xpath expr="//field[@name='sms_has_insufficient_credit']" position="attributes">
+                    <attribute name="attrs">{'invisible': True}</attribute>
             </xpath>
-            <xpath expr="//div[@name='stat_replied']" position="attributes">
-                <attribute name="attrs">{'invisible': [('mailing_type', '!=', 'mail')]}</attribute>
+            <xpath expr="//field[@name='sms_has_unregistered_account']" position="attributes">
+                <attribute name="attrs">{'invisible': True}</attribute>
             </xpath>
+            <xpath expr="//div[@name='div_responsible_avatar']" position="replace"></xpath>
+<!--            <xpath expr="//div[@name='stat_opened']" position="attributes">-->
+<!--                <attribute name="attrs">{'invisible': [('mailing_type', '!=', 'mail')]}</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//div[@name='stat_replied']" position="attributes">-->
+<!--                <attribute name="attrs">{'invisible': [('mailing_type', '!=', 'mail')]}</attribute>-->
+<!--            </xpath>-->
         </field>
     </record>
 
@@ -92,6 +105,12 @@
             <tree string="Whatsapp Marketing">
                 <field name="subject"/>
                 <field name="mailing_type" invisible="1"/>
+                <field name="mailing_model_id" string="Recipients"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="schedule_date" string="Scheduled" widget="remaining_days"/>
+                <field name="sent_date" widget="date"/>
+                <field name="state" decoration-info="state == 'draft' or state == 'in_queue'" decoration-success="state == 'sending' or state == 'done'" widget="badge"/>
+                <field name="campaign_id" string="Campaign" groups="mass_mailing.group_mass_mailing_campaign"/>
                 <field name="sent"/>
                 <field name="clicked"/>
                 <field name="bounced"/>

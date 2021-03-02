@@ -1,7 +1,9 @@
 # Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# Copyright (C) 2021 - Rafael Lima <rafaelslima.py@gmail.com>
+# Copyright (C) 2021 - Hendrix Costa <hendrixcosta@gmail.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, _
+from odoo import fields, models
 
 
 class SendSMS(models.TransientModel):
@@ -30,7 +32,7 @@ class SendSMS(models.TransientModel):
         for record in records:
             messages |= record._message_sms(
                 self.body, subtype_id=subtype_id,
-                partner_ids=self.partner_ids.ids or False,
+                partner_ids=False,
                 number_field=self.number_field_name,
                 sms_numbers=self.sanitized_numbers.split(',')
                 if self.sanitized_numbers else None,
@@ -56,13 +58,13 @@ class SendSMS(models.TransientModel):
                 })
         return result
 
-    def _prepare_recipient_values(self, records):
-        """
-        Sobrescrita de método para identificar o tipo de composer quando
-        chamar o get recipients info
-        """
-        recipients_info = records._sms_get_recipients_info(
-            force_field=self.number_field_name,
-            message_type=self.message_type
-        )
-        return recipients_info
+    # def _prepare_recipient_values(self, records):
+    #     """
+    #     Sobrescrita de método para identificar o tipo de composer quando
+    #     chamar o get recipients info
+    #     """
+    #     recipients_info = records._sms_get_recipients_info(
+    #         force_field=self.number_field_name,
+    #         message_type=self.message_type
+    #     )
+    #     return recipients_info

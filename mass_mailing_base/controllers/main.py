@@ -1,7 +1,11 @@
-# -*- coding: utf-8 -*-
+# Copyright (C) 2020 - SUNNIT dev@sunnit.com.br
+# Copyright (C) 2021 - Rafael Lima <rafaelslima.py@gmail.com>
+# Copyright (C) 2021 - Hendrix Costa <hendrixcosta@gmail.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+from odoo.addons.mass_mailing_sms.controllers.main import MailingSMSController
 
 from odoo.http import request
-from odoo.addons.mass_mailing_sms.controllers.main import MailingSMSController
 
 
 class MailingController(MailingSMSController):
