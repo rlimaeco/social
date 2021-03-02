@@ -1,0 +1,209 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* mail_input
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-26 15:24+0000\n"
+"PO-Revision-Date: 2020-10-26 14:11-0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"Language: pt_BR\n"
+"X-Generator: Poedit 2.4.1\n"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__message_needaction
+msgid "Action Needed"
+msgstr "Ação Necessária"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__message_attachment_count
+msgid "Attachment Count"
+msgstr "Quantidade de Anexos"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__display_name
+msgid "Display Name"
+msgstr "Nome"
+
+#. module: mail_input
+#: model_terms:ir.ui.view,arch_db:mail_input.mail_input_search_view
+msgid "Email From"
+msgstr "Remetente"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__message_follower_ids
+msgid "Followers"
+msgstr "Seguidores"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "Seguidores (Canais)"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Seguidores (Parceiros)"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__email_from
+msgid "From"
+msgstr "De"
+
+#. module: mail_input
+#: model_terms:ir.ui.view,arch_db:mail_input.mail_input_search_view
+msgid "Group By"
+msgstr "Agrupado Por"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__id
+msgid "ID"
+msgstr "ID"
+
+#. module: mail_input
+#: model:ir.model.fields,help:mail_input.field_mail_input__message_needaction
+#: model:ir.model.fields,help:mail_input.field_mail_input__message_unread
+msgid "If checked, new messages require your attention."
+msgstr "Se marcado, novas mensagens irão necessitar de atenção."
+
+#. module: mail_input
+#: model:ir.model.fields,help:mail_input.field_mail_input__message_has_error
+#: model:ir.model.fields,help:mail_input.field_mail_input__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Se marcado, algumas mensagens poderão não ser enviadas."
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__message_is_follower
+msgid "Is Follower"
+msgstr "É Seguidor"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input____last_update
+msgid "Last Modified on"
+msgstr "Última Modificação em"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__write_uid
+msgid "Last Updated by"
+msgstr "Última Atualização por"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__write_date
+msgid "Last Updated on"
+msgstr "Última Atualização em"
+
+#. module: mail_input
+#: model:ir.actions.act_window,name:mail_input.mail_input_act_window
+#: model:ir.ui.menu,name:mail_input.mail_input_menu
+#: model_terms:ir.ui.view,arch_db:mail_input.mail_input_form_view
+#: model_terms:ir.ui.view,arch_db:mail_input.mail_input_search_view
+#: model_terms:ir.ui.view,arch_db:mail_input.mail_input_tree_view
+msgid "Mail Input"
+msgstr "E-Mails Recebidos"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Anexo Principal"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__message_has_error
+msgid "Message Delivery error"
+msgstr "Erro de Envio de Mensagem"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__message_ids
+msgid "Messages"
+msgstr "Mensagens"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Número de Ações"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__message_has_error_counter
+msgid "Number of errors"
+msgstr "Número de erros"
+
+#. module: mail_input
+#: model:ir.model.fields,help:mail_input.field_mail_input__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "Número de mensagens que necessitam de ação"
+
+#. module: mail_input
+#: model:ir.model.fields,help:mail_input.field_mail_input__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Número de mensagens com erro de envio"
+
+#. module: mail_input
+#: model:ir.model.fields,help:mail_input.field_mail_input__message_unread_counter
+msgid "Number of unread messages"
+msgstr "Número de mensagens não lidas"
+
+#. module: mail_input
+#: model_terms:ir.ui.view,arch_db:mail_input.mail_input_search_view
+msgid "Partner"
+msgstr "Contato"
+
+#. module: mail_input
+#: model:ir.model,name:mail_input.model_mail_input
+msgid "Receive e-mails in leads"
+msgstr "Receba e-mails em Leads"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__partner_id
+msgid "Related Partner"
+msgstr "Contato Relacionado"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Erro de envio SMS"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__subject
+msgid "Subject"
+msgstr "Assunto"
+
+#. module: mail_input
+#: model_terms:ir.actions.act_window,help:mail_input.mail_input_act_window
+msgid "There is no mail inputs, look to your incoming mail server configurations."
+msgstr "Não existem e-mails recebidos, verifique as configurações do servidor de entrada de e-mails."
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__message_unread
+msgid "Unread Messages"
+msgstr "Mensagens Não Lidas"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "Qtd. Mensagens Não Lidas"
+
+#. module: mail_input
+#: model:ir.model.fields,field_description:mail_input.field_mail_input__website_message_ids
+msgid "Website Messages"
+msgstr "Mensagens Site"
+
+#. module: mail_input
+#: model:ir.model.fields,help:mail_input.field_mail_input__website_message_ids
+msgid "Website communication history"
+msgstr "Histórico de comunicação Site"

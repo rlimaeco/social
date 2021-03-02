@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="mail_input_form_view" model="ir.ui.view">
+            <field name="name">mass_mailing_base.mail_input.form</field>
+            <field name="model">mail.input</field>
+            <field name="arch" type="xml">
+                <form string="Mail Input">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="partner_id"/>
+                            <h1>
+                                <field name="partner_id" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="subject"/>
+                            </group>
+                            <group>
+                                <field name="email_from"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="mail_input_tree_view" model="ir.ui.view">
+            <field name="name">mass_mailing_base.mail_input.tree</field>
+            <field name="model">mail.input</field>
+            <field name="arch" type="xml">
+                <tree string="Mail Input">
+                    <field name="subject"/>
+                    <field name="email_from"/>
+                    <field name="partner_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mail_input_search_view" model="ir.ui.view">
+            <field name="name">mass_mailing_base.mail_input.search</field>
+            <field name="model">mail.input</field>
+            <field name="arch" type="xml">
+                <search string="Mail Input">
+                    <field name="partner_id"/>
+                    <field name="email_from"/>
+                    <field name="subject"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Partner" name="partner_id" domain="[]"
+                                context="{'group_by':'partner_id'}"/>
+                        <filter string="Email From" name="email_from" domain="[]"
+                                context="{'group_by':'email_from'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="mail_input_act_window" model="ir.actions.act_window">
+            <field name="name">Mail Input</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mail.input</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no mail inputs, look to your incoming mail server configurations.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Mail Input" id="mail_input_menu" parent="base.menu_email" sequence="16" action="mail_input_act_window"/>
+
+    </data>
+</odoo>
