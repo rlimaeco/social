@@ -6,7 +6,7 @@
     "category": "Contacts",
     'author': 'SUNNIT',
     'contributors': [
-        'Rafael Lima <lima@sunnit.com.br>',
+        'Rafael Lima <rafaelslima.py@gmail.com>',
         'Hendrix Costa <hendrixcosta@gmail.com>',
     ],
     "license": "AGPL-3",

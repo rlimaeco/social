@@ -7,13 +7,13 @@
     'author': 'SUNNIT',
     'contributors': [
         'Hendrix Costa <hendrix@sunnit.com.br>',
-        'Rafael Lima <lima@sunnit.com.br>',
+        'Rafael Lima <rafaelslima.py@gmail.com>',
     ],
     "license": "AGPL-3",
     "application": False,
     "installable": True,
     "external_dependencies": {"python": ["twilio"]},
-    "depends": ["mass_mailing_base", "iap_alternative_provider"],
+    "depends": ["mass_mailing_base"],
     "data": [
         "views/iap_account_view.xml",
     ],
