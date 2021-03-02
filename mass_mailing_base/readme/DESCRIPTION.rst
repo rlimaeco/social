@@ -1,5 +1,6 @@
-[ This file must be max 2-3 paragraphs, and is required. ]
+This module extends the functionality of mass_mailing by adding
+type to the sms.sms model allowing the sending of whatsapp.
 
-This module extends the functionality of ... to support ...
-and to allow you to ...
+This module allows you to create mass mailing whatsapp.
 
+This module allows send whatsapp to lead/mobile.
