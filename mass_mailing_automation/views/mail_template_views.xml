@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="email_template_form">
+        <field name="name">email.template.form (in mass_mailing_automation)</field>
+        <field name="model">mail.template</field>
+        <field name="inherit_id" ref="mail.email_template_form"/>
+        <field name="arch" type="xml">
+            <button name="create_action" position="replace"/>
+            <button name="unlink_action" position="replace"/>
+
+            <field name="model_id" position="after">
+                <field name="mass_mailing_automation" invisible="1"/>
+            </field>
+
+            <field name="body_html" position="replace">
+                <field name="body_html" class="oe_read_only" widget="html"
+                       options="{'cssReadonly': 'mass_mailing.iframe_css_assets_readonly'}"/>
+                <field name="body_arch" class="o_mail_body oe_edit_only"
+                       widget="mass_mailing_html"
+                       options="{'snippets': 'mass_mailing.email_designer_snippets',
+                                 'cssEdit': 'mass_mailing.iframe_css_assets_edit',
+                                 'inline-field': 'body_html'}"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="mass_mailing_automation_mail_template_action" model="ir.actions.act_window">
+        <field name="name">MailTemplate</field>
+        <field name="res_model">mail.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a mail template
+            </p>
+        </field>
+        <field name="context">{
+            'default_mass_mailing_automation': True,
+            # 'default_model_id': 500,
+        }</field>
+        <field name="domain">[('mass_mailing_automation', '=', True)]</field>
+    </record>
+
+</odoo>

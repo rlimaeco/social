@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record model="ir.ui.view" id="view_mail_mass_mailing_contact_tree">
+    <record model="ir.ui.view" id="mailing_contact_view_tree">
         <field name="name">mailing.contact.tree (in mass_mailing_base) </field>
         <field name="model">mailing.contact</field>
-        <field name="inherit_id" ref="mass_mailing.view_mail_mass_mailing_contact_tree"/>
+        <field name="inherit_id" ref="mass_mailing.mailing_contact_view_tree"/>
         <field name="priority">10</field>
         <field name="arch" type="xml">
             <field name="email" position="after">

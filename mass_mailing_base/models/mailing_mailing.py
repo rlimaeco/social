@@ -153,3 +153,46 @@ class Mailing(models.Model):
                 {'state': 'done', 'sent_date': fields.Datetime.now()}
             )
         return True
+
+    def action_test(self):
+        if self.mailing_type == 'whatsapp':
+            ctx = dict(
+                self.env.context, default_mailing_id=self.id,
+                form_view_ref='mass_mailing_base.mailing_whatsapp_test_view_form'
+            )
+            return {
+                'name': _('Test Whatsapp marketing'),
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'mailing.whatsapp.test',
+                'target': 'new',
+                'context': ctx,
+            }
+        elif self.mailing_type == 'sms':
+            ctx = dict(
+                self.env.context, default_mailing_id=self.id,
+                form_view_ref='mass_mailing_sms.mailing_sms_test_view_form'
+            )
+            return {
+                'name': _('Test SMS marketing'),
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'mailing.sms.test',
+                'target': 'new',
+                'context': ctx,
+            }
+        elif self.mailing_type == 'mail':
+            ctx = dict(
+                self.env.context, default_mass_mailing_id=self.id,
+                form_view_ref='mass_mailing.view_mail_mass_mailing_test_form'
+            )
+            return {
+                'name': _('Test Mailing'),
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'mailing.mailing.test',
+                'target': 'new',
+                'context': ctx,
+            }
+
+        return super(Mailing, self).action_test()

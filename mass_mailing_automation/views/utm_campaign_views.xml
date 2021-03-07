@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="mass_mailing_automation_utm_campaign_view_form">
+        <field name="name">utm.campaign.view.form (in mass_mailing_automation))</field>
+        <field name="model">utm.campaign</field>
+        <field name="arch" type="xml">
+            <form string="Campaign">
+                <header>
+                    <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
+                    <field name="current_stage"  invisible="1"/>
+                    <button name="action_start_campaign" class="oe_highlight" type="object"   attrs="{'invisible': [('current_stage', '!=', 'new' )]}" string="Start"/>
+                    <button name="action_schedule_campaign" class="oe_highlight" type="object"  attrs="{'invisible': [('current_stage', '!=', 'new')]}" string="Schedule"/>
+                    <button name="action_stop_campaign" class="oe_highlight" type="object"  attrs="{'invisible': ['|',('current_stage', '!=', 'sent'),('current_stage', '=', 'stopped')]}" string="Stop"/>
+                </header>
+
+                <sheet>
+                    <div  class="oe_button_box d-flex justify-content-end" name="button_box">
+
+                        <button name="action_redirect_to_leads" type="object" icon="fa-star"
+                                class="oe_stat_button" groups="sales_team.group_sale_salesman"
+                                attrs="{'invisible': [('crm_lead_count', '=', 0)]}" >
+                            <field name="crm_lead_count" string="Leads" widget="statinfo"/>
+                        </button>
+
+                        <button name="%(mass_mailing.action_view_mass_mailings_from_campaign)d" type="action"
+                                class="oe_stat_button order-9" icon="fa-envelope-o"
+                                attrs="{'invisible': [('mailing_mail_count', '=', 0)]}">
+                            <field name="mailing_mail_count" widget="statinfo" string="E-mail"/>
+                        </button>
+                        <button name="action_redirect_to_mailing_sms" type="object" class="oe_stat_button order-11"
+                                attrs="{'invisible': [('mailing_sms_count', '=', 0)]}" icon="fa-mobile">
+                            <field name="mailing_sms_count" widget="statinfo" string="SMS"/>
+                        </button>
+                        <button name="action_redirect_to_mailing_whatsapp" type="object"  class="oe_stat_button order-11"
+                                attrs="{'invisible': [('mailing_whatsapp_count', '=', 0)]}" icon="fa-mobile">
+                            <field name="mailing_whatsapp_count" widget="statinfo" string="Whatsapp" />
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" required="1" placeholder="Campanha de Marketing" />
+                        </h1>
+                    </div>
+
+                    <group>
+                        <label for="mailing_model_id" string="Recipients"/>
+                        <div name="mailing_model_id_container">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-3" >
+                                    <field name="mailing_model_id" widget="selection" required="True" attrs="{'readonly': [('mailing_activities_count','>', 0)]}"/>
+                                </div>
+                                <div attrs="{'invisible': [('mailing_model_name', '!=', 'mailing.list')]}" class="col-xs-12 col-md-9 pt-1">
+                                    <label for="contact_list_ids" string="Select mailing lists:" class="oe_edit_only"/>
+                                    <field name="contact_list_ids" widget="many2many_tags"
+                                           placeholder="Select mailing lists..." class="oe_inline"
+                                           attrs="{
+                                           'required':[('mailing_model_name','=','mailing.list')]
+                                           }"/>
+                                </div>
+                            </div>
+                            <div class="row" attrs="{'invisible': [('mailing_model_name', '!=', 'mailing.list')]}">
+                                <div class="col-xs-12 col-md-9 pt-1 oe_edit_only">
+                                    <label for="use_related_campaign"/>
+                                    <field name="use_related_campaign"/>
+                                </div>
+                                <div attrs="{'invisible': [('use_related_campaign', '!=', True)]}" class="col-xs-12 col-md-9" >
+                                    <label for="related_campaign_id" string="Select campaign:" class="oe_edit_only"/>
+                                    <field name="related_campaign_id"
+                                           placeholder="Select campaign recipients..." class="oe_inline"
+                                           attrs="{
+                                           'required':[('use_related_campaign', '=', True)]
+                                           }"/>
+                                </div>
+                                <div attrs="{'invisible': [('use_related_campaign', '!=', True)]}" class="col-xs-12 col-md-4 pt-1">
+                                    <label for="trigger_related_campaign" string="Trigger Filter:"/>
+                                    <field name="trigger_related_campaign" widget="selection" />
+                                </div>
+
+                            </div>
+
+                            <field name="mailing_model_name" invisible="1"/>
+                            <field name="mailing_model_real" invisible="1"/>
+                            <div attrs="{'invisible': [('mailing_model_name', '=', 'mailing.list')]}">
+                                <field name="mailing_domain" widget="domain" options="{'model': 'mailing_model_real'}"  attrs="{'readonly': [('mailing_activities_count','>', 0)]}" />
+                            </div>
+                        </div>
+                    </group>
+
+                    <group>
+                        <field name="mailing_activities_count" invisible="1"/>
+                        <group name="Activities" attrs="{'invisible': [('mailing_activities_count', '=', 0)]}" colspan="4">
+                            <field name="mailing_activities_ids" nolabel="1"
+                                   context="{'form_view_ref': 'mass_mailing_automation.mailing_mailing_view_form',
+                                             'default_campaign_id': active_id}">
+                                <tree default_order='sequence'>
+                                    <control><create name="add_line_control" string="Adicionar Atividade"/></control>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name" string="Activity's Name"/>
+                                    <field name="trigger"/>
+                                    <field name="mailing_type"/>
+                                    <field name="sent_date"/>
+                                    <field name="state"/>
+                                    <field name="delivered"/>
+                                    <field name="opened"/>
+                                    <field name="replied"/>
+                                    <field name="bounced"/>
+                                    <button name="action_duplicate" type="object" string="Duplicate"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
+
+                <footer>
+                    <button name="action_wizard_mailing_mail" type="object" style="font-size: 14px" class="btn-link font-weight-bold" icon="fa-plus-circle"
+                            groups="mass_mailing.group_mass_mailing_campaign" string="E-mail Activity"/>
+                    <button name="action_wizard_mailing_sms" type="object" style="font-size: 14px" class="btn-link font-weight-bold" icon="fa-plus-circle"
+                            groups="mass_mailing.group_mass_mailing_campaign"  string="SMS Activity"/>
+                    <button name="action_wizard_mailing_whatsapp" type="object" style="font-size: 14px" class="btn-link font-weight-bold" icon="fa-plus-circle"
+                            groups="mass_mailing.group_mass_mailing_campaign"  string="Whatsapp Activity"/>
+
+                    <group attrs="{'invisible': [('mailing_activities_count', '=', 0)]}">
+                        <div class="o_utm_campaign_mass_mailing_substats d-flex justify-content-end align-items-center">
+                            <div class="d-flex justify-content-end align-items-center flex-column">
+                                <label for="received_ratio" string="Delivered" class="m-0"/>
+                                <div class="m-0">
+                                    <span class="text-right">
+                                        <field name="received_ratio"/>
+                                        <span>%</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end align-items-center flex-column">
+                                <label for="opened_ratio" string="Opened" class="m-0"/>
+                                <div class="m-0">
+                                    <span class="text-right">
+                                        <field name="opened_ratio"/>
+                                        <span>%</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end align-items-center flex-column">
+                                <label for="replied_ratio" string="Replied" class="m-0"/>
+                                <div class="m-0">
+                                    <span class="text-right">
+                                        <field name="replied_ratio"/>
+                                        <span>%</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end align-items-center flex-column">
+                                <label for="bounced_ratio" string="Bounced" class="m-0"/>
+                                <div class="m-0">
+                                    <span class="text-right">
+                                        <field name="bounced_ratio"/>
+                                        <span>%</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </group>
+                </footer>
+
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="mass_mailing_automation_utm_campaign_action" model="ir.actions.act_window">
+        <field name="name">Campaigns</field>
+        <field name="res_model">utm.campaign</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create a mailing campaign
+            </p><p>
+            Campaigns are the perfect tool to track results across multiple mailings.
+            </p>
+        </field>
+        <field name="domain">[('is_website', '=', False)]</field>
+    </record>
+
+    <record id="mass_mailing_automation_utm_campaign_action_kanban_view" model="ir.actions.act_window.view">
+        <field name="sequence">1</field>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="mass_mailing_base.utm_campaign_view_kanban"/>
+        <field name="act_window_id" ref="mass_mailing_automation_utm_campaign_action"/>
+    </record>
+
+<!--    <record id="mass_mailing_automation_utm_campaign_action_tree_view" model="ir.actions.act_window.view">-->
+<!--        <field name="sequence">2</field>-->
+<!--        <field name="view_mode">tree</field>-->
+<!--        <field name="view_id" ref="mailing_mailing_view_tree_whatsapp"/>-->
+<!--        <field name="act_window_id" ref="mass_mailing_automation_utm_campaign_action"/>-->
+<!--    </record>-->
+
+    <record id="mass_mailing_automation_utm_campaign_action_form_view" model="ir.actions.act_window.view">
+        <field name="sequence">3</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="mass_mailing_automation_utm_campaign_view_form"/>
+        <field name="act_window_id" ref="mass_mailing_automation_utm_campaign_action"/>
+    </record>
+
+</odoo>

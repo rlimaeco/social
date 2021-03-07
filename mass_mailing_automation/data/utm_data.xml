@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="utm.campaign_stage_2" model="utm.stage">
+            <field name="name">Design</field>
+            <field name="sequence">15</field>
+        </record>
+        <record id="campaign_stage_2_extra" model="utm.stage">
+            <field name="name">Sending</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="utm.campaign_stage_1" model="utm.stage">
+            <field name="name">Scheduled</field>
+            <field name="sequence">25</field>
+        </record>
+        <record id="campaign_stage_3_extra" model="utm.stage">
+            <field name="name">Stopped</field>
+            <field name="sequence">35</field>
+        </record>
+
+        <record id="make_invisible" model="res.groups">
+            <field name="name">Invisible</field>
+        </record>
+
+        <record model="ir.ui.menu" id="mass_mailing.mass_mailing_menu_root">
+            <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+        </record>
+
+        <record model="ir.ui.menu" id="mass_mailing_sms.mass_mailing_sms_menu_root">
+            <field name="groups_id" eval="[(6,0,[ref('make_invisible')])]"/>
+        </record>
+
+    </data>
+</odoo>

@@ -96,37 +96,56 @@ class SmsSms(models.Model):
     def create_mail_message(self, model, partner_id=False):
         """Criar mail message no modelo"""
         mail_message_model = self.env['mail.message'].sudo()
-
-        message = mail_message_model.create({
+        msg_data = {
             'subject': 'Message',
-            'body': self.body,
             'res_id': model.id,
             'model': model._name,
-            'message_type':
-                self.message_type if partner_id else "notification",
             "message_id": self.id,
-            'email_from': partner_id.email if partner_id else False,
-            'author_id': partner_id.id if partner_id else False,
-        })
+        }
+        if partner_id:
+            msg_data["body"] = self.prepare_message_body()
+            msg_data["message_type"] = self.message_type
+            msg_data["email_from"] = partner_id.email
+            msg_data["author_id"] = partner_id.id
+        else:
+            msg_data["message_type"] = "notification"
+            msg_data["body"] = self.body
+
+        message = mail_message_model.create(msg_data)
         return message or False
+
+    def set_lang_context(self):
+        admin_user = self.env['res.users'].sudo().search([
+            ('id', '=', self.env.ref('base.user_admin').id)], limit=1
+        )
+        if admin_user:
+            self.env.context = self.with_context(lang=admin_user.lang).env.context
+
+    def prepare_message_body(self):
+        origin_label = _('Origin')
+        message_label = _('Message')
+        body = f"<b>{origin_label}</b>: {self.message_type.capitalize()}<br>" \
+               f"<b>{message_label}</b>: {self.body}"
+        return body
 
     def find_and_attach_to_lead(self):
         """ Buscar Lead/partner para anexar mensagem de entrada"""
 
         res_partner_model = self.env['res.partner'].sudo()
         crm_lead_model = self.env['crm.lead'].sudo()
+        self.set_lang_context()
+
         lead_id = helpers.get_record_from_number(crm_lead_model, self.number)
 
-        # Se já existe uma LEAD, adiciona SMS na thread de comunicação
         if lead_id:
+            # Se já existe uma LEAD, adiciona SMS na thread de comunicação
             message = self.create_mail_message(
                 model=lead_id,
                 partner_id=lead_id.partner_id,
             )
-
-        # Senão, buscar pelo partner e gerar nova LEAD
         else:
-            # presignup = self.env.ref("sunnit_crm.crm_team_0")
+            # Senão, buscar pelo partner e gerar nova LEAD
+            presignup = self.env['crm.stage'].search([], limit=1, order="sequence asc")
             partner_id = helpers.get_record_from_number(
                 res_partner_model, self.number)
             if partner_id:
@@ -135,12 +154,14 @@ class SmsSms(models.Model):
                 # creates a new lead from the website form
                 lead_id = crm_lead_model.with_context(
                     mail_create_nosubscribe=True).create({
-                    "name": _("LEAD {}").format(self.message_type),
+                    "name": _("LEAD via {}").format(self.message_type),
                     "partner_id": partner_id.id,
                     "partner_name": partner_id.name,
-                    # "lead_type": "presignup",
+                    "mobile": partner_id.mobile,
+                    "phone": partner_id.mobile,
+                    "lead_type": "presignup",
                     "type": "opportunity",
-                    # "team_id": presignup.id
+                    "team_id": presignup.team_id.id
                 })
 
                 message = self.create_mail_message(
@@ -148,16 +169,17 @@ class SmsSms(models.Model):
                     partner_id=lead_id.partner_id,
                 )
 
-            # Senão gerar LEAD sem partner mas com numero setado
             else:
+                # Senão gerar LEAD sem partner mas com numero setado
 
                 lead_id = self.env['crm.lead'].with_context(
                     mail_create_nosubscribe=True).sudo().create({
                     "name": _("LEAD from {}").format(self.number),
                     "mobile": self.number,
-                    # "lead_type": "presignup",
+                    "phone": self.number,
+                    "lead_type": "presignup",
                     "type": "opportunity",
-                    # "team_id": presignup.id
+                    "team_id": presignup.team_id.id
                 })
                 message = self.create_mail_message(model=lead_id)
 

@@ -3,7 +3,6 @@
 # Copyright (C) 2021 - Hendrix Costa <hendrixcosta@gmail.com>
 
 import re
-
 from odoo import api, fields, models
 from odoo.tools import html2plaintext
 

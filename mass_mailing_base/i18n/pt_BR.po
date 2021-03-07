@@ -49,14 +49,28 @@ msgstr ""
 "e será enviada em breve.</span>"
 
 #. module: mass_mailing_base
-#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
-msgid "Activity's Name"
-msgstr "Nome da Atividade"
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_trace_view_form
+msgid ""
+"<span name=\"trace_type_name_sms\" attrs=\"{'invisible': [('trace_type', "
+"'not in', ['sms', 'whatsapp'])]}\">This Message</span>"
+msgstr ""
+"<span name=\"trace_type_name_sms\" attrs=\"{'invisible': [('trace_type', "
+"'not in', ['sms', 'whatsapp'])]}\">Esta Mensagem</span>"
 
 #. module: mass_mailing_base
-#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
-msgid "Bounced"
-msgstr "Rejeitado"
+#: model:ir.model.fields.selection,name:mass_mailing_base.selection__mailing_mailing__mailing_type__action_server
+msgid "Ação do servidor"
+msgstr "Ação do servidor"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_whatsapp_test_view_form
+msgid "Cancel"
+msgstr ""
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,help:mass_mailing_base.field_mailing_whatsapp_test__numbers
+msgid "Comma-separated list of phone numbers"
+msgstr "Lista de números separados por vírgulas"
 
 #. module: mass_mailing_base
 #: model_terms:ir.actions.act_window,help:mass_mailing_base.mailing_mailing_action_whatsapp
@@ -64,9 +78,19 @@ msgid "Create a new Whatsapp Marketing"
 msgstr "Criar uma nova campanha via Whatsapp"
 
 #. module: mass_mailing_base
-#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
-msgid "Delivered"
-msgstr "Entregue"
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mailing_whatsapp_test__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mailing_whatsapp_test__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mailing_whatsapp_test__display_name
+msgid "Display Name"
+msgstr "Nome"
 
 #. module: mass_mailing_base
 #: model:ir.model,name:mass_mailing_base.model_mail_followers
@@ -74,24 +98,77 @@ msgid "Document Followers"
 msgstr "Seguidores do Documento"
 
 #. module: mass_mailing_base
-#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
-msgid "Duplicate"
-msgstr "Duplicar"
-
-#. module: mass_mailing_base
-#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
-msgid "E-mail Activity"
-msgstr "Atividade E-mail"
-
-#. module: mass_mailing_base
 #: model:ir.model,name:mass_mailing_base.model_mail_thread
 msgid "Email Thread"
 msgstr "Tópico do E-mail"
 
 #. module: mass_mailing_base
+#: model:ir.model,name:mass_mailing_base.model_mail_compose_message
+msgid "Email composition wizard"
+msgstr "Assistente de composição de E-mail"
+
+#. module: mass_mailing_base
 #: model:ir.model.fields,field_description:mass_mailing_base.field_sms_sms__error_message
 msgid "Error Message"
 msgstr "Mensagem de Erro"
+
+#. module: mass_mailing_base
+#: code:addons/mass_mailing_base/wizard/mailing_whatsapp_test.py:0
+#, python-format
+msgid ""
+"Following numbers are not correctly encoded: %s, example : \"+32 495 85 85 "
+"77, +33 545 55 55 55\""
+msgstr "Os seguintes números estão com formato incorreto: %s, exemplo : \"35 98458 45 "
+"89, +55 11 97485 8468\""
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mailing_whatsapp_test__id
+msgid "ID"
+msgstr ""
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,help:mass_mailing_base.field_account_invoice_send__scheduled_date
+#: model:ir.model.fields,help:mass_mailing_base.field_mail_compose_message__scheduled_date
+#: model:ir.model.fields,help:mass_mailing_base.field_sms_composer__scheduled_date
+#: model:ir.model.fields,help:mass_mailing_base.field_sms_sms__scheduled_date
+msgid ""
+"If set, the queue manager will send the email after the date. If not set, "
+"the email will be send as soon as possible."
+msgstr ""
+"Se verdadeiro, o sistema irá enviar a atividade após sua data. Senão, a "
+"atividade será enviada assim que possível."
+
+#. module: mass_mailing_base
+#: code:addons/mass_mailing_base/models/sms_sms.py:0
+#, python-format
+msgid "LEAD from {}"
+msgstr "LEAD de {}"
+
+#. module: mass_mailing_base
+#: code:addons/mass_mailing_base/models/sms_sms.py:0
+#, python-format
+msgid "LEAD via {}"
+msgstr "LEAD via {}"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mailing_whatsapp_test____last_update
+msgid "Last Modified on"
+msgstr "Última Alteração em"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mailing_whatsapp_test__write_uid
+msgid "Last Updated by"
+msgstr "Última Atualização por"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mailing_whatsapp_test__write_date
+msgid "Last Updated on"
+msgstr "Última Atualização em"
+
+#. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mailing_whatsapp_test__mailing_id
+msgid "Mailing"
+msgstr "Atividade"
 
 #. module: mass_mailing_base
 #: model:ir.model,name:mass_mailing_base.model_mailing_trace
@@ -104,7 +181,7 @@ msgid "Mailing Type"
 msgstr "Tipo de Atividade"
 
 #. module: mass_mailing_base
-#: model:ir.model.fields,field_description:mass_mailing_base.field_utm_campaign__mailing_mailing_ids
+#: model:ir.model.fields,field_description:mass_mailing_base.field_utm_campaign__mailing_activities_ids
 msgid "Mass Activities"
 msgstr "Atividade em Massa"
 
@@ -114,11 +191,14 @@ msgid "Mass Mailing"
 msgstr "E-mail em massa"
 
 #. module: mass_mailing_base
+#: code:addons/mass_mailing_base/models/sms_sms.py:0
 #: model:ir.model,name:mass_mailing_base.model_mail_message
+#, python-format
 msgid "Message"
 msgstr "Mensagem"
 
 #. module: mass_mailing_base
+#: model:ir.model.fields,field_description:mass_mailing_base.field_sms_composer__message_type
 #: model:ir.model.fields,field_description:mass_mailing_base.field_sms_sms__message_type
 msgid "Message Type"
 msgstr "Tipo de Mensagem"
@@ -151,7 +231,7 @@ msgid "Name"
 msgstr "Nome"
 
 #. module: mass_mailing_base
-#: model:ir.model.fields,field_description:mass_mailing_base.field_utm_campaign__mailing_mailing_count
+#: model:ir.model.fields,field_description:mass_mailing_base.field_utm_campaign__mailing_activities_count
 msgid "Number of Mass Activities"
 msgstr "Número de Atividades em Massa"
 
@@ -161,31 +241,31 @@ msgid "Number of Mass Whatsapp"
 msgstr "Número de Whatsapp em Massa"
 
 #. module: mass_mailing_base
-#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
-msgid "Opened"
-msgstr "Aberto"
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mailing_whatsapp_test__numbers
+msgid "Number(s)"
+msgstr "Número(s)"
+
+#. module: mass_mailing_base
+#: code:addons/mass_mailing_base/models/sms_sms.py:0
+#, python-format
+msgid "Origin"
+msgstr "Origem"
 
 #. module: mass_mailing_base
 #: model:ir.model,name:mass_mailing_base.model_sms_sms
 msgid "Outgoing SMS"
 msgstr "SMS de Saída"
 
+#. module: mass_mailing_base
+#: model:ir.model,name:mass_mailing_base.model_mail_thread_phone
+msgid "Phone Blacklist Mixin"
+msgstr "Phone Blacklist Mixin"
 
 #. module: mass_mailing_base
-#: model:ir.model.fields.selection,name:mass_mailing_base.selection__sms_sms__state__read
-msgid "Read"
-msgstr "Lido"
-
-#. module: mass_mailing_base
+#: model:ir.model.fields.selection,name:mass_mailing_base.selection__sms_sms__direction_type__input
 #: model:ir.model.fields.selection,name:mass_mailing_base.selection__sms_sms__state__received
-#: model:ir.model.fields.selection,name:mass_mailing_base.selection__sms_sms__type__input
 msgid "Received"
 msgstr "Recebido"
-
-#. module: mass_mailing_base
-#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
-msgid "Replied"
-msgstr "Respondido"
 
 #. module: mass_mailing_base
 #: model:ir.model.fields.selection,name:mass_mailing_base.selection__sms_composer__message_type__sms
@@ -196,11 +276,6 @@ msgstr "SMS"
 #: model:ir.model,name:mass_mailing_base.model_sms_api
 msgid "SMS API"
 msgstr "API SMS"
-
-#. module: mass_mailing_base
-#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
-msgid "SMS Activity"
-msgstr "Atividade SMS"
 
 #. module: mass_mailing_base
 #: model:ir.model.fields,field_description:mass_mailing_base.field_mail_mail__message_id
@@ -220,14 +295,22 @@ msgid "SMS Status"
 msgstr "Estado SMS"
 
 #. module: mass_mailing_base
-#: model:ir.model.fields,field_description:mass_mailing_base.field_sms_sms__type
+#: model:ir.model.fields,field_description:mass_mailing_base.field_sms_sms__direction_type
 msgid "SMS Type"
 msgstr "Tipo SMS"
 
 #. module: mass_mailing_base
-#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
-msgid "Schedule"
-msgstr "Agendar"
+#: model:ir.model.fields,field_description:mass_mailing_base.field_account_invoice_send__scheduled_date
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mail_compose_message__scheduled_date
+#: model:ir.model.fields,field_description:mass_mailing_base.field_sms_composer__scheduled_date
+#: model:ir.model.fields,field_description:mass_mailing_base.field_sms_sms__scheduled_date
+msgid "Scheduled Send Date"
+msgstr "Data de Agendamento"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_whatsapp_test_view_form
+msgid "Send"
+msgstr "Enviar"
 
 #. module: mass_mailing_base
 #: model:ir.model,name:mass_mailing_base.model_sms_composer
@@ -235,21 +318,69 @@ msgid "Send SMS Wizard"
 msgstr "Diálogo Enviar SMS"
 
 #. module: mass_mailing_base
-#: model:ir.model.fields.selection,name:mass_mailing_base.selection__sms_sms__type__output
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_whatsapp_test_view_form
+msgid "Send a Sample Whatsapp"
+msgstr "Enviar mensagem teste no Whatsapp"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_whatsapp_test_view_form
+msgid ""
+"Send a sample Whatsapp for testing purpose to the numbers below (comma-"
+"separated list)."
+msgstr "Enviar mensagem teste no Whatsapp nos números seguintes (separado por vírgulas)."
+
+#. module: mass_mailing_base
+#: model:ir.model.fields.selection,name:mass_mailing_base.selection__sms_sms__direction_type__output
 msgid "Sent"
 msgstr "Enviado"
 
 #. module: mass_mailing_base
-#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
-msgid "Start"
-msgstr "Iniciar"
+#: model:ir.model.fields,field_description:mass_mailing_base.field_mailing_mailing__ir_actions_server_id
+msgid "Server action"
+msgstr "Ação do servidor"
 
 #. module: mass_mailing_base
-#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
-msgid "Stop"
-msgstr "Interromper"
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_trace_view_form
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.sms_tsms_view_form
+msgid "Set Bounced"
+msgstr "Rejeitar"
 
 #. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_trace_view_form
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.sms_tsms_view_form
+msgid "Set Clicked"
+msgstr "Clicar"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_trace_view_form
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.sms_tsms_view_form
+msgid "Set Opened"
+msgstr "Abrir"
+
+#. module: mass_mailing_base
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_trace_view_form
+#: model_terms:ir.ui.view,arch_db:mass_mailing_base.sms_tsms_view_form
+msgid "Set Replied"
+msgstr "Responder"
+
+#. module: mass_mailing_base
+#: model:ir.model,name:mass_mailing_base.model_mailing_whatsapp_test
+msgid "Test Whatsapp Mailing"
+msgstr "Teste Atividade Whatsapp"
+
+#. module: mass_mailing_base
+#: model:ir.actions.act_window,name:mass_mailing_base.mailing_whatsapp_test_action
+msgid "Test Whatsapp Marketing"
+msgstr "Teste Marketing Whatsapp"
+
+#. module: mass_mailing_base
+#: code:addons/mass_mailing_base/models/mailing_mailing.py:0
+#, python-format
+msgid "Test Whatsapp marketing"
+msgstr "Teste Marketing Whatsapp"
+
+#. module: mass_mailing_base
+#: code:addons/mass_mailing_base/models/mailing_mailing.py:0
 #: code:addons/mass_mailing_base/models/mailing_mailing.py:0
 #, python-format
 msgid "There are no recipients selected."
@@ -277,7 +408,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:mass_mailing_base.field_mail_mail__message_type
 #: model:ir.model.fields,field_description:mass_mailing_base.field_mail_message__message_type
 #: model:ir.model.fields,field_description:mass_mailing_base.field_mailing_trace__trace_type
-#: model:ir.model.fields,field_description:mass_mailing_base.field_sms_composer__message_type
 msgid "Type"
 msgstr "Tipo"
 
@@ -296,15 +426,9 @@ msgstr "Whatsapp"
 #. module: mass_mailing_base
 #: model:ir.model.fields.selection,name:mass_mailing_base.selection__mailing_mailing__mailing_type__whatsapp
 #: model:ir.model.fields.selection,name:mass_mailing_base.selection__mailing_trace__trace_type__whatsapp
-#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
 #: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_kanban
 msgid "Whatsapp"
 msgstr "Whatsapp"
-
-#. module: mass_mailing_base
-#: model_terms:ir.ui.view,arch_db:mass_mailing_base.utm_campaign_view_form
-msgid "Whatsapp Activity"
-msgstr "Atividade Whatsapp"
 
 #. module: mass_mailing_base
 #: model_terms:ir.ui.view,arch_db:mass_mailing_base.mailing_mailing_view_form_whatsapp
@@ -326,27 +450,3 @@ msgid ""
 msgstr ""
 "Você pode enviar facilmente via Whatsapp para qualquer contato salvo na "
 "plataforma."
-
-#. module: mass_mailing_sms
-#: model:ir.actions.act_window,name:mass_mailing_sms.mailing_mailing_action_sms
-#: model:ir.ui.menu,name:mass_mailing_sms.mass_mailing_sms_menu_mass_sms
-#: model:ir.ui.menu,name:mass_mailing_sms.mass_mailing_sms_menu_root
-#: model_terms:ir.ui.view,arch_db:mass_mailing_sms.mailing_mailing_view_tree_sms
-msgid "SMS Marketing"
-msgstr "Marketing SMS"
-
-#. module: mass_mailing_sms
-#: model:ir.model.fields,field_description:mass_mailing_sms.field_mailing_mailing__body_plaintext
-msgid "SMS Body"
-msgstr "Corpo do SMS"
-
-#. module: mass_mailing_sms
-#: model_terms:ir.ui.view,arch_db:mass_mailing_sms.mailing_mailing_view_form_sms
-msgid "SMS Content"
-msgstr "Conteúdo via SMS"
-
-#. module: mass_mailing_sms
-#: model:ir.ui.menu,name:mass_mailing_sms.mailing_list_menu_sms
-#: model:ir.ui.menu,name:mass_mailing_sms.mass_mailing_sms_menu_contacts
-msgid "Contacts Lists"
-msgstr "Máquinas"

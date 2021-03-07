@@ -1,0 +1,672 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* mass_mailing_automation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-08 18:18+0000\n"
+"PO-Revision-Date: 2021-01-08 18:18+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#, python-format
+msgid "%s (copy)"
+msgstr "%s (cópia)"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+msgid "<span class=\"ml8\">Após</span>"
+msgstr "<span class=\"ml8\">Após</span>"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+msgid "<span name=\"failed_text\">emails could not be sent.</span>"
+msgstr "<span name=\"failed_text\">e-mails não foram enviados.</span>"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+msgid ""
+"<span name=\"ignored_text\">emails have been ignored and will not be sent.</"
+"span>"
+msgstr ""
+"<span name=\"ignored_text\">e-mails foram ignorados e não serão enviados.</"
+"span>"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+msgid "<span name=\"next_schedule_date\">This mailing is scheduled for </span>"
+msgstr ""
+"<span name=\"next_schedule_date\">Esta atividade foi agendada para </span>"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+msgid ""
+"<span name=\"scheduled_text\">emails are in queue and will be sent "
+"soon.</span>"
+msgstr ""
+"<span name=\"scheduled_text\">e-mails estão na fila e serão enviados em "
+"breve.</span>"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_mailing_mailing__trigger_mailing_id
+msgid "Activity Trigger"
+msgstr "Gatilho da Atividade"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Activity's Name"
+msgstr "Nome da Atividade"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Adicionar Atividade"
+msgstr "Adicionar Atividade"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+msgid "Archived"
+msgstr "Arquivado"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#, python-format
+msgid "Attention"
+msgstr "Atenção"
+
+#. module: mass_mailing_automation
+#: model:ir.ui.menu,name:mass_mailing_automation.mass_mailing_automation_blacklist_menu
+msgid "Blacklist"
+msgstr "Lista Negra"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_email_template_preview__body_arch
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_mail_template__body_arch
+msgid "Body Arch"
+msgstr "Conteúdo"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_mailing_mailing__body_html
+msgid "Body converted to be send by mail"
+msgstr "Conteúdo convertido para ser enviado por email"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Bounced"
+msgstr "Rejeitado"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Campaign"
+msgstr "Campanha"
+
+#. module: mass_mailing_automation
+#: model:ir.actions.act_window,name:mass_mailing_automation.mass_mailing_automation_utm_campaign_action
+msgid "Campaigns"
+msgstr "Campanhas"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.actions.act_window,help:mass_mailing_automation.mass_mailing_automation_utm_campaign_action
+msgid ""
+"Campaigns are the perfect tool to track results across multiple mailings."
+msgstr ""
+"Campanhas é uma ferramenta ideal para rastrear os resultados sobre múltiplas "
+"atividades de marketing."
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Campanha de Marketing"
+msgstr "Campanha de Marketing"
+
+#. module: mass_mailing_automation
+#: model:ir.ui.menu,name:mass_mailing_automation.mass_mailing_automation_utm_campaign_menu
+msgid "Campanhas"
+msgstr "Campanhas"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: mass_mailing_automation
+#: model:ir.ui.menu,name:mass_mailing_automation.mass_mailing_automation_configuration_menu
+msgid "Configuration"
+msgstr "Configuração"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#, python-format
+msgid "Contacts List Created"
+msgstr "Lista de Contatos Criada"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#, python-format
+msgid "Contacts List Updated"
+msgstr "Lista de Contatos Atualizada"
+
+#. module: mass_mailing_automation
+#: model:ir.ui.menu,name:mass_mailing_automation.mass_mailing_automation_mailing_contacts_menu
+msgid "Contatos"
+msgstr "Contatos"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.actions.act_window,help:mass_mailing_automation.mass_mailing_automation_mail_template_action
+msgid "Create a mail template"
+msgstr "Criar um modelo de e-mail"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.actions.act_window,help:mass_mailing_automation.mass_mailing_automation_utm_campaign_action
+msgid "Create a mailing campaign"
+msgstr "Criar uma atividade na campanha"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.actions.act_window,help:mass_mailing_automation.mailing_mailing_main_action
+msgid "Create a new mailing"
+msgstr "Criar uma nova atividade"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign_schedule_date__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign_schedule_date__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign__current_stage
+msgid "Current Stage"
+msgstr "Estágio Atual"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Delivered"
+msgstr "Entregue"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#, python-format
+msgid "Design"
+msgstr "Design"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__mailing_mailing__trigger_type_time__days
+msgid "Dias(s)"
+msgstr "Dias(s)"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_schedule_date_view_form
+msgid "Discard"
+msgstr "Descartar"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+msgid "Disparar em"
+msgstr "Disparar em"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign_schedule_date__display_name
+msgid "Display Name"
+msgstr "Nome"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_mailing_mailing__mailing_domain
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign__mailing_domain
+msgid "Domain"
+msgstr "Domínio"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Duplicate"
+msgstr "Duplicar"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "E-mail"
+msgstr "E-mail"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "E-mail Activity"
+msgstr "Atividade de E-mail"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_mailing_mailing__template_mail_id
+msgid "Email Template"
+msgstr "Modelo de E-mail"
+
+#. module: mass_mailing_automation
+#: model:ir.model,name:mass_mailing_automation.model_mail_template
+msgid "Email Templates"
+msgstr "Modelos de E-mail"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#, python-format
+msgid "Filtred:"
+msgstr "Filtrado:"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__mailing_mailing__trigger_type_time__hours
+msgid "Hora(s)"
+msgstr "Hora(s)"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign_schedule_date__id
+msgid "ID"
+msgstr ""
+
+#. module: mass_mailing_automation
+#: model:res.groups,name:mass_mailing_automation.make_invisible
+msgid "Invisible"
+msgstr "Menus Invisíveis"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__mailing_mailing__trigger__campaign_start
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__utm_campaign__trigger_related_campaign__campaign_start
+msgid "Início da campanha"
+msgstr "Início da campanha"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign_schedule_date____last_update
+msgid "Last Modified on"
+msgstr "Última Alteração em"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign_schedule_date__write_uid
+msgid "Last Updated by"
+msgstr "Última modificação em"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign_schedule_date__write_date
+msgid "Last Updated on"
+msgstr "Última Atualização em"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign__crm_lead_count
+msgid "Lead Count total"
+msgstr "Total Leads"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Leads"
+msgstr "Leads"
+
+#. module: mass_mailing_automation
+#: model:ir.ui.menu,name:mass_mailing_automation.mass_mailing_automation_mailing_list_menu
+msgid "Lista de Contatos"
+msgstr "Lista de Contatos"
+
+#. module: mass_mailing_automation
+#: model:ir.actions.act_window,name:mass_mailing_automation.mass_mailing_automation_mail_template_action
+msgid "MailTemplate"
+msgstr "Modelo de Email"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_mailing_mailing__contact_list_ids
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign__contact_list_ids
+msgid "Mailing Lists"
+msgstr "Listas de Correio"
+
+#. module: mass_mailing_automation
+#: model:ir.model,name:mass_mailing_automation.model_mailing_trace
+msgid "Mailing Statistics"
+msgstr "E-mail estatísticas"
+
+#. module: mass_mailing_automation
+#: model:ir.actions.act_window,name:mass_mailing_automation.mailing_mailing_main_action
+msgid "Mailings"
+msgstr "Atividades"
+
+#. module: mass_mailing_automation
+#: model:ir.ui.menu,name:mass_mailing_automation.mass_mailing_automation_main_menu
+msgid "Marketing Automation"
+msgstr "Marketing"
+
+#. module: mass_mailing_automation
+#: model:ir.model,name:mass_mailing_automation.model_mailing_mailing
+msgid "Mass Mailing"
+msgstr "E-mail em massa"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__mailing_mailing__trigger__message_opened
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__utm_campaign__trigger_related_campaign__message_opened
+msgid "Mensagem aberta"
+msgstr "Mensagem aberta"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__mailing_mailing__trigger__message_clicked
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__utm_campaign__trigger_related_campaign__message_clicked
+msgid "Mensagem clicada"
+msgstr "Mensagem clicada"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__mailing_mailing__trigger__message_not_opened
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__utm_campaign__trigger_related_campaign__message_not_opened
+msgid "Mensagem não aberta"
+msgstr "Mensagem não aberta"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__mailing_mailing__trigger__message_not_replied
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__utm_campaign__trigger_related_campaign__message_not_replied
+msgid "Mensagem não respondida"
+msgstr "Mensagem não respondida"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__mailing_mailing__trigger__message_replied
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__utm_campaign__trigger_related_campaign__message_replied
+msgid "Mensagem respondida"
+msgstr "Mensagem respondida"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__mailing_mailing__trigger_type_time__minutes
+msgid "Minutos(s)"
+msgstr "Minutos(s)"
+
+#. module: mass_mailing_automation
+#: model:ir.ui.menu,name:mass_mailing_automation.mass_mailing_automation_mail_template_menu
+msgid "Modelo de E-mail"
+msgstr "Modelo de E-mail"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+msgid "Na Atividade"
+msgstr "Na Atividade"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#, python-format
+msgid "New"
+msgstr "Novo"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#, python-format
+msgid "No filter applied in contact list"
+msgstr "Nenhum filtro aplicado a lista de contatos"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Opened"
+msgstr "Aberto"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/wizard/utm_campaign_schedule_date.py:0
+#, python-format
+msgid "Please select a date equal/or greater than the current date."
+msgstr "Selecionar uma data superior ou igual a de hoje."
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_mailing_mailing__trigger_qty_time
+msgid "Quantidade para acionar"
+msgstr "Intervalo para Disparo"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+msgid "Received"
+msgstr "Recebido"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Recipients"
+msgstr "Contatos"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_mailing_mailing__mailing_model_id
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign__mailing_model_id
+msgid "Recipients Model"
+msgstr "Modelos de Recipientes"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_mailing_mailing__mailing_model_name
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign__mailing_model_name
+msgid "Recipients Model Name"
+msgstr "Modelo de Contatos"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_mailing_mailing__mailing_model_real
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign__mailing_model_real
+msgid "Recipients Real Model"
+msgstr "Modelo de Contatos Real"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign__related_campaign_id
+msgid "Related Campaigns"
+msgstr "Campanhas Relacionadas"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#, python-format
+msgid "Related:"
+msgstr "Relacionado:"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Replied"
+msgstr "Respondido"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+msgid "Retry"
+msgstr "Tentar novamente"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "SMS"
+msgstr "SMS"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "SMS Activity"
+msgstr "Atividade de SMS"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+msgid "Salvar Alterações"
+msgstr "Salvar Alterações"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+msgid "Salvar Atividade"
+msgstr "Salvar Atividade"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_schedule_date_view_form
+#, python-format
+msgid "Schedule"
+msgstr "Agendar"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign_schedule_date__schedule_date
+msgid "Scheduled for"
+msgstr "Agendado para"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Select campaign recipients..."
+msgstr "Selecione os contatos da campanha..."
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Select campaign:"
+msgstr "Campanha:"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Select mailing lists..."
+msgstr "Selecione lista de contatos..."
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Select mailing lists:"
+msgstr "Lista de Contatos:"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_schedule_date_view_form
+msgid "Send on"
+msgstr "Enviar em"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#: model:utm.stage,name:mass_mailing_automation.campaign_stage_2_extra
+#, python-format
+msgid "Sending"
+msgstr "Enviando"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+#, python-format
+msgid "Sent"
+msgstr "Enviado"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_mailing_mailing__sequence
+msgid "Sequence"
+msgstr "Sequência"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Start"
+msgstr "Iniciar"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_mailing_mailing__state
+msgid "Status"
+msgstr "Situação"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Stop"
+msgstr "Interromper"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#: model:ir.model.fields.selection,name:mass_mailing_automation.selection__mailing_mailing__state__stopped
+#: model:utm.stage,name:mass_mailing_automation.campaign_stage_3_extra
+#, python-format
+msgid "Stopped"
+msgstr "Parado"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_schedule_date_view_form
+msgid "Take Future Schedule Date"
+msgstr "Selecionar data de agendamento"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+msgid "Test"
+msgstr "Teste"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#, python-format
+msgid "The contact list was successfully created!"
+msgstr "A lista de contatos foi criada com sucesso!"
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#, python-format
+msgid "The contact list was updated with filtered contacts!"
+msgstr "A lista de contatos foi atualizada com contatos filtrados!"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign__trigger_related_campaign
+msgid "Trigger Filter"
+msgstr "Filtro do Disparo"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Trigger Filter:"
+msgstr "Filtro do Disparo:"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_mailing_mailing__trigger_type_time
+msgid "Type Time Trigger"
+msgstr "Tipo de Intervalo"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_mailing_mailing__trigger
+msgid "Type Trigger"
+msgstr "Tipo de Disparo"
+
+#. module: mass_mailing_automation
+#: model:ir.model,name:mass_mailing_automation.model_utm_campaign
+msgid "UTM Campaign"
+msgstr "Campanha UTM"
+
+#. module: mass_mailing_automation
+#: model:ir.model,name:mass_mailing_automation.model_utm_campaign_schedule_date
+msgid "UTM Campaign Scheduling"
+msgstr "Agendamento de Campanha"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign__use_related_campaign
+msgid "Use Contacts from other Campaign"
+msgstr "Importe contatos de outra Campanha"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_email_template_preview__mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_mail_template__mass_mailing_automation
+msgid "Use template in Mass Mailing Marketing"
+msgstr "Utilize uma modelo na Atividade de Marketing"
+
+#. module: mass_mailing_automation
+#: model:ir.model.fields,field_description:mass_mailing_automation.field_utm_campaign_schedule_date__utm_campaign_id
+msgid "Utm Campaign"
+msgstr "Campanha"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mailing_mailing_view_form
+msgid "Voltar"
+msgstr "Voltar"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Whatsapp"
+msgstr "Whatsapp"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.ui.view,arch_db:mass_mailing_automation.mass_mailing_automation_utm_campaign_view_form
+msgid "Whatsapp Activity"
+msgstr "Atividade de Whatsapp"
+
+#. module: mass_mailing_automation
+#: model:ir.actions.act_window,name:mass_mailing_automation.mass_mailing_schedule_date_action
+msgid "When do you want to send your campaign?"
+msgstr "Quando gostaria de enviar a campanha?"
+
+#. module: mass_mailing_automation
+#: model_terms:ir.actions.act_window,help:mass_mailing_automation.mailing_mailing_main_action
+msgid ""
+"You don't need to import your mailing lists, you can easily\n"
+"            send emails<br> to any contact saved in other Odoo apps."
+msgstr ""
+"Você não precisa importa suas listas de contato, você pode\n"
+"            enviar e-mails<br> para qualquer contato salvo no Odoo."
+
+#. module: mass_mailing_automation
+#: code:addons/mass_mailing_automation/models/utm_campaign.py:0
+#, python-format
+msgid "You must set up at least one activity to start this campaign."
+msgstr ""
+"Você deve adicionar pelo menos uma atividade na campanha para iniciá-la."

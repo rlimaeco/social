@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="mailing_mailing_view_form" model="ir.ui.view">
+        <field name="name">mailing.mailing.view.form in (mass_mailing_automation)</field>
+        <field name="model">mailing.mailing</field>
+        <field name="arch" type="xml">
+            <form>
+                <header style="min-height:31px;">
+                    <button name="action_schedule" type="object" attrs="{'invisible': [('state', 'in', ('in_queue', 'done'))]}" class="btn-secondary" string="Schedule"/>
+                    <button name="action_test" type="object" class="btn-secondary" string="Test"/>
+                    <button name="action_cancel" type="object" attrs="{'invisible': [('state', '!=', 'in_queue')]}" class="btn-secondary" string="Cancel"/>
+                    <button name="action_retry_failed" type="object" attrs="{'invisible': ['|', ('state', '!=', 'done'), ('failed', '=', 0)]}" class="oe_highlight" string="Retry"/>
+                    <field name="state" readonly="1" widget="statusbar"/>
+                    <field name="active" invisible="1"/>
+                </header>
+
+                <div class="alert alert-info text-center" role="alert" attrs="{'invisible': ['&amp;','&amp;',('ignored', '=', 0),('scheduled', '=', 0),('failed', '=', 0)]}">
+                    <div attrs="{'invisible': [('ignored', '=', 0)]}">
+                        <button class="btn-link py-0"
+                                name="action_view_traces_ignored"
+                                type="object">
+                            <strong>
+                                <field name="ignored" class="oe_inline mr-2"/>
+                                <span name="ignored_text">emails have been ignored and will not be sent.</span>
+                            </strong>
+                        </button>
+                    </div>
+                    <div attrs="{'invisible': [('scheduled', '=', 0)]}">
+                        <button class="btn-link py-0"
+                                name="action_view_traces_scheduled"
+                                type="object">
+                            <strong>
+                                <field name="scheduled" class="oe_inline mr-2"/>
+                                <span name="scheduled_text">emails are in queue and will be sent soon.</span>
+                            </strong>
+                        </button>
+                    </div>
+                    <div attrs="{'invisible': ['|', ('state', '!=', 'done'), ('failed', '=', 0)]}">
+                        <button class="btn-link py-0"
+                                name="action_view_traces_failed"
+                                type="object">
+                            <strong>
+                                <field name="failed" class="oe_inline mr-2"/>
+                                <span name="failed_text">emails could not be sent.</span>
+                            </strong>
+                        </button>
+                    </div>
+                </div>
+                <div class="alert alert-info text-center" attrs="{'invisible': [('state', '!=', 'in_queue')]}" role="alert">
+                    <strong>
+                        <span name="next_schedule_date">This mailing is scheduled for </span>
+                        <field name="schedule_date" class="oe_inline"/>.
+                    </strong>
+                </div>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+<!--                        <button name="action_view_sent"-->
+<!--                            id="button_view_sent"-->
+<!--                            type="object"-->
+<!--                            context="{'search_default_filter_sent': True}"-->
+<!--                            icon="fa-envelope-o" class="oe_stat_button"-->
+<!--                            attrs="{'invisible': ['&amp;', ('sent', '=', 0), ('state', 'in', ('draft', 'test'))]}" >-->
+<!--                            <field name="sent" string="Sent" widget="statinfo"/>-->
+<!--                        </button>-->
+                        <button name="action_view_delivered"
+                            type="object"
+                            context="{'search_default_filter_delivered': True}"
+                            attrs="{'invisible': [('state', 'in', ('draft','test'))]}"
+                            class="oe_stat_button">
+                            <field name="received_ratio" string="Received" widget="percentpie"/>
+                        </button>
+                        <button name="action_view_opened"
+                            type="object"
+                            context="{'search_default_filter_opened': True}"
+                            attrs="{'invisible': [('state', 'in', ('draft','test'))]}"
+                            class="oe_stat_button">
+                            <field name="opened_ratio" string="Opened" widget="percentpie"/>
+                        </button>
+                        <button name="action_view_replied"
+                            type="object"
+                            context="{'search_default_filter_replied': True}"
+                            attrs="{'invisible': [('state', 'in', ('draft','test'))]}"
+                            class="oe_stat_button">
+                            <field name="replied_ratio" string="Replied" widget="percentpie"/>
+                        </button>
+                        <button name="action_view_bounced"
+                            type="object"
+                            context="{'search_default_filter_bounced': True}"
+                            attrs="{'invisible': [('state', 'in', ('draft','test'))]}"
+                            class="oe_stat_button">
+                            <field name="bounced_ratio" string="Bounced" widget="percentpie"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" required="1" />
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group  colspan="4">
+                            <field name="mailing_type" widget="radio" options="{'horizontal': true}" />
+                            <field name="subject" force_save="1" invisible="1"/>
+
+                            <field name="template_mail_id"
+                                   context="{'default_mass_mailing_automation': True  }"
+                                   domain="[('mass_mailing_automation', '=', True)]"
+
+                                   attrs="{'required': [('mailing_type', 'in', ['mail'])],
+                                           'invisible': [('mailing_type', 'not in', ['mail'])]}" />
+
+                            <field name="body_plaintext"
+                                   attrs="{'required': [('mailing_type', 'in', ['whatsapp', 'sms'])],
+                                           'invisible': [('mailing_type', 'not in', ['whatsapp', 'sms'])]}" />
+
+                            <field name="ir_actions_server_id"
+                                   attrs="{'required': [('mailing_type', 'in', ['action_server'])],
+                                           'invisible': [('mailing_type', 'not in', ['action_server'])]}" />
+                        </group>
+
+                        <group  colspan="4">
+                            <label for="trigger_qty_time" string="Disparar em" />
+                            <div attrs="{'invisible': [('trigger', '=', 'campaign_start')]}">
+                                <field name="trigger_qty_time" class="oe_inline" />
+                                <field name="trigger_type_time" class="oe_inline ml4" />
+                                <span class="ml8">Após</span>
+                            </div>
+                            <label for="trigger" class="hidden" invisible="1" />
+                            <div>
+                                <field name="trigger" nolabel="1"/>
+                            </div>
+                            <label for="trigger_mailing_id" string="Na Atividade" attrs="{'invisible': [('trigger', '=', 'campaign_start')]}"/>
+                            <div>
+                                <field name="trigger_mailing_id"
+                                       domain="[('campaign_id', '=', campaign_id), ('id', '!=', id)]"
+                                       attrs="{'required': [('trigger', '!=', 'campaign_start')], 'invisible': [('trigger', '=', 'campaign_start')]}"
+                                       options="{'no_create_edit': True}"/>
+                            </div>
+<!--                            <label string="Warning" invisible="1"/>-->
+<!--                            <div>-->
+<!--                                <small class="oe_edit_only text-muted" attrs="{'invisible': [('trigger', '=', 'begin')]}">(save the campaign to make its activities selectable)</small>-->
+<!--                            </div>-->
+
+                            <field name="campaign_id" invisible="1" />
+                        </group>
+
+                    </group>
+
+                </sheet>
+
+                <footer>
+                    <button name="action_create_activity" class="btn-primary" string="Salvar Atividade" type="object" invisible="not context.get('action_create_activity', False)" />
+                    <button name="action_edit_activity" class="btn-primary" string="Salvar Alterações" type="object" invisible="context.get('action_create_activity', False)" />
+                    <button string="Voltar" class="btn-secondary" special="cancel"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="mailing_mailing_main_action" model="ir.actions.act_window">
+        <field name="name">Mailings</field>
+        <field name="res_model">mailing.mailing</field>
+        <field name="view_mode">kanban,tree,form,graph</field>
+        <field name="context">{
+                'search_default_assigned_to_me': 1,
+                'default_user_id': uid,
+        }</field>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Create a new mailing
+          </p><p>
+            You don't need to import your mailing lists, you can easily
+            send emails<br/> to any contact saved in other Odoo apps.
+          </p>
+        </field>
+    </record>
+
+    <record id="mass_mailing_automation_mailing_action_form_view" model="ir.actions.act_window.view">
+        <field name="sequence">1</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="mass_mailing_base.utm_campaign_view_kanban"/>
+        <field name="act_window_id" ref="mailing_mailing_main_action"/>
+    </record>
+
+</odoo>
